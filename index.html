@@ -2,1036 +2,1116 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>DevStudio AI ⚡</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>DevStudio Pro ⚡</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/dracula.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/one-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 <style>
-/* ══════════ FLUTTER-LIKE THEME ══════════ */
 :root{
-  --bg0:#1e1e2e;--bg1:#252537;--bg2:#2a2a3d;--bg3:#313148;--bg4:#393958;
-  --c1:#54c5f8;--c2:#81c784;--c3:#e57373;--c4:#ffb74d;--c5:#ce93d8;
-  --cblue:#54c5f8;--cgreen:#81c784;--cred:#e57373;--cyellow:#ffb74d;--cpurple:#ce93d8;
-  --border:#363650;--tp:#efefff;--ts:#8888aa;--td:#444466;
+  --bg0:#0d1117;--bg1:#161b22;--bg2:#1c2128;--bg3:#22272e;--bg4:#2d333b;
+  --c1:#58a6ff;--c2:#3fb950;--c3:#f85149;--c4:#e3b341;--c5:#bc8cff;
+  --bd:#30363d;--bdl:#444c56;--tp:#cdd9e5;--ts:#768390;--td:#444c56;
+  --h:48px;--sb:220px;--ai:300px;
   --fc:'JetBrains Mono',monospace;--fu:'Cairo',sans-serif;
-  --sb-w:220px;--ai-w:320px;--bot-h:180px;--top-h:44px;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{width:100%;height:100%;overflow:hidden;font-family:var(--fu);background:var(--bg0);color:var(--tp)}
-::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
 ::-webkit-scrollbar-thumb:hover{background:var(--c1)}
+input,textarea,button{font-family:var(--fu)}
+a{color:var(--c1);text-decoration:none}
 
-/* ══════ LAYOUT ══════ */
-#app{display:flex;flex-direction:column;height:100vh;width:100vw;overflow:hidden}
-
-/* ══════ TOP BAR (Flutter style) ══════ */
-.topbar{
-  height:var(--top-h);flex-shrink:0;
-  background:var(--bg1);
-  border-bottom:1px solid var(--border);
-  display:flex;align-items:center;gap:0;
-  user-select:none;
+/* ══ AUTH SCREEN ══ */
+#auth-screen{
+  position:fixed;inset:0;z-index:900;
+  background:var(--bg0);display:flex;align-items:center;justify-content:center;
+  flex-direction:column;padding:20px;
 }
-.tb-logo{
-  width:var(--sb-w);flex-shrink:0;
-  display:flex;align-items:center;gap:8px;
-  padding:0 14px;border-right:1px solid var(--border);height:100%;
-}
-.tb-logo-icon{
-  width:28px;height:28px;background:linear-gradient(135deg,var(--c1),var(--cpurple));
-  border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;
-}
-.tb-logo-name{font-size:13px;font-weight:900;letter-spacing:-.5px}
-.tb-logo-name span{color:var(--c1)}
-.tb-center{flex:1;display:flex;align-items:center;gap:4px;padding:0 8px;overflow:hidden}
-.tb-file-chip{
-  display:flex;align-items:center;gap:5px;padding:4px 10px;
-  background:var(--bg3);border:1px solid var(--border);border-radius:6px;
-  font-size:11px;font-family:var(--fc);color:var(--ts);cursor:pointer;
-  transition:all .15s;white-space:nowrap;
-}
-.tb-file-chip:hover{color:var(--tp);border-color:var(--c1)}
-.tb-file-chip.act{color:var(--c1);background:rgba(84,197,248,.08)}
-.tb-file-chip .tc-x{opacity:.4;margin-right:-3px;margin-left:3px;font-size:9px}
-.tb-file-chip:hover .tc-x{opacity:1}
-.tb-right{display:flex;align-items:center;gap:6px;padding:0 10px;flex-shrink:0}
-.tb-btn{
-  display:flex;align-items:center;gap:5px;padding:6px 12px;
-  border:none;border-radius:7px;font-size:11px;font-weight:700;font-family:var(--fu);
-  cursor:pointer;transition:all .2s;white-space:nowrap;
-}
-.tb-run{background:linear-gradient(135deg,#0f766e,#0e9f6e);color:#fff}
-.tb-preview{background:linear-gradient(135deg,#0ea5e9,#6366f1);color:#fff}
-.tb-apk{background:linear-gradient(135deg,#f97316,#dc2626);color:#fff;position:relative}
-.tb-ai{background:linear-gradient(135deg,var(--cpurple),#7c3aed);color:#fff}
-.tb-btn:hover{filter:brightness(1.12);transform:translateY(-1px)}
-.tb-btn:active{transform:translateY(0);filter:brightness(.95)}
-.tb-sep{width:1px;height:20px;background:var(--border);flex-shrink:0}
-.tb-home{width:32px;height:32px;background:transparent;border:1px solid var(--border);
-  border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;
-  font-size:14px;transition:all .2s;color:var(--ts)}
-.tb-home:hover{background:var(--bg3);color:var(--tp)}
-
-/* ══════ MAIN BODY ══════ */
-.main-body{flex:1;display:flex;overflow:hidden;min-height:0}
-
-/* ══════ LEFT SIDEBAR (Flutter Explorer) ══════ */
-.sidebar{
-  width:var(--sb-w);flex-shrink:0;
-  background:var(--bg1);
-  border-left:1px solid var(--border);
-  display:flex;flex-direction:column;
-  overflow:hidden;position:relative;
-}
-.sb-section{flex-shrink:0}
-.sb-sec-hd{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:8px 12px;cursor:pointer;user-select:none;
-  font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ts);
-  border-bottom:1px solid var(--border);
-}
-.sb-sec-hd:hover{color:var(--tp)}
-.sb-sec-acts{display:flex;gap:4px}
-.sb-ico-btn{
-  width:18px;height:18px;border:none;background:transparent;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;font-size:11px;
-  color:var(--ts);border-radius:3px;transition:all .15s;
-}
-.sb-ico-btn:hover{background:var(--bg3);color:var(--tp)}
-.filetree{flex:1;overflow-y:auto;padding:4px}
-.fi{
-  display:flex;align-items:center;gap:5px;padding:3px 8px;border-radius:5px;
-  cursor:pointer;font-size:11.5px;font-family:var(--fc);color:var(--ts);
-  transition:all .12s;white-space:nowrap;overflow:hidden;position:relative;
-}
-.fi:hover{background:var(--bg3);color:var(--tp)}
-.fi.act{background:rgba(84,197,248,.1);color:var(--c1)}
-.fi .fi-ico{font-size:12px;flex-shrink:0}
-.fi .fi-nm{overflow:hidden;text-overflow:ellipsis;flex:1;font-size:11px}
-.fi .fi-del{
-  position:absolute;left:5px;opacity:0;font-size:9px;color:var(--cred);
-  background:rgba(229,115,115,.1);border-radius:3px;padding:1px 4px;transition:opacity .15s;
-}
-.fi:hover .fi-del{opacity:1}
-.fi-children{padding-right:10px}
-.fi-folder{font-weight:600}
-
-/* ══════ CENTER EDITOR AREA ══════ */
-.editor-area{
-  flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;
-  position:relative;
-}
-
-/* ═ EDITOR + PREVIEW SPLIT ═ */
-.ed-preview-split{flex:1;display:flex;overflow:hidden;min-height:0}
-.ed-pane{flex:1;overflow:hidden;display:flex;flex-direction:column;min-width:0}
-.preview-pane{
-  width:380px;flex-shrink:0;
-  background:var(--bg0);border-right:1px solid var(--border);
-  display:flex;flex-direction:column;overflow:hidden;
-}
-.preview-pane.hidden{display:none}
-.preview-topbar{
-  height:32px;flex-shrink:0;background:var(--bg2);border-bottom:1px solid var(--border);
-  display:flex;align-items:center;gap:8px;padding:0 10px;
-}
-.pv-dots{display:flex;gap:5px}
-.pv-dot{width:10px;height:10px;border-radius:50%}
-.pv-dot.r{background:#ff5f57}.pv-dot.y{background:#febc2e}.pv-dot.g{background:#28c840}
-.pv-label{font-size:10px;color:var(--ts);font-family:var(--fc);flex:1}
-.pv-refresh{background:transparent;border:none;color:var(--ts);cursor:pointer;font-size:13px;padding:2px;transition:color .15s}
-.pv-refresh:hover{color:var(--tp)}
-.preview-frame-wrap{flex:1;overflow:hidden;background:#fff;position:relative}
-.preview-frame-wrap iframe{width:100%;height:100%;border:none}
-.pv-loading{
-  position:absolute;inset:0;background:var(--bg0);
-  display:flex;align-items:center;justify-content:center;
-  flex-direction:column;gap:10px;
-}
-.pv-loading.hidden{display:none}
-.pv-spinner{
-  width:32px;height:32px;border:3px solid var(--border);
-  border-top-color:var(--c1);border-radius:50%;animation:spin .7s linear infinite;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-.pv-txt{font-size:11px;color:var(--ts)}
-
-/* ═ EDITOR ═ */
-.ed-wrap{flex:1;overflow:hidden;position:relative}
-.ed-ph{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  flex-direction:column;gap:10px;color:var(--td);pointer-events:none;z-index:1;
-}
-.ed-ph .bico{font-size:44px;opacity:.2}
-.CodeMirror{height:100%!important;font-family:var(--fc)!important;font-size:13px!important;
-  line-height:1.8!important;background:var(--bg0)!important}
-.CodeMirror-scroll{height:100%!important}
-.CodeMirror-gutters{background:var(--bg1)!important;border-right:1px solid var(--border)!important}
-
-/* ═ BOTTOM CONSOLE ═ */
-.bot-panel{
-  height:var(--bot-h);flex-shrink:0;
-  background:var(--bg1);border-top:1px solid var(--border);
-  display:flex;flex-direction:column;overflow:hidden;
-}
-.bot-tabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0}
-.bot-tab{
-  padding:6px 14px;font-size:10px;font-weight:700;cursor:pointer;
-  color:var(--td);border-bottom:2px solid transparent;
-  transition:all .2s;letter-spacing:.5px;text-transform:uppercase;
-}
-.bot-tab.act{color:var(--c1);border-bottom-color:var(--c1)}
-.bot-tab:hover{color:var(--tp)}
-.bot-content{flex:1;overflow-y:auto;padding:6px 10px}
-.bot-content.hid{display:none}
-.ll{
-  font-family:var(--fc);font-size:11px;line-height:1.6;
-  padding:1px 0;display:flex;gap:8px;border-bottom:1px solid rgba(54,54,80,.3);
-}
-.ll-t{color:var(--td);flex-shrink:0;font-size:10px}
-.ll-m{flex:1;word-break:break-word}
-.ll.li .ll-m{color:var(--cblue)}.ll.lw .ll-m{color:var(--cyellow)}
-.ll.le .ll-m{color:var(--cred)}.ll.ls .ll-m{color:var(--cgreen)}
-.err-item{
-  background:rgba(229,115,115,.06);border:1px solid rgba(229,115,115,.2);
-  border-radius:7px;padding:8px 10px;margin-bottom:5px;
-}
-.ei-file{color:var(--cblue);font-weight:700;font-size:10.5px;font-family:var(--fc);margin-bottom:2px}
-.ei-line{color:var(--cyellow);font-size:9.5px;margin-bottom:3px}
-.ei-msg{color:var(--cred);font-size:10.5px;margin-bottom:5px}
-.ei-btns{display:flex;gap:5px}
-.ei-fix,.ei-aifix{
-  padding:3px 8px;font-size:10px;border-radius:4px;cursor:pointer;
-  font-family:var(--fu);font-weight:700;border:1px solid;transition:all .15s;
-}
-.ei-fix{background:rgba(129,199,132,.1);border-color:rgba(129,199,132,.3);color:var(--cgreen)}
-.ei-aifix{background:rgba(206,147,216,.1);border-color:rgba(206,147,216,.3);color:var(--cpurple)}
-.fix-all-row{display:flex;gap:6px;padding:5px 10px;border-bottom:1px solid var(--border);flex-shrink:0}
-.btn-fix-all,.btn-ai-all{
-  display:flex;align-items:center;gap:5px;padding:5px 11px;border:none;
-  border-radius:6px;color:#fff;cursor:pointer;font-size:10px;font-weight:700;
-  font-family:var(--fu);transition:all .2s;
-}
-.btn-fix-all{background:linear-gradient(135deg,#0f766e,#0e9f6e)}
-.btn-ai-all{background:linear-gradient(135deg,#7c3aed,#5b21b6)}
-.btn-fix-all:hover,.btn-ai-all:hover{filter:brightness(1.15);transform:translateY(-1px)}
-
-/* ═ STATUS BAR ═ */
-.statusbar{
-  height:22px;flex-shrink:0;background:var(--c1);
-  display:flex;align-items:center;padding:0 10px;
-  gap:12px;font-size:10px;font-family:var(--fc);color:rgba(0,0,0,.7);
-}
-.st-item{display:flex;align-items:center;gap:3px}
-
-/* ══════ AI PANEL (RIGHT) ══════ */
-.ai-panel{
-  width:var(--ai-w);flex-shrink:0;
-  background:var(--bg1);border-right:1px solid var(--border);
-  display:flex;flex-direction:column;overflow:hidden;
-  transition:width .3s;
-}
-.ai-panel.collapsed{width:0;overflow:hidden}
-.ai-topbar{
-  height:var(--top-h);flex-shrink:0;
-  background:var(--bg2);border-bottom:1px solid var(--border);
-  display:flex;align-items:center;gap:10px;padding:0 14px;
-}
-.ai-title{font-size:13px;font-weight:800;display:flex;align-items:center;gap:7px;flex:1}
-.ai-status{
-  width:7px;height:7px;border-radius:50%;background:var(--cgreen);
-  box-shadow:0 0 8px var(--cgreen);animation:blink 2s ease infinite;
-}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.ai-mode-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);flex-shrink:0}
-.ai-mode-tab{
-  flex:1;padding:7px 6px;text-align:center;font-size:10px;font-weight:700;
-  cursor:pointer;color:var(--td);border-bottom:2px solid transparent;transition:all .2s;
-  letter-spacing:.5px;text-transform:uppercase;
-}
-.ai-mode-tab.act{color:var(--c1);border-bottom-color:var(--c1)}
-.ai-mode-tab:hover{color:var(--ts)}
-.ai-body{flex:1;overflow:hidden;display:flex;flex-direction:column;min-height:0}
-
-/* ═ AI BUILD MODE ═ */
-.ai-build{display:flex;flex-direction:column;height:100%;overflow:hidden}
-.ai-build-scroll{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px}
-.build-prompt-box{
-  background:var(--bg2);border:1.5px solid var(--border);border-radius:12px;
-  padding:12px;transition:border .2s;
-}
-.build-prompt-box:focus-within{border-color:var(--c1);box-shadow:0 0 0 2px rgba(84,197,248,.1)}
-.bpb-label{
-  font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
-  color:var(--ts);margin-bottom:8px;display:flex;align-items:center;gap:5px;
-}
-.bpb-dot{width:5px;height:5px;border-radius:50%;background:var(--c1);
-  box-shadow:0 0 6px var(--c1);animation:blink 1.5s ease infinite}
-#build-prompt{
-  width:100%;min-height:80px;max-height:160px;background:transparent;border:none;
-  color:var(--tp);font-size:12px;font-family:var(--fu);resize:none;outline:none;
-  line-height:1.7;direction:rtl;
-}
-#build-prompt::placeholder{color:var(--td)}
-.quick-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
-.qchip{
-  padding:3px 9px;background:var(--bg3);border:1px solid var(--border);
-  border-radius:20px;font-size:10px;color:var(--ts);cursor:pointer;transition:all .15s;
-}
-.qchip:hover{border-color:var(--c1);color:var(--c1);background:rgba(84,197,248,.05)}
-.btn-build-ai{
-  width:100%;padding:11px;background:linear-gradient(135deg,var(--cpurple),var(--c1));
-  border:none;border-radius:10px;color:#fff;font-size:13px;font-weight:800;
-  font-family:var(--fu);cursor:pointer;transition:all .25s;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  box-shadow:0 0 20px rgba(84,197,248,.2);
-}
-.btn-build-ai:hover{box-shadow:0 0 35px rgba(84,197,248,.4);transform:translateY(-1px)}
-.btn-build-ai:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
-
-/* ─ Build Progress ─ */
-.build-progress-box{
-  background:var(--bg2);border:1px solid var(--border);border-radius:10px;
-  padding:12px;display:none;
-}
-.build-progress-box.on{display:block}
-.bprog-title{font-size:12px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:7px}
-.bprog-spinner{width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--c1);
-  border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
-.bprog-steps{display:flex;flex-direction:column;gap:3px;margin-bottom:8px}
-.bprog-step{
-  display:flex;align-items:center;gap:7px;padding:4px 6px;
-  border-radius:6px;font-size:10.5px;font-family:var(--fc);color:var(--td);
-}
-.bprog-step.done{color:var(--cgreen)}.bprog-step.run{color:var(--c1);background:rgba(84,197,248,.05)}
-.bprog-step.err{color:var(--cred)}
-.bprog-step .step-ico{font-size:12px;flex-shrink:0}
-.bprog-bar{height:3px;background:var(--border);border-radius:2px;overflow:hidden}
-.bprog-fill{height:100%;background:linear-gradient(90deg,var(--cpurple),var(--c1));width:0;transition:width .3s ease}
-
-/* ─ Code Writing Animation ─ */
-.code-writing-box{
-  background:var(--bg0);border:1px solid var(--border);border-radius:8px;
-  padding:8px;font-family:var(--fc);font-size:10px;color:var(--cgreen);
-  max-height:100px;overflow:hidden;display:none;line-height:1.5;
-  white-space:pre;overflow-x:auto;
-}
-.code-writing-box.on{display:block}
-.caret{display:inline-block;width:7px;height:12px;background:var(--c1);animation:caret .8s ease infinite}
-@keyframes caret{0%,100%{opacity:1}50%{opacity:0}}
-
-/* ─ Generated Files ─ */
-.gen-files-box{
-  background:var(--bg2);border:1px solid var(--border);border-radius:10px;
-  padding:10px;display:none;
-}
-.gen-files-box.on{display:block}
-.gf-title{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ts);margin-bottom:7px}
-.gf-item{
-  display:flex;align-items:center;gap:7px;padding:5px 7px;
-  background:var(--bg3);border-radius:6px;margin-bottom:3px;
-  font-size:11px;font-family:var(--fc);
-}
-.gf-nm{flex:1;color:var(--tp)}.gf-sz{font-size:9px;color:var(--td)}
-.gf-ok{color:var(--cgreen);font-size:12px}
-
-/* ─ Post Build ─ */
-.post-build{display:none;flex-direction:column;gap:8px}
-.post-build.on{display:flex}
-.pb-success{
-  background:rgba(129,199,132,.08);border:1px solid rgba(129,199,132,.2);
-  border-radius:10px;padding:12px;
-}
-.pb-success-ico{font-size:24px;margin-bottom:6px}
-.pb-success h4{font-size:13px;font-weight:800;color:var(--cgreen);margin-bottom:3px}
-.pb-success p{font-size:11px;color:var(--ts);line-height:1.6}
-.pb-btns{display:flex;flex-direction:column;gap:5px}
-.pb-btn{
-  padding:10px;border:none;border-radius:9px;color:#fff;font-size:12px;font-weight:700;
-  font-family:var(--fu);cursor:pointer;transition:all .2s;
-  display:flex;align-items:center;justify-content:center;gap:7px;width:100%;
-}
-.pb-preview{background:linear-gradient(135deg,#0f766e,#0e9f6e)}
-.pb-apk{background:linear-gradient(135deg,#f97316,#dc2626);box-shadow:0 0 14px rgba(249,115,22,.25)}
-.pb-web{background:linear-gradient(135deg,#0ea5e9,#6366f1)}
-.pb-edit{background:var(--bg3);border:1px solid var(--border)}
-.pb-btn:hover{filter:brightness(1.12);transform:translateY(-1px)}
-
-/* ═ AI CHAT MODE ═ */
-.ai-chat{display:none;flex-direction:column;height:100%;overflow:hidden}
-.ai-chat.on{display:flex}
-.chat-msgs{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:8px}
-.chat-msg{max-width:88%;padding:9px 12px;border-radius:10px;font-size:11.5px;line-height:1.65}
-.chat-msg.user{
-  background:rgba(84,197,248,.12);border:1px solid rgba(84,197,248,.2);
-  color:var(--tp);align-self:flex-start;border-radius:10px 10px 3px 10px;
-}
-.chat-msg.bot{
-  background:rgba(206,147,216,.08);border:1px solid rgba(206,147,216,.2);
-  color:var(--tp);align-self:flex-end;border-radius:10px 10px 10px 3px;
-}
-.chat-msg.sys{
-  background:rgba(84,197,248,.05);border:1px solid rgba(84,197,248,.1);
-  color:var(--ts);align-self:center;text-align:center;font-size:10px;border-radius:7px;max-width:100%;
-}
-.chat-typing{display:flex;gap:4px;padding:8px 12px;align-items:center}
-.chat-typing span{
-  width:5px;height:5px;border-radius:50%;background:var(--cpurple);
-  animation:bounce .8s ease infinite;
-}
-.chat-typing span:nth-child(2){animation-delay:.15s}
-.chat-typing span:nth-child(3){animation-delay:.3s}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-.chat-input-row{padding:8px;border-top:1px solid var(--border);display:flex;gap:5px;flex-shrink:0}
-.chat-input{
-  flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:8px;
-  padding:8px 10px;color:var(--tp);font-size:11px;font-family:var(--fu);
-  resize:none;outline:none;min-height:34px;max-height:70px;transition:border .2s;
-}
-.chat-input:focus{border-color:var(--c1)}
-.chat-send{
-  width:34px;height:34px;background:linear-gradient(135deg,var(--cpurple),var(--c1));
-  border:none;border-radius:8px;color:#fff;cursor:pointer;font-size:14px;
-  display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;align-self:flex-end;
-}
-.chat-send:hover{transform:scale(1.08)}
-
-/* ══════ LANDING ══════ */
-#screen-land{
-  position:fixed;inset:0;z-index:100;
-  background:var(--bg0);
-  display:flex;align-items:center;justify-content:center;
-  flex-direction:column;
-}
-#screen-land.hidden{display:none}
-.land-bg{
-  position:absolute;inset:0;pointer-events:none;
-  background:
-    radial-gradient(ellipse 60% 50% at 15% 15%,rgba(206,147,216,.08),transparent 55%),
-    radial-gradient(ellipse 50% 60% at 85% 85%,rgba(84,197,248,.06),transparent 55%);
-}
-.land-grid{
-  position:absolute;inset:0;pointer-events:none;
-  background-image:
-    linear-gradient(rgba(54,54,80,.5) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(54,54,80,.5) 1px,transparent 1px);
+#auth-screen.gone{display:none}
+.auth-glow{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 55% 45% at 15% 15%,rgba(188,140,255,.08),transparent 50%),
+  radial-gradient(ellipse 45% 55% at 85% 85%,rgba(88,166,255,.06),transparent 50%)}
+.auth-grid{position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(48,54,61,.5) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(48,54,61,.5) 1px,transparent 1px);
   background-size:28px 28px;
-  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 100%);
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 100%)}
+.auth-box{
+  position:relative;z-index:1;width:100%;max-width:400px;
+  background:var(--bg2);border:1px solid var(--bd);border-radius:14px;padding:28px;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
 }
-.land-content{position:relative;z-index:1;text-align:center;padding:20px;max-width:800px;width:100%}
-.land-brand{display:inline-flex;align-items:center;gap:12px;margin-bottom:6px}
-.land-brand-ico{
-  width:52px;height:52px;background:linear-gradient(135deg,var(--cpurple),var(--c1));
-  border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;
-  box-shadow:0 0 40px rgba(206,147,216,.4);
-}
-.land-brand-name{font-size:28px;font-weight:900;letter-spacing:-1px;direction:ltr}
-.land-brand-name em{color:var(--c1);font-style:normal}
-.land-sub{font-size:10px;color:var(--ts);letter-spacing:3px;text-transform:uppercase;margin-bottom:48px;direction:ltr}
-.land-cards{display:grid;grid-template-columns:1fr;gap:10px;max-width:500px;margin:0 auto}
-.land-card{
-  background:var(--bg2);border:1px solid var(--border);border-radius:14px;
-  padding:18px 20px;cursor:pointer;transition:all .25s;
-  display:flex;align-items:center;gap:14px;text-align:right;
-}
-.land-card:hover{transform:translateY(-3px);border-color:var(--c1);
-  box-shadow:0 12px 30px rgba(84,197,248,.1)}
-.land-card-ico{
-  width:46px;height:46px;border-radius:12px;display:flex;align-items:center;
-  justify-content:center;font-size:22px;flex-shrink:0;
-}
-.lc1 .land-card-ico{background:linear-gradient(135deg,rgba(206,147,216,.15),rgba(84,197,248,.15))}
-.lc2 .land-card-ico{background:rgba(84,197,248,.1)}
-.lc3 .land-card-ico{background:rgba(129,199,132,.1)}
-.lc4 .land-card-ico{background:rgba(249,115,22,.1)}
-.land-card-txt h3{font-size:14px;font-weight:800;margin-bottom:3px}
-.land-card-txt p{font-size:11px;color:var(--ts);line-height:1.5}
-.land-card-badge{
-  display:inline-flex;align-items:center;gap:4px;padding:2px 8px;
-  background:linear-gradient(135deg,rgba(206,147,216,.15),rgba(84,197,248,.15));
-  border:1px solid rgba(84,197,248,.25);border-radius:20px;
-  font-size:9px;font-weight:700;color:var(--c1);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;
-}
-@keyframes cardIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-.land-card{animation:cardIn .4s ease both}
-.land-card:nth-child(1){animation-delay:.05s}.land-card:nth-child(2){animation-delay:.1s}
-.land-card:nth-child(3){animation-delay:.15s}.land-card:nth-child(4){animation-delay:.2s}
+.auth-logo{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:6px}
+.auth-logo-ico{width:40px;height:40px;background:linear-gradient(135deg,var(--c5),var(--c1));
+  border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;
+  box-shadow:0 0 30px rgba(188,140,255,.3)}
+.auth-logo-name{font-size:20px;font-weight:900;letter-spacing:-.5px;direction:ltr}
+.auth-logo-name b{color:var(--c1)}
+.auth-tabs{display:flex;gap:0;background:var(--bg3);border-radius:8px;padding:3px;margin:18px 0}
+.auth-tab{flex:1;padding:7px;text-align:center;font-size:12px;font-weight:700;cursor:pointer;
+  border-radius:6px;color:var(--ts);transition:all .2s}
+.auth-tab.act{background:var(--bg1);color:var(--tp);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.auth-form{display:flex;flex-direction:column;gap:10px}
+.auth-form.hid{display:none}
+.inp-group{display:flex;flex-direction:column;gap:4px}
+.inp-label{font-size:10px;color:var(--ts);font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+.inp{width:100%;padding:10px 12px;background:var(--bg1);border:1px solid var(--bd);
+  border-radius:8px;color:var(--tp);font-size:12px;outline:none;transition:border .2s}
+.inp:focus{border-color:var(--c1)}
+.inp::placeholder{color:var(--td)}
+.terms-row{display:flex;align-items:flex-start;gap:8px;padding:4px 0}
+.terms-row input[type=checkbox]{width:14px;height:14px;margin-top:2px;accent-color:var(--c1);flex-shrink:0;cursor:pointer}
+.terms-row label{font-size:11px;color:var(--ts);cursor:pointer;line-height:1.5}
+.terms-row label span{color:var(--c1)}
+.auth-btn{padding:11px;background:linear-gradient(135deg,var(--c5),var(--c1));border:none;
+  border-radius:8px;color:#fff;font-size:13px;font-weight:800;cursor:pointer;
+  transition:all .25s;display:flex;align-items:center;justify-content:center;gap:7px;
+  box-shadow:0 0 18px rgba(88,166,255,.2)}
+.auth-btn:hover{box-shadow:0 0 28px rgba(88,166,255,.4);transform:translateY(-1px)}
+.auth-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.auth-err{background:rgba(248,81,73,.1);border:1px solid rgba(248,81,73,.25);border-radius:7px;
+  padding:8px 10px;font-size:11px;color:var(--c3);display:none}
+.auth-err.on{display:block}
+.auth-divider{text-align:center;font-size:10px;color:var(--td);padding:6px 0}
 
-/* ══════ MODALS ══════ */
-.ov{
-  position:fixed;inset:0;z-index:200;
-  background:rgba(10,10,20,.9);backdrop-filter:blur(12px);
-  display:none;align-items:center;justify-content:center;padding:16px;
+/* ══ APP ══ */
+#app{display:none;flex-direction:column;height:100vh;width:100vw;overflow:hidden}
+#app.on{display:flex}
+
+/* ══ TOPBAR ══ */
+.topbar{
+  height:var(--h);flex-shrink:0;background:var(--bg1);border-bottom:1px solid var(--bd);
+  display:flex;align-items:center;gap:0;user-select:none;position:relative;z-index:50;
 }
+.tb-brand{display:flex;align-items:center;gap:8px;padding:0 14px;height:100%;
+  border-left:1px solid var(--bd);flex-shrink:0}
+.tb-brand-ico{width:24px;height:24px;background:linear-gradient(135deg,var(--c5),var(--c1));
+  border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px}
+.tb-brand-name{font-size:12px;font-weight:900;direction:ltr;letter-spacing:-.5px}
+.tb-brand-name b{color:var(--c1)}
+.tb-tabs{flex:1;display:flex;gap:2px;padding:0 8px;overflow-x:auto;align-items:center;min-width:0}
+.tab{display:flex;align-items:center;gap:4px;padding:4px 9px;background:var(--bg2);
+  border:1px solid var(--bd);border-radius:5px;font-size:10.5px;font-family:var(--fc);
+  color:var(--ts);cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0}
+.tab:hover{color:var(--tp);border-color:var(--bdl)}
+.tab.act{color:var(--c1);background:rgba(88,166,255,.08);border-color:var(--c1)}
+.tab-x{opacity:.4;font-size:9px;margin-right:-2px;margin-left:2px}
+.tab:hover .tab-x{opacity:1}
+.tb-right{display:flex;align-items:center;gap:4px;padding:0 10px;flex-shrink:0}
+.tb-btn{display:flex;align-items:center;gap:4px;padding:5px 10px;border:none;border-radius:6px;
+  font-size:10.5px;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap;color:#fff}
+.btn-run{background:linear-gradient(135deg,#0f766e,#059669)}
+.btn-apk{background:linear-gradient(135deg,#ea580c,#dc2626)}
+.btn-web{background:linear-gradient(135deg,#1d4ed8,#4f46e5)}
+.btn-ai{background:linear-gradient(135deg,var(--c5),#7c3aed)}
+.btn-home-ghost{background:var(--bg3);border:1px solid var(--bd);color:var(--ts)}
+.tb-btn:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.tb-btn:active{transform:translateY(0)}
+.tb-sep{width:1px;height:20px;background:var(--bd);flex-shrink:0;margin:0 2px}
+/* Hamburger */
+.hamburger{width:34px;height:34px;background:transparent;border:1px solid var(--bd);
+  border-radius:7px;cursor:pointer;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:4px;flex-shrink:0;transition:all .2s}
+.hamburger:hover{background:var(--bg3);border-color:var(--bdl)}
+.ham-line{width:14px;height:2px;background:var(--ts);border-radius:1px;transition:all .2s}
+.hamburger:hover .ham-line{background:var(--tp)}
+
+/* ══ MENU DRAWER (hamburger) ══ */
+.menu-drawer{
+  position:fixed;top:0;right:0;bottom:0;width:260px;z-index:400;
+  background:var(--bg1);border-right:1px solid var(--bd);
+  display:flex;flex-direction:column;overflow:hidden;
+  transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);
+  box-shadow:-4px 0 30px rgba(0,0,0,.5);
+}
+.menu-drawer.open{transform:translateX(0)}
+.menu-top{padding:16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px}
+.menu-user-ava{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--c5),var(--c1));
+  display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.menu-user-nm{font-size:13px;font-weight:800;margin-bottom:2px}
+.menu-user-em{font-size:10px;color:var(--ts)}
+.menu-close{margin-right:auto;width:26px;height:26px;background:transparent;border:1px solid var(--bd);
+  border-radius:5px;cursor:pointer;color:var(--ts);display:flex;align-items:center;
+  justify-content:center;font-size:12px;transition:all .15s}
+.menu-close:hover{background:var(--bg3);color:var(--tp)}
+.menu-items{flex:1;overflow-y:auto;padding:8px}
+.menu-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;
+  cursor:pointer;transition:all .15s;font-size:12px;color:var(--ts)}
+.menu-item:hover{background:var(--bg3);color:var(--tp)}
+.menu-item .mi-ico{font-size:16px;flex-shrink:0;width:24px;text-align:center}
+.menu-item .mi-txt{flex:1}
+.menu-item .mi-arr{font-size:10px;color:var(--td)}
+.menu-sep{height:1px;background:var(--bd);margin:6px 8px}
+.menu-logout{color:var(--c3)!important}
+.menu-logout:hover{background:rgba(248,81,73,.1)!important}
+
+/* ══ SIDE MENU PAGES ══ */
+.menu-page{position:fixed;inset:0;z-index:450;background:var(--bg0);
+  display:none;flex-direction:column;overflow-y:auto}
+.menu-page.on{display:flex}
+.mp-header{height:48px;background:var(--bg1);border-bottom:1px solid var(--bd);
+  display:flex;align-items:center;gap:12px;padding:0 16px;flex-shrink:0}
+.mp-back{width:30px;height:30px;background:transparent;border:1px solid var(--bd);
+  border-radius:6px;cursor:pointer;color:var(--ts);display:flex;align-items:center;
+  justify-content:center;font-size:14px;transition:all .15s}
+.mp-back:hover{background:var(--bg3);color:var(--tp)}
+.mp-title{font-size:14px;font-weight:800}
+.mp-body{flex:1;padding:20px;max-width:600px;width:100%;margin:0 auto}
+.mp-section{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;
+  padding:16px;margin-bottom:14px}
+.mp-section h3{font-size:13px;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.mp-section p{font-size:12px;color:var(--ts);line-height:1.7}
+.mp-section a{color:var(--c1)}
+.plan-card{background:var(--bg3);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:10px}
+.plan-card.featured{border-color:var(--c5);background:rgba(188,140,255,.05)}
+.plan-name{font-size:14px;font-weight:800;margin-bottom:4px}
+.plan-price{font-size:20px;font-weight:900;color:var(--c1);margin-bottom:8px}
+.plan-price span{font-size:11px;color:var(--ts)}
+.plan-features{list-style:none;display:flex;flex-direction:column;gap:5px}
+.plan-features li{font-size:11px;color:var(--ts);display:flex;align-items:center;gap:6px}
+.plan-features li::before{content:'✓';color:var(--c2)}
+.plan-btn{width:100%;padding:9px;border:none;border-radius:7px;color:#fff;font-size:11px;
+  font-weight:700;cursor:pointer;margin-top:10px;transition:all .2s}
+.plan-btn-free{background:var(--bg4);border:1px solid var(--bd);color:var(--ts)}
+.plan-btn-pro{background:linear-gradient(135deg,var(--c5),var(--c1))}
+.plan-btn-team{background:linear-gradient(135deg,var(--c2),#059669)}
+
+/* ══ BODY ══ */
+.body{flex:1;display:flex;overflow:hidden;min-height:0;position:relative}
+
+/* ══ SIDEBAR ══ */
+.sidebar{width:var(--sb);flex-shrink:0;background:var(--bg1);border-left:1px solid var(--bd);
+  display:flex;flex-direction:column;overflow:hidden}
+.sb-head{padding:8px 10px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
+.sb-head-title{font-size:9.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ts)}
+.sb-head-btns{display:flex;gap:3px}
+.ico-btn{width:20px;height:20px;background:transparent;border:1px solid transparent;
+  border-radius:4px;cursor:pointer;font-size:11px;color:var(--ts);
+  display:flex;align-items:center;justify-content:center;transition:all .15s}
+.ico-btn:hover{background:var(--bg3);color:var(--tp);border-color:var(--bd)}
+.filetree{flex:1;overflow-y:auto;padding:4px}
+.fi{display:flex;align-items:center;gap:5px;padding:4px 8px;border-radius:5px;
+  cursor:pointer;font-size:11px;font-family:var(--fc);color:var(--ts);
+  transition:all .12s;white-space:nowrap;overflow:hidden;position:relative}
+.fi:hover{background:var(--bg3);color:var(--tp)}.fi.act{background:rgba(88,166,255,.1);color:var(--c1)}
+.fi .fi-ico{font-size:12px;flex-shrink:0}.fi .fi-nm{overflow:hidden;text-overflow:ellipsis;flex:1}
+.fi .fi-del{position:absolute;left:5px;opacity:0;font-size:9px;color:var(--c3);
+  background:rgba(248,81,73,.1);border-radius:3px;padding:1px 4px;transition:opacity .15s}
+.fi:hover .fi-del{opacity:1}
+.fi-ch{padding-right:12px}.fi-fold{font-weight:600}
+
+/* ══ EDITOR AREA ══ */
+.editor-area{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.split-wrap{flex:1;display:flex;overflow:hidden;min-height:0}
+.ed-pane{flex:1;overflow:hidden;display:flex;flex-direction:column;min-width:0;position:relative}
+.ed-ph{position:absolute;inset:0;z-index:2;display:flex;align-items:center;
+  justify-content:center;flex-direction:column;gap:10px;color:var(--td);pointer-events:none}
+.ed-ph .bico{font-size:38px;opacity:.2}
+.CodeMirror{height:100%!important;font-family:var(--fc)!important;font-size:12.5px!important;line-height:1.75!important;background:var(--bg0)!important}
+.CodeMirror-scroll{height:100%!important}
+.CodeMirror-gutters{background:var(--bg1)!important;border-right:1px solid var(--bd)!important}
+
+/* ══ PREVIEW PANE ══ */
+.prev-pane{width:370px;flex-shrink:0;background:var(--bg0);border-right:1px solid var(--bd);
+  display:flex;flex-direction:column;overflow:hidden;transition:width .3s}
+.prev-pane.closed{width:0;overflow:hidden}
+.prev-bar{height:34px;flex-shrink:0;background:var(--bg2);border-bottom:1px solid var(--bd);
+  display:flex;align-items:center;gap:7px;padding:0 10px}
+.pv-dots{display:flex;gap:4px}
+.pv-dot{width:8px;height:8px;border-radius:50%}
+.pv-dot.r{background:#ff5f57}.pv-dot.y{background:#febc2e}.pv-dot.g{background:#28c840}
+.pv-label{flex:1;font-size:10px;font-family:var(--fc);color:var(--ts)}
+.pv-btn{background:transparent;border:none;color:var(--ts);cursor:pointer;font-size:12px;
+  padding:2px 4px;border-radius:4px;transition:all .15s}
+.pv-btn:hover{background:var(--bg4);color:var(--tp)}
+.prev-frame-wrap{flex:1;position:relative;overflow:hidden;background:#fff}
+#preview-frame{width:100%;height:100%;border:none;display:block}
+.pv-overlay{position:absolute;inset:0;background:var(--bg0);z-index:5;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.pv-overlay.hide{display:none}
+.pv-spin{width:26px;height:26px;border:2px solid var(--bd);border-top-color:var(--c1);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pv-empty{text-align:center;color:var(--ts);font-size:11px;padding:16px}
+.pv-empty .pe-ico{font-size:36px;opacity:.3;margin-bottom:8px}
+
+/* ══ BOTTOM ══ */
+.bot{height:155px;flex-shrink:0;background:var(--bg1);border-top:1px solid var(--bd);display:flex;flex-direction:column}
+.bot-bar{display:flex;border-bottom:1px solid var(--bd);flex-shrink:0}
+.bt{padding:6px 12px;font-size:10px;font-weight:700;cursor:pointer;color:var(--td);
+  border-bottom:2px solid transparent;transition:all .2s;text-transform:uppercase;letter-spacing:.5px}
+.bt.act{color:var(--c1);border-bottom-color:var(--c1)}.bt:hover{color:var(--tp)}
+.bc{flex:1;overflow-y:auto;padding:6px 10px}.bc.hid{display:none}
+.ll{font-family:var(--fc);font-size:10.5px;line-height:1.6;padding:1px 0;
+  border-bottom:1px solid rgba(48,54,61,.4);display:flex;gap:7px}
+.ll .lt{color:var(--td);font-size:9.5px;flex-shrink:0}
+.ll .lm{flex:1;word-break:break-word}
+.ll.li .lm{color:var(--c1)}.ll.lw .lm{color:var(--c4)}.ll.le .lm{color:var(--c3)}.ll.ls .lm{color:var(--c2)}
+.err-i{background:rgba(248,81,73,.06);border:1px solid rgba(248,81,73,.2);
+  border-radius:7px;padding:8px 10px;margin-bottom:5px}
+.ei-f{color:var(--c1);font-weight:700;font-size:10.5px;font-family:var(--fc);margin-bottom:2px}
+.ei-l{color:var(--c4);font-size:9.5px;margin-bottom:2px}
+.ei-m{color:var(--c3);font-size:10.5px;margin-bottom:5px}
+.ei-btns{display:flex;gap:5px}
+.ei-fix,.ei-ai{padding:3px 8px;font-size:10px;border-radius:4px;cursor:pointer;font-family:var(--fu);font-weight:700;border:1px solid;transition:all .15s}
+.ei-fix{background:rgba(63,185,80,.1);border-color:rgba(63,185,80,.3);color:var(--c2)}
+.ei-ai{background:rgba(188,140,255,.1);border-color:rgba(188,140,255,.3);color:var(--c5)}
+.fix-row{display:flex;gap:6px;padding:5px 10px;border-bottom:1px solid var(--bd);flex-shrink:0}
+.fa-btn,.aia-btn{display:flex;align-items:center;gap:5px;padding:5px 10px;border:none;
+  border-radius:6px;color:#fff;cursor:pointer;font-size:10px;font-weight:700;font-family:var(--fu);transition:all .2s}
+.fa-btn{background:linear-gradient(135deg,#0f766e,#059669)}
+.aia-btn{background:linear-gradient(135deg,#7c3aed,#4f46e5)}
+.fa-btn:hover,.aia-btn:hover{filter:brightness(1.12);transform:translateY(-1px)}
+
+/* ══ STATUS ══ */
+.statusbar{height:20px;flex-shrink:0;background:var(--c1);display:flex;align-items:center;
+  padding:0 10px;gap:12px;font-size:9.5px;font-family:var(--fc);color:rgba(0,0,0,.7)}
+
+/* ══ AI DRAWER ══ */
+.ai-drawer{position:fixed;top:0;left:0;bottom:0;width:var(--ai);z-index:300;
+  background:var(--bg1);border-right:1px solid var(--bd);display:flex;flex-direction:column;
+  transform:translateX(-100%);transition:transform .3s cubic-bezier(.4,0,.2,1);
+  box-shadow:4px 0 30px rgba(0,0,0,.5)}
+.ai-drawer.open{transform:translateX(0)}
+.ai-dbar{height:var(--h);background:var(--bg2);border-bottom:1px solid var(--bd);
+  display:flex;align-items:center;gap:9px;padding:0 12px;flex-shrink:0}
+.ai-dtitle{font-size:12px;font-weight:800;flex:1;display:flex;align-items:center;gap:6px}
+.ai-dot{width:6px;height:6px;border-radius:50%;background:var(--c2);
+  box-shadow:0 0 7px var(--c2);animation:blink 2s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.ai-tabs{display:flex;border-bottom:1px solid var(--bd);flex-shrink:0}
+.ait{flex:1;padding:7px;text-align:center;font-size:10px;font-weight:700;cursor:pointer;
+  color:var(--td);border-bottom:2px solid transparent;transition:all .2s;text-transform:uppercase}
+.ait.act{color:var(--c1);border-bottom-color:var(--c1)}.ait:hover{color:var(--ts)}
+.ai-body{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.ai-sec{display:flex;flex-direction:column;height:100%;overflow-y:auto;padding:10px;gap:8px}
+.ai-sec.hid{display:none}
+
+/* AI Build */
+.prompt-card{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:11px}
+.pc-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--ts);margin-bottom:7px;display:flex;align-items:center;gap:5px}
+.pc-dot{width:5px;height:5px;border-radius:50%;background:var(--c1);
+  box-shadow:0 0 5px var(--c1);animation:blink 1.5s ease infinite}
+.ai-ta{width:100%;min-height:72px;max-height:140px;background:transparent;border:none;
+  color:var(--tp);font-size:12px;font-family:var(--fu);resize:none;outline:none;
+  line-height:1.7;direction:rtl}
+.ai-ta::placeholder{color:var(--td)}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.chip{padding:3px 8px;background:var(--bg3);border:1px solid var(--bd);border-radius:14px;
+  font-size:10px;color:var(--ts);cursor:pointer;transition:all .15s}
+.chip:hover{border-color:var(--c1);color:var(--c1)}
+.ai-build-btn{width:100%;padding:10px;background:linear-gradient(135deg,var(--c5),var(--c1));
+  border:none;border-radius:9px;color:#fff;font-size:12px;font-weight:800;
+  cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:7px;
+  box-shadow:0 0 16px rgba(88,166,255,.2)}
+.ai-build-btn:hover{box-shadow:0 0 28px rgba(88,166,255,.4);transform:translateY(-1px)}
+.ai-build-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.bprog{background:var(--bg2);border:1px solid var(--bd);border-radius:9px;padding:10px;display:none}
+.bprog.on{display:block}
+.bp-title{font-size:11px;font-weight:700;display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.bp-spin{width:12px;height:12px;border:2px solid var(--bd);border-top-color:var(--c1);
+  border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+.bp-steps{display:flex;flex-direction:column;gap:2px;margin-bottom:6px}
+.bp-step{display:flex;align-items:center;gap:5px;padding:3px 5px;border-radius:5px;
+  font-size:10px;font-family:var(--fc);color:var(--td)}
+.bp-step.run{color:var(--c1);background:rgba(88,166,255,.05)}.bp-step.done{color:var(--c2)}.bp-step.err{color:var(--c3)}
+.bp-step .sico{font-size:11px;flex-shrink:0}
+.code-stream{background:var(--bg0);border:1px solid var(--bd);border-radius:6px;padding:7px;
+  font-family:var(--fc);font-size:9.5px;color:var(--c2);max-height:75px;overflow:hidden;
+  white-space:pre;display:none;line-height:1.5}
+.code-stream.on{display:block}
+.cur{display:inline-block;width:6px;height:11px;background:var(--c1);animation:blink .8s ease infinite;vertical-align:text-bottom}
+.bp-bar{height:3px;background:var(--bd);border-radius:2px;overflow:hidden}
+.bp-fill{height:100%;background:linear-gradient(90deg,var(--c5),var(--c1));border-radius:2px;width:0;transition:width .3s}
+.gfiles{background:var(--bg2);border:1px solid var(--bd);border-radius:9px;padding:9px;display:none}
+.gfiles.on{display:block}
+.gf-title{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ts);margin-bottom:6px}
+.gf-item{display:flex;align-items:center;gap:6px;padding:4px 6px;background:var(--bg3);
+  border-radius:5px;margin-bottom:3px;font-size:10px;font-family:var(--fc)}
+.gf-nm{flex:1;color:var(--tp)}.gf-sz{font-size:9px;color:var(--td)}.gf-ok{color:var(--c2)}
+.post-build{display:none;flex-direction:column;gap:7px}
+.post-build.on{display:flex}
+.pb-ok{background:rgba(63,185,80,.07);border:1px solid rgba(63,185,80,.2);border-radius:9px;padding:11px;text-align:center}
+.pb-ok .pbi{font-size:22px;margin-bottom:5px}
+.pb-ok h4{font-size:12px;font-weight:800;color:var(--c2);margin-bottom:2px}
+.pb-ok p{font-size:10px;color:var(--ts)}
+.pb-btns{display:flex;flex-direction:column;gap:5px}
+.pbb{width:100%;padding:9px;border:none;border-radius:8px;color:#fff;font-size:11px;font-weight:700;
+  cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.pbb-pre{background:linear-gradient(135deg,#0f766e,#059669)}
+.pbb-apk{background:linear-gradient(135deg,#ea580c,#dc2626);box-shadow:0 0 10px rgba(234,88,12,.2)}
+.pbb-web{background:linear-gradient(135deg,#1d4ed8,#4f46e5)}
+.pbb-edit{background:var(--bg4);border:1px solid var(--bd)}
+.pbb:hover{filter:brightness(1.12);transform:translateY(-1px)}
+
+/* AI Chat */
+.chat-body{flex:1;overflow-y:auto;padding:9px;display:flex;flex-direction:column;gap:7px}
+.chat-msg{max-width:88%;padding:8px 11px;border-radius:9px;font-size:11px;line-height:1.65}
+.chat-msg.user{background:rgba(88,166,255,.1);border:1px solid rgba(88,166,255,.2);color:var(--tp);align-self:flex-start;border-radius:9px 9px 3px 9px}
+.chat-msg.bot{background:rgba(188,140,255,.08);border:1px solid rgba(188,140,255,.2);color:var(--tp);align-self:flex-end;border-radius:9px 9px 9px 3px}
+.chat-msg.sys{align-self:center;background:rgba(88,166,255,.05);border:1px solid rgba(88,166,255,.1);color:var(--ts);font-size:10px;border-radius:7px;max-width:100%;text-align:center}
+.typing{display:flex;gap:3px;padding:7px 11px}
+.typing span{width:5px;height:5px;border-radius:50%;background:var(--c5);animation:bounce .8s ease infinite}
+.typing span:nth-child(2){animation-delay:.15s}.typing span:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.chat-in-row{padding:8px;border-top:1px solid var(--bd);display:flex;gap:5px;flex-shrink:0}
+.chat-in{flex:1;background:var(--bg2);border:1px solid var(--bd);border-radius:7px;
+  padding:7px 9px;color:var(--tp);font-size:11px;resize:none;outline:none;
+  min-height:32px;max-height:65px;transition:border .2s}
+.chat-in:focus{border-color:var(--c1)}
+.chat-send-btn{width:32px;height:32px;background:linear-gradient(135deg,var(--c5),var(--c1));
+  border:none;border-radius:7px;color:#fff;cursor:pointer;font-size:13px;
+  display:flex;align-items:center;justify-content:center;align-self:flex-end;transition:all .2s}
+.chat-send-btn:hover{transform:scale(1.1)}
+
+/* ══ OVERLAYS / MODALS ══ */
+.ov{position:fixed;inset:0;z-index:500;background:rgba(1,4,9,.88);backdrop-filter:blur(10px);
+  display:none;align-items:center;justify-content:center;padding:14px}
 .ov.on{display:flex}
-.modal{
-  background:var(--bg2);border:1px solid var(--border);border-radius:16px;
-  padding:22px;width:100%;max-width:440px;
-  box-shadow:0 40px 80px rgba(0,0,0,.6);
-  animation:mIn .3s cubic-bezier(.34,1.56,.64,1);
-}
-.modal-lg{max-width:500px}
+.modal{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:20px;
+  width:100%;max-width:460px;box-shadow:0 30px 60px rgba(0,0,0,.7);
+  animation:mIn .3s cubic-bezier(.34,1.56,.64,1)}
+.modal-xl{max-width:520px}
 @keyframes mIn{from{opacity:0;transform:scale(.88) translateY(14px)}to{opacity:1;transform:scale(1) translateY(0)}}
-.modal-title{font-size:16px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.modal-body{margin-bottom:14px}
-.modal-label{font-size:10px;color:var(--ts);margin-bottom:6px;display:block;letter-spacing:.5px;text-transform:uppercase}
-.modal-input{
-  width:100%;padding:10px 12px;background:var(--bg1);border:1px solid var(--border);
-  border-radius:8px;color:var(--tp);font-size:12px;font-family:var(--fu);outline:none;
-  transition:border .2s;
-}
-.modal-input:focus{border-color:var(--c1)}
-.modal-input::placeholder{color:var(--td)}
-.modal-btns{display:flex;gap:7px;justify-content:flex-end;flex-wrap:wrap}
-.mbtn{
-  padding:8px 15px;border:none;border-radius:7px;font-family:var(--fu);
-  font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;
-}
-.mbtn-cancel{background:transparent;border:1px solid var(--border);color:var(--ts)}
-.mbtn-cancel:hover{background:var(--bg3);color:var(--tp)}
-.mbtn-ok{color:#fff}
-.mbtn-blue{background:linear-gradient(135deg,#0ea5e9,#6366f1)}
-.mbtn-green{background:linear-gradient(135deg,#0f766e,#0e9f6e)}
-.mbtn-orange{background:linear-gradient(135deg,#f97316,#dc2626)}
-.mbtn:hover{filter:brightness(1.1);transform:translateY(-1px)}
-.warn-box{
-  background:rgba(255,183,77,.07);border:1px solid rgba(255,183,77,.25);
-  border-radius:8px;padding:9px 11px;font-size:11px;color:rgba(255,220,100,.9);
-  margin-bottom:12px;line-height:1.65;
-}
-.gh-user-row{
-  display:flex;align-items:center;gap:9px;padding:9px;background:var(--bg1);
-  border:1px solid var(--border);border-radius:8px;margin-bottom:11px;
-}
-.gh-ava{width:36px;height:36px;border-radius:50%;object-fit:cover}
-.gh-badge-ok{
-  display:inline-flex;align-items:center;gap:4px;padding:2px 8px;
-  background:rgba(129,199,132,.12);border:1px solid rgba(129,199,132,.3);
-  border-radius:20px;color:var(--cgreen);font-size:9px;font-weight:700;
-}
-.token-hint{font-size:10px;color:var(--ts);margin-top:6px;line-height:1.7}
-.token-hint strong{color:var(--c1)}
-
-/* conv modal */
-.conv-steps{max-height:220px;overflow-y:auto}
-.conv-step{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border)}
-.cs-ico{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
-.cs-ico.pend{background:var(--bg3);color:var(--td)}
-.cs-ico.run{background:rgba(84,197,248,.15);color:var(--c1);animation:spin .7s linear infinite}
-.cs-ico.done{background:rgba(129,199,132,.15);color:var(--cgreen)}
-.cs-ico.err{background:rgba(229,115,115,.15);color:var(--cred)}
-.cs-lbl{font-size:11px;font-family:var(--fc)}
-.lnk-box{
-  background:var(--bg1);border:1px solid var(--border);border-radius:7px;
-  padding:10px 12px;font-family:var(--fc);font-size:11px;color:var(--c1);
-  word-break:break-all;margin:10px 0;direction:ltr;
-}
-.conv-pb{height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin:10px 0}
-.conv-pf{height:100%;background:linear-gradient(90deg,var(--cpurple),var(--c1));border-radius:2px;width:0;transition:width .25s}
-.apk-guide{
-  background:rgba(249,115,22,.07);border:1px solid rgba(249,115,22,.22);
-  border-radius:8px;padding:10px 12px;font-size:10.5px;color:rgba(255,200,100,.9);
-  margin-top:8px;line-height:1.8;
-}
-.apk-guide strong{color:var(--c4)}
-.gh-actions-info{
-  background:rgba(129,199,132,.06);border:1px solid rgba(129,199,132,.2);
-  border-radius:8px;padding:10px 12px;font-size:10.5px;color:rgba(180,240,180,.85);
-  margin-top:8px;line-height:1.8;
-}
-.cpybtn{
-  width:100%;padding:9px;background:linear-gradient(135deg,var(--cpurple),var(--c1));
-  border:none;border-radius:7px;color:#fff;cursor:pointer;font-size:11px;font-weight:700;
-  font-family:var(--fu);transition:all .2s;
-}
-.cpybtn:hover{opacity:.88}
-
-/* upload zone */
-.uz{
-  border:2px dashed var(--border);border-radius:10px;padding:28px 14px;
-  text-align:center;cursor:pointer;transition:all .25s;background:var(--bg1);
-}
-.uz:hover,.uz.dv{border-color:var(--c1);background:rgba(84,197,248,.03)}
-.uz-ico{font-size:36px;margin-bottom:7px}
+.m-title{font-size:15px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.m-label{font-size:10px;color:var(--ts);margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:.5px}
+.m-inp{width:100%;padding:9px 11px;background:var(--bg1);border:1px solid var(--bd);
+  border-radius:7px;color:var(--tp);font-size:12px;outline:none;transition:border .2s;margin-bottom:10px}
+.m-inp:focus{border-color:var(--c1)}.m-inp::placeholder{color:var(--td)}
+.m-btns{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap;margin-top:10px}
+.mb{padding:8px 14px;border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;transition:all .2s}
+.mb-cancel{background:transparent;border:1px solid var(--bd);color:var(--ts)}
+.mb-cancel:hover{background:var(--bg3);color:var(--tp)}
+.mb-ok{color:#fff}.mb-blue{background:linear-gradient(135deg,#1d4ed8,#4f46e5)}
+.mb-green{background:linear-gradient(135deg,#0f766e,#059669)}
+.mb-red{background:linear-gradient(135deg,#c62828,#f85149)}
+.mb-ok:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.uz{border:2px dashed var(--bd);border-radius:10px;padding:26px 14px;text-align:center;
+  cursor:pointer;transition:all .25s;background:var(--bg1)}
+.uz:hover,.uz.dv{border-color:var(--c1);background:rgba(88,166,255,.03)}
+.uz-ico{font-size:34px;margin-bottom:7px}
 .uz p{color:var(--ts);font-size:11px}.uz span{color:var(--c1);font-weight:700}
+.warn-b{background:rgba(227,179,65,.07);border:1px solid rgba(227,179,65,.25);border-radius:7px;
+  padding:8px 10px;font-size:11px;color:rgba(255,200,80,.9);margin-bottom:10px;line-height:1.65}
 
-/* ══════ TOAST ══════ */
-.toast-c{
-  position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
-  z-index:9999;display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none;
-}
-.toast{
-  padding:9px 16px;border-radius:18px;font-size:11px;font-weight:700;
-  display:flex;align-items:center;gap:7px;
-  animation:tUp .3s cubic-bezier(.34,1.56,.64,1);
-  box-shadow:0 6px 20px rgba(0,0,0,.5);white-space:nowrap;pointer-events:auto;
-}
-@keyframes tUp{from{opacity:0;transform:translateY(8px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
-.toast.ts{background:rgba(129,199,132,.15);border:1px solid rgba(129,199,132,.35);color:var(--cgreen)}
-.toast.te{background:rgba(229,115,115,.15);border:1px solid rgba(229,115,115,.35);color:var(--cred)}
-.toast.ti{background:rgba(84,197,248,.12);border:1px solid rgba(84,197,248,.3);color:var(--c1)}
-.toast.tw{background:rgba(255,183,77,.12);border:1px solid rgba(255,183,77,.3);color:var(--cyellow)}
+/* APK Build steps modal */
+.conv-steps{max-height:220px;overflow-y:auto}
+.cs{display:flex;align-items:center;gap:7px;padding:7px 0;border-bottom:1px solid var(--bd)}
+.cs-ico{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:11px;flex-shrink:0}
+.cs-ico.p{background:var(--bg3);color:var(--td)}.cs-ico.r{background:rgba(88,166,255,.15);color:var(--c1);animation:spin .7s linear infinite}
+.cs-ico.d{background:rgba(63,185,80,.15);color:var(--c2)}.cs-ico.e{background:rgba(248,81,73,.15);color:var(--c3)}
+.cs-lbl{font-size:11px;font-family:var(--fc);flex:1}
+.conv-pb{height:3px;background:var(--bd);border-radius:2px;overflow:hidden;margin:10px 0}
+.conv-pf{height:100%;background:linear-gradient(90deg,var(--c5),var(--c1));border-radius:2px;width:0;transition:width .3s}
+.lnkbox{background:var(--bg1);border:1px solid var(--bd);border-radius:7px;padding:10px 11px;
+  font-family:var(--fc);font-size:11px;color:var(--c1);word-break:break-all;margin:10px 0;direction:ltr}
+.cpybtn{width:100%;padding:9px;background:linear-gradient(135deg,var(--c5),var(--c1));border:none;
+  border-radius:7px;color:#fff;cursor:pointer;font-size:11px;font-weight:700;transition:all .2s}
+.cpybtn:hover{opacity:.88}
+.apk-guide{background:rgba(234,88,12,.07);border:1px solid rgba(234,88,12,.22);
+  border-radius:8px;padding:9px 11px;font-size:10.5px;color:rgba(255,180,80,.9);margin-top:8px;line-height:1.8}
+.apk-guide code{color:var(--c1);font-family:var(--fc)}
+.apk-guide strong{color:var(--c4)}
+/* GH info */
+.gh-row{display:flex;align-items:center;gap:9px;padding:9px;background:var(--bg1);
+  border:1px solid var(--bd);border-radius:8px;margin-bottom:10px}
+.gh-ava{width:34px;height:34px;border-radius:50%;object-fit:cover}
+.gh-ok{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;background:rgba(63,185,80,.12);
+  border:1px solid rgba(63,185,80,.3);border-radius:14px;color:var(--c2);font-size:9px;font-weight:700}
 
-/* ══════ LOADER ══════ */
-.ldo{
-  position:fixed;inset:0;z-index:500;background:rgba(10,10,20,.92);
-  display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;
-}
+/* ══ PROJECTS PANEL ══ */
+.projs-panel{position:fixed;inset:0;z-index:350;background:var(--bg0);
+  display:none;flex-direction:column;overflow:hidden}
+.projs-panel.on{display:flex}
+.pp-header{height:var(--h);background:var(--bg1);border-bottom:1px solid var(--bd);
+  display:flex;align-items:center;gap:12px;padding:0 16px;flex-shrink:0}
+.pp-body{flex:1;overflow-y:auto;padding:16px;max-width:700px;width:100%;margin:0 auto}
+.proj-card{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:14px;
+  margin-bottom:10px;display:flex;align-items:center;gap:12px;
+  cursor:pointer;transition:all .2s}
+.proj-card:hover{border-color:var(--c1);transform:translateX(-2px)}
+.proj-ico{font-size:28px;flex-shrink:0}
+.proj-info{flex:1}
+.proj-name{font-size:13px;font-weight:800;margin-bottom:2px}
+.proj-meta{font-size:10px;color:var(--ts)}
+.proj-del{width:28px;height:28px;background:rgba(248,81,73,.1);border:1px solid rgba(248,81,73,.2);
+  border-radius:6px;cursor:pointer;color:var(--c3);display:flex;align-items:center;
+  justify-content:center;font-size:14px;transition:all .15s;flex-shrink:0}
+.proj-del:hover{background:rgba(248,81,73,.2)}
+.proj-empty{text-align:center;padding:50px;color:var(--td)}
+.proj-empty .pe-ico{font-size:50px;margin-bottom:12px;opacity:.3}
+
+/* ══ TOAST ══ */
+.toast-c{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:9999;
+  display:flex;flex-direction:column;align-items:center;gap:5px;pointer-events:none}
+.toast{padding:8px 16px;border-radius:16px;font-size:11px;font-weight:700;
+  display:flex;align-items:center;gap:7px;pointer-events:auto;
+  animation:tUp .3s cubic-bezier(.34,1.56,.64,1);box-shadow:0 5px 16px rgba(0,0,0,.5);white-space:nowrap}
+@keyframes tUp{from{opacity:0;transform:translateY(6px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
+.toast.ts{background:rgba(63,185,80,.15);border:1px solid rgba(63,185,80,.35);color:var(--c2)}
+.toast.te{background:rgba(248,81,73,.15);border:1px solid rgba(248,81,73,.35);color:var(--c3)}
+.toast.ti{background:rgba(88,166,255,.12);border:1px solid rgba(88,166,255,.3);color:var(--c1)}
+.toast.tw{background:rgba(227,179,65,.12);border:1px solid rgba(227,179,65,.3);color:var(--c4)}
+
+/* ══ LOADER ══ */
+.ldo{position:fixed;inset:0;z-index:800;background:rgba(1,4,9,.92);display:none;
+  align-items:center;justify-content:center;flex-direction:column;gap:12px}
 .ldo.on{display:flex}
-.ld-ico{font-size:44px;animation:ldPulse 1s ease infinite}
-@keyframes ldPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
-.ld-txt{font-size:14px;font-weight:700}.ld-sub{font-size:11px;color:var(--ts)}
-.ld-bar{width:240px;height:3px;background:var(--border);border-radius:2px;overflow:hidden}
-.ld-fill{height:100%;background:linear-gradient(90deg,var(--cpurple),var(--c1));border-radius:2px;width:0;transition:width .2s}
-
-/* ══════ RESIZE HANDLES ══════ */
-.rsz{background:var(--border);cursor:col-resize;flex-shrink:0;transition:background .2s;z-index:5}
+.ld-i{font-size:40px;animation:ldP 1s ease infinite}
+@keyframes ldP{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.ld-t{font-size:14px;font-weight:700}.ld-s{font-size:11px;color:var(--ts)}
+.ld-b{width:220px;height:3px;background:var(--bd);border-radius:2px;overflow:hidden}
+.ld-f{height:100%;background:linear-gradient(90deg,var(--c5),var(--c1));border-radius:2px;width:0;transition:width .2s}
+/* Backdrops */
+.backdrop{position:fixed;inset:0;z-index:290;background:rgba(1,4,9,.5);display:none}
+.backdrop.on{display:block}
+.rsz{background:var(--bd);cursor:col-resize;flex-shrink:0;z-index:5;width:3px;transition:background .2s}
 .rsz:hover{background:var(--c1)}
-.rsz.v{width:3px}.rsz.h{height:3px;cursor:row-resize;width:100%}
-
-/* ══════ SCROLLBAR IN CODE WRITING ══════ */
-.code-writing-box::-webkit-scrollbar{height:3px}
-.code-writing-box::-webkit-scrollbar-thumb{background:var(--border)}
-
-/* ══════ AI Build mode vs Chat mode ══════ */
-.ai-build-mode{display:flex;flex-direction:column;height:100%;overflow:hidden}
-.ai-build-mode.hid{display:none}
-.ai-chat-mode{display:none;flex-direction:column;height:100%;overflow:hidden}
-.ai-chat-mode.on{display:flex}
 </style>
 </head>
 <body>
 
-<!-- ══════ LANDING ══════ -->
-<div id="screen-land">
-  <div class="land-bg"></div><div class="land-grid"></div>
-  <div class="land-content">
-    <div class="land-brand">
-      <div class="land-brand-ico">⚡</div>
-      <div class="land-brand-name">Dev<em>Studio</em> AI</div>
+<!-- ══ AUTH SCREEN ══ -->
+<div id="auth-screen">
+  <div class="auth-glow"></div><div class="auth-grid"></div>
+  <div class="auth-box">
+    <div class="auth-logo">
+      <div class="auth-logo-ico">⚡</div>
+      <div class="auth-logo-name">Dev<b>Studio</b> Pro</div>
     </div>
-    <div class="land-sub">AI-Powered · Flutter-Style · Real APK Builder</div>
-    <div class="land-cards">
-      <div class="land-card lc1" onclick="openAIBuilder()">
-        <div class="land-card-ico">🤖</div>
-        <div class="land-card-txt">
-          <div class="land-card-badge">✨ الجديد — أقوى ميزة</div>
-          <h3>بناء تطبيق بالذكاء الاصطناعي</h3>
-          <p>اكتب ما تريده — الذكاء الاصطناعي يكتب الكود تلقائياً ويبني APK حقيقي يعمل على الهاتف</p>
-        </div>
+    <div style="text-align:center;font-size:10px;color:var(--ts);margin-bottom:16px;letter-spacing:1px">بيئة التطوير الأكثر ذكاءً</div>
+    <div class="auth-tabs">
+      <div class="auth-tab act" id="tab-login" onclick="switchAuthTab('login')">تسجيل الدخول</div>
+      <div class="auth-tab" id="tab-signup" onclick="switchAuthTab('signup')">إنشاء حساب</div>
+    </div>
+    <!-- LOGIN -->
+    <div class="auth-form" id="form-login">
+      <div class="inp-group">
+        <label class="inp-label">البريد الإلكتروني</label>
+        <input class="inp" id="login-email" type="email" placeholder="example@gmail.com">
       </div>
-      <div class="land-card lc2" onclick="doUpload()">
-        <div class="land-card-ico">📦</div>
-        <div class="land-card-txt">
-          <h3>رفع مشروع ZIP</h3>
-          <p>ارفع مشروعاً موجوداً وعدّله بالمحرر</p>
-        </div>
+      <div class="inp-group">
+        <label class="inp-label">كلمة المرور</label>
+        <input class="inp" id="login-pass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
       </div>
-      <div class="land-card lc3" onclick="showProjects()">
-        <div class="land-card-ico">✏️</div>
-        <div class="land-card-txt">
-          <h3>مشاريعي</h3>
-          <p>استعرض المشاريع المحفوظة وافتحها</p>
-        </div>
+      <div class="auth-err" id="login-err"></div>
+      <button class="auth-btn" id="login-btn" onclick="doLogin()">🚀 دخول</button>
+      <div class="auth-divider">— أو —</div>
+      <button class="auth-btn" onclick="switchAuthTab('signup')" style="background:var(--bg4);border:1px solid var(--bd);box-shadow:none">إنشاء حساب جديد</button>
+    </div>
+    <!-- SIGNUP -->
+    <div class="auth-form hid" id="form-signup">
+      <div class="inp-group">
+        <label class="inp-label">الاسم الكامل</label>
+        <input class="inp" id="su-name" type="text" placeholder="محمد أحمد">
       </div>
-      <div class="land-card lc4" onclick="openNewProject()">
-        <div class="land-card-ico">🚀</div>
-        <div class="land-card-txt">
-          <h3>مشروع جديد فارغ</h3>
-          <p>ابدأ من الصفر بملفاتك الخاصة</p>
-        </div>
+      <div class="inp-group">
+        <label class="inp-label">اسم المستخدم</label>
+        <input class="inp" id="su-user" type="text" placeholder="@devpro">
       </div>
+      <div class="inp-group">
+        <label class="inp-label">البريد الإلكتروني</label>
+        <input class="inp" id="su-email" type="email" placeholder="example@gmail.com">
+      </div>
+      <div class="inp-group">
+        <label class="inp-label">كلمة المرور</label>
+        <input class="inp" id="su-pass" type="password" placeholder="8 أحرف على الأقل">
+      </div>
+      <div class="terms-row">
+        <input type="checkbox" id="su-terms">
+        <label for="su-terms">أوافق على <span onclick="openPage('terms')">شروط الاستخدام</span> و<span onclick="openPage('privacy')">سياسة الخصوصية</span> لـ DevStudio Pro</label>
+      </div>
+      <div class="auth-err" id="signup-err"></div>
+      <button class="auth-btn" id="signup-btn" onclick="doSignup()">✨ إنشاء الحساب</button>
     </div>
   </div>
 </div>
 
-<!-- ══════ MAIN APP ══════ -->
-<div id="app" style="display:none">
-  <!-- TOP BAR -->
+<!-- ══ APP ══ -->
+<div id="app">
+  <!-- TOPBAR -->
   <div class="topbar">
-    <div class="tb-logo">
-      <div class="tb-logo-icon">⚡</div>
-      <div class="tb-logo-name">Dev<span>Studio</span></div>
+    <div class="tb-brand">
+      <div class="tb-brand-ico">⚡</div>
+      <div class="tb-brand-name">Dev<b>Studio</b></div>
     </div>
-    <div class="tb-center" id="tb-tabs">
-      <span style="font-size:10px;color:var(--td)">لا توجد ملفات مفتوحة</span>
+    <div class="tb-tabs" id="tb-tabs">
+      <span style="font-size:10px;color:var(--td)">اختر ملفاً</span>
     </div>
     <div class="tb-right">
-      <button class="tb-btn tb-run" onclick="runPreview()">▶ تشغيل</button>
-      <button class="tb-btn tb-preview" onclick="togglePreviewPane()">👁 معاينة</button>
+      <button class="tb-btn btn-run" onclick="runPreview()">▶ تشغيل</button>
+      <button class="tb-btn btn-apk" onclick="buildAPK()">📱 APK</button>
+      <button class="tb-btn btn-web" onclick="deployWeb()">🌐 نشر</button>
       <div class="tb-sep"></div>
-      <button class="tb-btn tb-apk" onclick="buildAPK()">📱 APK</button>
-      <button class="tb-btn tb-ai" onclick="setAITab('build')">🤖 AI</button>
+      <button class="tb-btn btn-ai" onclick="toggleAI()">🤖 AI</button>
+      <button class="tb-btn btn-home-ghost" onclick="showProjects()">📂</button>
       <div class="tb-sep"></div>
-      <button class="tb-home" onclick="goHome()" title="الرئيسية">🏠</button>
+      <button class="hamburger" onclick="toggleMenu()">
+        <div class="ham-line"></div><div class="ham-line"></div><div class="ham-line"></div>
+      </button>
     </div>
   </div>
 
-  <!-- MAIN BODY -->
-  <div class="main-body">
-    <!-- SIDEBAR -->
+  <!-- BODY -->
+  <div class="body">
+    <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
-      <div class="sb-section">
-        <div class="sb-sec-hd">
-          <span>المستكشف</span>
-          <div class="sb-sec-acts">
-            <button class="sb-ico-btn" onclick="promptNewFile()" title="ملف جديد">📄</button>
-            <button class="sb-ico-btn" onclick="promptNewFolder()" title="مجلد جديد">📁</button>
-          </div>
+      <div class="sb-head">
+        <span class="sb-head-title">المستكشف</span>
+        <div class="sb-head-btns">
+          <button class="ico-btn" onclick="promptFile()" title="ملف">📄</button>
+          <button class="ico-btn" onclick="promptFolder()" title="مجلد">📁</button>
         </div>
       </div>
       <div class="filetree" id="filetree"></div>
     </div>
-    <div class="rsz v" id="rsz-sb"></div>
+    <div class="rsz" id="rsz-sb"></div>
 
-    <!-- EDITOR AREA -->
+    <!-- Editor Area -->
     <div class="editor-area">
-      <div class="ed-preview-split" id="ed-split">
-        <!-- PREVIEW PANE (left in RTL) -->
-        <div class="preview-pane hidden" id="preview-pane">
-          <div class="preview-topbar">
-            <div class="pv-dots">
-              <div class="pv-dot r"></div>
-              <div class="pv-dot y"></div>
-              <div class="pv-dot g"></div>
-            </div>
+      <div class="split-wrap" id="split-wrap">
+        <!-- Preview -->
+        <div class="prev-pane closed" id="prev-pane">
+          <div class="prev-bar">
+            <div class="pv-dots"><div class="pv-dot r"></div><div class="pv-dot y"></div><div class="pv-dot g"></div></div>
             <div class="pv-label" id="pv-label">📱 معاينة</div>
-            <button class="pv-refresh" onclick="refreshPreview()">↻</button>
+            <button class="pv-btn" onclick="runPreview()" title="تحديث">↻</button>
+            <button class="pv-btn" onclick="closePreview()" title="إغلاق">✕</button>
           </div>
-          <div class="preview-frame-wrap">
-            <div class="pv-loading" id="pv-loading">
-              <div class="pv-spinner"></div>
-              <div class="pv-txt">تحميل المعاينة...</div>
+          <div class="prev-frame-wrap">
+            <div class="pv-overlay" id="pv-overlay">
+              <div class="pv-empty"><div class="pe-ico">📱</div><p>اضغط ▶ تشغيل</p></div>
             </div>
-            <iframe id="preview-frame" onload="previewLoaded()"></iframe>
+            <iframe id="preview-frame" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups" onload="previewLoaded()"></iframe>
           </div>
         </div>
-        <div class="rsz v" id="rsz-pv" style="display:none"></div>
-
-        <!-- EDITOR PANE -->
+        <div class="rsz" id="rsz-pv" style="display:none"></div>
+        <!-- Editor Pane -->
         <div class="ed-pane">
-          <div class="ed-wrap">
+          <div style="flex:1;overflow:hidden;position:relative;height:100%" id="ed-wrap">
             <div class="ed-ph" id="ed-ph">
               <div class="bico">💻</div>
-              <div style="font-size:12px">اختر ملفاً أو استخدم AI لبناء تطبيق</div>
+              <div style="font-size:11px">اختر ملفاً أو اضغط AI لبناء تطبيق</div>
             </div>
             <textarea id="main-editor"></textarea>
           </div>
         </div>
       </div>
-
-      <!-- BOTTOM PANEL -->
-      <div class="rsz h"></div>
-      <div class="bot-panel">
-        <div class="bot-tabs">
-          <div class="bot-tab act" onclick="switchBot('bc-log',this)">كونسول</div>
-          <div class="bot-tab" onclick="switchBot('bc-err',this)">أخطاء <span id="err-cnt" style="background:rgba(229,115,115,.2);color:var(--cred);border-radius:8px;padding:0 4px;font-size:8px;margin-right:2px"></span></div>
-          <div class="bot-tab" onclick="switchBot('bc-term',this)">الإخراج</div>
+      <!-- Bottom -->
+      <div class="bot">
+        <div class="bot-bar">
+          <div class="bt act" onclick="swBot('bc-log',this)">كونسول</div>
+          <div class="bt" onclick="swBot('bc-err',this)">أخطاء <span id="ecnt" style="background:rgba(248,81,73,.2);color:var(--c3);border-radius:8px;padding:0 4px;font-size:8px;margin-right:2px"></span></div>
+          <div class="bt" onclick="swBot('bc-out',this)">إخراج</div>
         </div>
-        <div class="bot-content" id="bc-log"></div>
-        <div class="bot-content hid" id="bc-err">
-          <div class="fix-all-row" id="fix-all-row" style="display:none">
-            <button class="btn-fix-all" onclick="fixAllBasic()">✨ إصلاح الكل</button>
-            <button class="btn-ai-all" onclick="fixAllAI()">🤖 إصلاح AI</button>
+        <div class="bc" id="bc-log"></div>
+        <div class="bc hid" id="bc-err">
+          <div class="fix-row" id="fix-row" style="display:none">
+            <button class="fa-btn" onclick="fixAllBasic()">✨ إصلاح الكل</button>
+            <button class="aia-btn" onclick="fixAllAI()">🤖 إصلاح AI</button>
           </div>
           <div id="err-list"></div>
         </div>
-        <div class="bot-content hid" id="bc-term" style="font-family:var(--fc);font-size:11px;color:var(--cgreen)">
-          <div>$ DevStudio AI Terminal</div>
-          <div id="term-out"></div>
+        <div class="bc hid" id="bc-out" style="font-family:var(--fc);font-size:10px;color:var(--c2)">
+          <div>$ DevStudio Pro — Ready</div><div id="term"></div>
         </div>
       </div>
-
-      <!-- STATUS BAR -->
       <div class="statusbar">
-        <div class="st-item">⚡ DevStudio AI</div>
-        <div class="st-item" id="st-file">—</div>
-        <div class="st-item" id="st-lang">—</div>
-        <div style="flex:1"></div>
-        <div class="st-item" id="st-pos">1:1</div>
-        <div class="st-item" id="st-encoding">UTF-8</div>
-      </div>
-    </div>
-
-    <div class="rsz v" id="rsz-ai"></div>
-
-    <!-- AI PANEL -->
-    <div class="ai-panel" id="ai-panel">
-      <div class="ai-topbar">
-        <div class="ai-title">
-          <div class="ai-status"></div>
-          Groq AI
-        </div>
-        <button class="tb-home" onclick="toggleAIPanel()" style="font-size:11px">✕</button>
-      </div>
-      <div class="ai-mode-tabs">
-        <div class="ai-mode-tab act" id="tab-build" onclick="setAITab('build')">🏗 بناء</div>
-        <div class="ai-mode-tab" id="tab-chat" onclick="setAITab('chat')">💬 دردشة</div>
-        <div class="ai-mode-tab" id="tab-fix" onclick="setAITab('fix')">🔧 إصلاح</div>
-      </div>
-
-      <!-- BUILD MODE -->
-      <div class="ai-build-mode" id="ai-build-mode">
-        <div class="ai-build-scroll" style="flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:8px">
-          <div class="build-prompt-box">
-            <div class="bpb-label"><div class="bpb-dot"></div>صف تطبيقك</div>
-            <textarea id="build-prompt" placeholder="مثال: تطبيق دردشة مثل تيليغرام بواجهة داكنة جميلة، قائمة محادثات، فقاعات رسائل، دعم الإيموجي..."></textarea>
-            <div class="quick-chips">
-              <span class="qchip" onclick="setQuick(this)">📱 دردشة</span>
-              <span class="qchip" onclick="setQuick(this)">🛒 متجر</span>
-              <span class="qchip" onclick="setQuick(this)">📊 لوحة تحكم</span>
-              <span class="qchip" onclick="setQuick(this)">🎮 لعبة</span>
-              <span class="qchip" onclick="setQuick(this)">📰 إخبار</span>
-              <span class="qchip" onclick="setQuick(this)">🎵 موسيقى</span>
-              <span class="qchip" onclick="setQuick(this)">📝 مهام</span>
-              <span class="qchip" onclick="setQuick(this)">🌦️ طقس</span>
-            </div>
-          </div>
-          <button class="btn-build-ai" id="btn-build-ai" onclick="startBuild()">
-            <span>⚡</span><span>بناء التطبيق الآن</span>
-          </button>
-          <!-- Build Progress -->
-          <div class="build-progress-box" id="build-progress-box">
-            <div class="bprog-title">
-              <div class="bprog-spinner" id="bprog-spinner"></div>
-              <span id="bprog-title">يحلل الطلب...</span>
-            </div>
-            <div class="bprog-steps" id="bprog-steps"></div>
-            <div class="code-writing-box" id="code-writing-box"><span id="code-writing-text"></span><span class="caret"></span></div>
-            <div class="bprog-bar"><div class="bprog-fill" id="bprog-fill"></div></div>
-          </div>
-          <!-- Generated Files -->
-          <div class="gen-files-box" id="gen-files-box">
-            <div class="gf-title">📁 الملفات المُنشأة</div>
-            <div id="gf-list"></div>
-          </div>
-          <!-- Post Build -->
-          <div class="post-build" id="post-build">
-            <div class="pb-success">
-              <div class="pb-success-ico">🎉</div>
-              <h4>اكتمل البناء!</h4>
-              <p id="pb-desc">تم إنشاء التطبيق — اختر الخطوة التالية</p>
-            </div>
-            <div class="pb-btns">
-              <button class="pb-btn pb-preview" onclick="runPreviewFromBuild()">▶️ معاينة مباشرة</button>
-              <button class="pb-btn pb-apk" onclick="buildAPK()">📱 بناء APK حقيقي</button>
-              <button class="pb-btn pb-web" onclick="deployWeb()">🌐 نشر موقع</button>
-              <button class="pb-btn pb-edit" onclick="switchToEditor()">✏️ تعديل في المحرر</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- CHAT MODE -->
-      <div class="ai-chat-mode" id="ai-chat-mode">
-        <div class="chat-msgs" id="chat-msgs">
-          <div class="chat-msg sys">مرحباً! يمكنك سؤالي عن الكود أو طلب تحسينات</div>
-        </div>
-        <div style="display:none" id="chat-typing-row">
-          <div class="chat-typing"><span></span><span></span><span></span></div>
-        </div>
-        <div class="chat-input-row">
-          <textarea class="chat-input" id="chat-input" placeholder="اسأل أو اطلب تعديلاً..." onkeydown="chatKeyDown(event)" rows="1"></textarea>
-          <button class="chat-send" onclick="sendChat()">➤</button>
-        </div>
-      </div>
-
-      <!-- FIX MODE -->
-      <div class="ai-chat-mode" id="ai-fix-mode" style="padding:10px">
-        <div style="font-size:11px;color:var(--ts);margin-bottom:8px">إصلاح أخطاء الكود الحالي بالذكاء الاصطناعي</div>
-        <button class="btn-build-ai" onclick="analyzeAndFix()" style="margin-bottom:8px">🔍 تحليل وإصلاح</button>
-        <div id="fix-mode-results" style="font-size:11px;color:var(--ts)"></div>
+        <span>⚡ DevStudio Pro</span>
+        <span id="st-f">—</span><span id="st-l">—</span>
+        <span style="flex:1"></span>
+        <span id="st-u" style="color:rgba(0,0,0,.5)">—</span>
+        <span id="st-p">1:1</span>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══════ MODALS ══════ -->
-<!-- Upload -->
+<!-- ══ AI DRAWER ══ -->
+<div class="backdrop" id="ai-backdrop" onclick="toggleAI()"></div>
+<div class="ai-drawer" id="ai-drawer">
+  <div class="ai-dbar">
+    <div class="ai-dtitle"><div class="ai-dot"></div>Groq AI Assistant</div>
+    <button class="ico-btn" onclick="toggleAI()" style="font-size:12px">✕</button>
+  </div>
+  <div class="ai-tabs">
+    <div class="ait act" id="at-build" onclick="setAITab('build')">🏗 بناء</div>
+    <div class="ait" id="at-chat" onclick="setAITab('chat')">💬 دردشة</div>
+    <div class="ait" id="at-fix" onclick="setAITab('fix')">🔧 إصلاح</div>
+  </div>
+  <div class="ai-body">
+    <!-- BUILD -->
+    <div class="ai-sec" id="ai-build">
+      <div class="prompt-card">
+        <div class="pc-label"><div class="pc-dot"></div>صف تطبيقك</div>
+        <textarea class="ai-ta" id="ai-prompt" placeholder="مثال: تطبيق دردشة مثل واتساب بواجهة داكنة جميلة، قائمة محادثات، فقاعات رسائل ملونة..."></textarea>
+        <div class="chips">
+          <span class="chip" onclick="setChip(this)">📱 دردشة</span>
+          <span class="chip" onclick="setChip(this)">🛒 متجر</span>
+          <span class="chip" onclick="setChip(this)">📊 تحكم</span>
+          <span class="chip" onclick="setChip(this)">🎮 لعبة</span>
+          <span class="chip" onclick="setChip(this)">📰 أخبار</span>
+          <span class="chip" onclick="setChip(this)">🎵 موسيقى</span>
+          <span class="chip" onclick="setChip(this)">📝 مهام</span>
+          <span class="chip" onclick="setChip(this)">🌦️ طقس</span>
+        </div>
+      </div>
+      <button class="ai-build-btn" id="ai-build-btn" onclick="startBuild()">⚡ بناء التطبيق الآن</button>
+      <div class="bprog" id="bprog">
+        <div class="bp-title"><div class="bp-spin" id="bp-spin"></div><span id="bp-tt">يفكر...</span></div>
+        <div class="bp-steps" id="bp-steps"></div>
+        <div class="code-stream" id="code-stream"><span id="cs-txt"></span><span class="cur"></span></div>
+        <div class="bp-bar"><div class="bp-fill" id="bp-fill"></div></div>
+      </div>
+      <div class="gfiles" id="gfiles">
+        <div class="gf-title">الملفات المُنشأة</div>
+        <div id="gf-list"></div>
+      </div>
+      <div class="post-build" id="post-build">
+        <div class="pb-ok"><div class="pbi">🎉</div><h4>اكتمل!</h4><p id="pb-info">جاهز</p></div>
+        <div class="pb-btns">
+          <button class="pbb pbb-pre" onclick="runPreviewAI()">▶️ معاينة مباشرة</button>
+          <button class="pbb pbb-apk" onclick="buildAPK()">📱 بناء APK</button>
+          <button class="pbb pbb-web" onclick="deployWeb()">🌐 نشر</button>
+          <button class="pbb pbb-edit" onclick="editAI()">✏️ فتح المحرر</button>
+        </div>
+      </div>
+    </div>
+    <!-- CHAT -->
+    <div class="ai-sec hid" id="ai-chat" style="padding:0;display:none;flex-direction:column;flex:1;overflow:hidden">
+      <div class="chat-body" id="chat-msgs">
+        <div class="chat-msg sys">مرحباً! اسألني عن الكود</div>
+      </div>
+      <div id="typing-row" style="display:none"><div class="typing"><span></span><span></span><span></span></div></div>
+      <div class="chat-in-row">
+        <textarea class="chat-in" id="chat-in" placeholder="اسأل عن الكود..." onkeydown="chatKey(event)" rows="1"></textarea>
+        <button class="chat-send-btn" onclick="sendChat()">➤</button>
+      </div>
+    </div>
+    <!-- FIX -->
+    <div class="ai-sec hid" id="ai-fix">
+      <div style="font-size:11px;color:var(--ts);margin-bottom:8px">تحليل وإصلاح الأخطاء بالذكاء الاصطناعي</div>
+      <button class="ai-build-btn" onclick="analyzeAll()">🔍 تحليل المشروع</button>
+      <div id="fix-results" style="font-size:11px;color:var(--ts);margin-top:8px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MENU DRAWER ══ -->
+<div class="backdrop" id="menu-backdrop" onclick="toggleMenu()"></div>
+<div class="menu-drawer" id="menu-drawer">
+  <div class="menu-top">
+    <div class="menu-user-ava" id="menu-ava">👤</div>
+    <div style="flex:1">
+      <div class="menu-user-nm" id="menu-nm">المستخدم</div>
+      <div class="menu-user-em" id="menu-em">—</div>
+    </div>
+    <button class="menu-close" onclick="toggleMenu()">✕</button>
+  </div>
+  <div class="menu-items">
+    <div class="menu-item" onclick="openPage('support')"><span class="mi-ico">🎧</span><span class="mi-txt">الدعم الفني</span><span class="mi-arr">›</span></div>
+    <div class="menu-item" onclick="openPage('subscription')"><span class="mi-ico">⭐</span><span class="mi-txt">الاشتراكات والخطط</span><span class="mi-arr">›</span></div>
+    <div class="menu-sep"></div>
+    <div class="menu-item" onclick="openPage('terms')"><span class="mi-ico">📋</span><span class="mi-txt">شروط الاستخدام</span><span class="mi-arr">›</span></div>
+    <div class="menu-item" onclick="openPage('privacy')"><span class="mi-ico">🔒</span><span class="mi-txt">سياسة الخصوصية</span><span class="mi-arr">›</span></div>
+    <div class="menu-item" onclick="openPage('values')"><span class="mi-ico">💎</span><span class="mi-txt">قيمنا ومبادئنا</span><span class="mi-arr">›</span></div>
+    <div class="menu-sep"></div>
+    <div class="menu-item menu-logout" onclick="doLogout()"><span class="mi-ico">🚪</span><span class="mi-txt">تسجيل الخروج</span></div>
+  </div>
+</div>
+
+<!-- ══ MENU PAGES ══ -->
+<div class="menu-page" id="page-support">
+  <div class="mp-header">
+    <button class="mp-back" onclick="closePage()">←</button>
+    <div class="mp-title">🎧 الدعم الفني</div>
+  </div>
+  <div class="mp-body">
+    <div class="mp-section"><h3>📧 تواصل معنا</h3>
+      <p>لأي استفسار أو مشكلة، راسلنا على:<br><a href="mailto:support@devstudio.pro">support@devstudio.pro</a></p>
+    </div>
+    <div class="mp-section"><h3>💬 الأسئلة الشائعة</h3>
+      <p><strong style="color:var(--c1)">كيف أبني APK؟</strong><br>اضغط زر APK → نزّل ZIP → ارفع على GitHub → GitHub Actions يبني APK تلقائياً خلال 5 دقائق.<br><br>
+      <strong style="color:var(--c1)">هل التطبيق مجاني؟</strong><br>نعم، الخطة المجانية تتيح لك بناء 3 مشاريع شهرياً.<br><br>
+      <strong style="color:var(--c1)">كيف أرفع ZIP؟</strong><br>اضغط زر رفع مشروع → اختر ملف ZIP → تتم قراءة وربط جميع الملفات تلقائياً بما فيها index.html.</p>
+    </div>
+    <div class="mp-section"><h3>⚡ الميزات الرئيسية</h3>
+      <p>• بناء تطبيق بالذكاء الاصطناعي<br>• معاينة فورية مع ربط جميع الملفات<br>• بناء APK Android حقيقي<br>• نشر على GitHub Pages<br>• محرر كود متكامل</p>
+    </div>
+  </div>
+</div>
+
+<div class="menu-page" id="page-subscription">
+  <div class="mp-header">
+    <button class="mp-back" onclick="closePage()">←</button>
+    <div class="mp-title">⭐ الاشتراكات</div>
+  </div>
+  <div class="mp-body">
+    <div class="plan-card">
+      <div class="plan-name">🆓 المجانية</div>
+      <div class="plan-price">$0 <span>/ شهر</span></div>
+      <ul class="plan-features">
+        <li>3 مشاريع</li><li>معاينة مباشرة</li><li>بناء APK (5/شهر)</li><li>AI محدود (20 طلب)</li>
+      </ul>
+      <button class="plan-btn plan-btn-free">الخطة الحالية</button>
+    </div>
+    <div class="plan-card featured">
+      <div class="plan-name">⭐ الاحترافية</div>
+      <div class="plan-price">$9.99 <span>/ شهر</span></div>
+      <ul class="plan-features">
+        <li>مشاريع غير محدودة</li><li>AI غير محدود</li><li>APK غير محدود</li><li>نشر تلقائي</li><li>دعم أولوية</li>
+      </ul>
+      <button class="plan-btn plan-btn-pro">ترقية الآن</button>
+    </div>
+    <div class="plan-card">
+      <div class="plan-name">🏢 الفريق</div>
+      <div class="plan-price">$29.99 <span>/ شهر</span></div>
+      <ul class="plan-features">
+        <li>10 مستخدمين</li><li>مشاريع مشتركة</li><li>جميع مميزات Pro</li><li>دعم مخصص</li>
+      </ul>
+      <button class="plan-btn plan-btn-team">للفريق</button>
+    </div>
+  </div>
+</div>
+
+<div class="menu-page" id="page-terms">
+  <div class="mp-header">
+    <button class="mp-back" onclick="closePage()">←</button>
+    <div class="mp-title">📋 شروط الاستخدام</div>
+  </div>
+  <div class="mp-body">
+    <div class="mp-section"><h3>1. القبول</h3><p>باستخدامك DevStudio Pro، فأنت توافق على هذه الشروط.</p></div>
+    <div class="mp-section"><h3>2. الاستخدام المقبول</h3><p>يُحظر استخدام المنصة لأغراض غير قانونية أو ضارة.</p></div>
+    <div class="mp-section"><h3>3. الملكية الفكرية</h3><p>أنت تمتلك حقوق الكود الذي تنشئه. DevStudio Pro يمتلك حقوق المنصة والأدوات.</p></div>
+    <div class="mp-section"><h3>4. الخدمة</h3><p>نسعى لتقديم أفضل خدمة ولكننا لا نضمن الاستمرارية في جميع الأوقات.</p></div>
+    <div class="mp-section"><h3>5. التواصل</h3><p>support@devstudio.pro</p></div>
+  </div>
+</div>
+
+<div class="menu-page" id="page-privacy">
+  <div class="mp-header">
+    <button class="mp-back" onclick="closePage()">←</button>
+    <div class="mp-title">🔒 سياسة الخصوصية</div>
+  </div>
+  <div class="mp-body">
+    <div class="mp-section"><h3>البيانات التي نجمعها</h3><p>• معلومات الحساب (الاسم، البريد)<br>• مشاريعك المحفوظة<br>• بيانات الاستخدام المجهولة</p></div>
+    <div class="mp-section"><h3>كيف نستخدمها</h3><p>فقط لتحسين تجربتك وحفظ مشاريعك.</p></div>
+    <div class="mp-section"><h3>الأمان</h3><p>نستخدم Firebase من Google لتشفير وحماية بياناتك.</p></div>
+    <div class="mp-section"><h3>حقوقك</h3><p>يمكنك حذف حسابك وبياناتك في أي وقت.</p></div>
+  </div>
+</div>
+
+<div class="menu-page" id="page-values">
+  <div class="mp-header">
+    <button class="mp-back" onclick="closePage()">←</button>
+    <div class="mp-title">💎 قيمنا</div>
+  </div>
+  <div class="mp-body">
+    <div class="mp-section"><h3>⚡ الابتكار</h3><p>نؤمن بأن كل مطور يستحق أدوات قوية بسيطة ومجانية.</p></div>
+    <div class="mp-section"><h3>🤖 الذكاء الاصطناعي للجميع</h3><p>نجعل بناء التطبيقات متاحاً لكل شخص بغض النظر عن خبرته.</p></div>
+    <div class="mp-section"><h3>🔒 الخصوصية أولاً</h3><p>بياناتك ملكك. لا نبيعها ولا نشاركها مع أطراف ثالثة.</p></div>
+    <div class="mp-section"><h3>🌍 المجتمع</h3><p>نبني منصة تخدم المطورين العرب بشكل خاص والعالم بشكل عام.</p></div>
+    <div class="mp-section"><h3>📱 APK حقيقي</h3><p>نؤمن بأن تطبيقك يجب أن يعمل على الهاتف فعلاً، لا مجرد معاينة.</p></div>
+  </div>
+</div>
+
+<!-- ══ PROJECTS PANEL ══ -->
+<div class="projs-panel" id="projs-panel">
+  <div class="pp-header">
+    <button class="mp-back" onclick="closeProjects()">←</button>
+    <div style="font-size:14px;font-weight:800;flex:1">📂 مشاريعي</div>
+    <button class="tb-btn btn-run" onclick="openUpload()" style="font-size:11px">📦 رفع ZIP</button>
+    <button class="tb-btn btn-ai" onclick="openNewProjModal()" style="font-size:11px;margin-right:6px">🆕 جديد</button>
+  </div>
+  <div class="pp-body" id="pp-body"></div>
+</div>
+
+<!-- ══ MODALS ══ -->
 <div class="ov" id="ov-upload">
   <div class="modal">
-    <div class="modal-title">📦 رفع مشروع ZIP</div>
-    <div class="modal-body">
+    <div class="m-title">📦 رفع مشروع ZIP</div>
+    <div style="margin-bottom:14px">
       <div class="uz" id="uz" onclick="document.getElementById('zip-in').click()">
         <div class="uz-ico">🗜️</div>
         <p>اسحب <span>ZIP</span> أو <span>انقر للاختيار</span></p>
-        <p style="font-size:10px;margin-top:4px;color:var(--td)">.zip فقط</p>
+        <p style="font-size:10px;margin-top:4px;color:var(--td)">جميع الملفات تُربط تلقائياً — index.html هو الرئيسي</p>
       </div>
       <input type="file" id="zip-in" accept=".zip" style="display:none" onchange="handleZip(event)">
     </div>
-    <div class="modal-btns"><button class="mbtn mbtn-cancel" onclick="closeOv('ov-upload')">إلغاء</button></div>
+    <div class="m-btns"><button class="mb mb-cancel" onclick="closeOv('ov-upload')">إلغاء</button></div>
   </div>
 </div>
-<!-- New File -->
 <div class="ov" id="ov-nf">
   <div class="modal">
-    <div class="modal-title">📄 ملف جديد</div>
-    <div class="modal-body">
-      <label class="modal-label">اسم الملف</label>
-      <input class="modal-input" id="nf-name" placeholder="index.html" onkeydown="if(event.key==='Enter')doNewFile()">
-    </div>
-    <div class="modal-btns">
-      <button class="mbtn mbtn-cancel" onclick="closeOv('ov-nf')">إلغاء</button>
-      <button class="mbtn mbtn-ok mbtn-blue" onclick="doNewFile()">إنشاء</button>
-    </div>
+    <div class="m-title">📄 ملف جديد</div>
+    <label class="m-label">الاسم مع الامتداد</label>
+    <input class="m-inp" id="nf-in" placeholder="index.html" onkeydown="if(event.key==='Enter')doNewFile()">
+    <div class="m-btns"><button class="mb mb-cancel" onclick="closeOv('ov-nf')">إلغاء</button>
+    <button class="mb mb-ok mb-blue" onclick="doNewFile()">إنشاء</button></div>
   </div>
 </div>
-<!-- New Folder -->
 <div class="ov" id="ov-nd">
   <div class="modal">
-    <div class="modal-title">📁 مجلد جديد</div>
-    <div class="modal-body">
-      <label class="modal-label">اسم المجلد</label>
-      <input class="modal-input" id="nd-name" placeholder="src" onkeydown="if(event.key==='Enter')doNewFolder()">
-    </div>
-    <div class="modal-btns">
-      <button class="mbtn mbtn-cancel" onclick="closeOv('ov-nd')">إلغاء</button>
-      <button class="mbtn mbtn-ok mbtn-blue" onclick="doNewFolder()">إنشاء</button>
-    </div>
+    <div class="m-title">📁 مجلد جديد</div>
+    <label class="m-label">الاسم</label>
+    <input class="m-inp" id="nd-in" placeholder="components" onkeydown="if(event.key==='Enter')doNewFolder()">
+    <div class="m-btns"><button class="mb mb-cancel" onclick="closeOv('ov-nd')">إلغاء</button>
+    <button class="mb mb-ok mb-blue" onclick="doNewFolder()">إنشاء</button></div>
   </div>
 </div>
-<!-- New Project -->
 <div class="ov" id="ov-np">
   <div class="modal">
-    <div class="modal-title">🚀 مشروع جديد</div>
-    <div class="modal-body">
-      <label class="modal-label">اسم المشروع</label>
-      <input class="modal-input" id="np-name" placeholder="MyApp" onkeydown="if(event.key==='Enter')doNewProject()">
-    </div>
-    <div class="modal-btns">
-      <button class="mbtn mbtn-cancel" onclick="closeOv('ov-np')">إلغاء</button>
-      <button class="mbtn mbtn-ok mbtn-green" onclick="doNewProject()">فتح المحرر</button>
-    </div>
+    <div class="m-title">🚀 مشروع جديد</div>
+    <label class="m-label">اسم المشروع</label>
+    <input class="m-inp" id="np-in" placeholder="MyApp" onkeydown="if(event.key==='Enter')doNewProj()">
+    <div class="m-btns"><button class="mb mb-cancel" onclick="closeOv('ov-np')">إلغاء</button>
+    <button class="mb mb-ok mb-green" onclick="doNewProj()">إنشاء وفتح</button></div>
   </div>
 </div>
-<!-- GitHub -->
 <div class="ov" id="ov-gh">
-  <div class="modal modal-lg">
-    <div class="modal-title">🐙 نشر على GitHub Pages</div>
-    <div class="warn-box">للنشر والحصول على رابط حقيقي، ستحتاج لتوكن GitHub</div>
-    <div id="gh-user-row" class="gh-user-row" style="display:none">
-      <img class="gh-ava" id="gh-ava" src="" alt="">
-      <div style="flex:1">
-        <div style="font-weight:800;font-size:12px" id="gh-nm"></div>
-        <div style="font-size:10px;color:var(--ts)" id="gh-un"></div>
-      </div>
-      <span class="gh-badge-ok">✅ متصل</span>
+  <div class="modal modal-xl">
+    <div class="m-title">🐙 نشر على GitHub Pages</div>
+    <div class="warn-b">للنشر تحتاج توكن GitHub</div>
+    <div id="gh-row" class="gh-row" style="display:none">
+      <img class="gh-ava" id="gh-av" src="" alt="">
+      <div style="flex:1"><div style="font-weight:800;font-size:12px" id="gh-nm"></div>
+      <div style="font-size:10px;color:var(--ts)" id="gh-un"></div></div>
+      <span class="gh-ok">✅ متصل</span>
     </div>
-    <div id="gh-form-box">
-      <label class="modal-label">Personal Access Token</label>
-      <input class="modal-input" id="gh-tok" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
-      <div class="token-hint">
-        GitHub → Settings → Developer settings → Tokens (classic) → Generate new token<br>
-        المطلوب: <strong>repo</strong> ، <strong>workflow</strong>
+    <div id="gh-form">
+      <label class="m-label">Personal Access Token</label>
+      <input class="m-inp" id="gh-tok" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+      <div style="font-size:10px;color:var(--ts);margin-top:6px;line-height:1.7">
+        GitHub → Settings → Developer settings → Personal access tokens → Generate new<br>الصلاحيات: <strong style="color:var(--c1)">repo</strong>
       </div>
     </div>
-    <div class="modal-btns" style="margin-top:12px">
-      <button class="mbtn mbtn-cancel" onclick="closeOv('ov-gh')">إلغاء</button>
-      <button class="mbtn mbtn-ok mbtn-green" id="gh-conn" onclick="connectGH()">ربط</button>
-      <button class="mbtn mbtn-ok mbtn-blue" id="gh-deploy" style="display:none" onclick="doGHDeploy()">🚀 نشر</button>
+    <div class="m-btns" style="margin-top:12px">
+      <button class="mb mb-cancel" onclick="closeOv('ov-gh')">إلغاء</button>
+      <button class="mb mb-ok mb-green" id="gh-conn-btn" onclick="connectGH()">ربط</button>
+      <button class="mb mb-ok mb-blue" id="gh-dep-btn" style="display:none" onclick="doGHDeploy()">🚀 نشر</button>
     </div>
   </div>
 </div>
-<!-- Conversion -->
 <div class="ov" id="ov-conv">
-  <div class="modal modal-lg">
-    <div class="modal-title" id="conv-title">⚙️ جاري...</div>
-    <div class="conv-pb"><div class="conv-pf" id="conv-pf"></div></div>
-    <div class="conv-steps" id="conv-steps"></div>
-    <div id="conv-res" style="display:none">
-      <div class="lnk-box" id="conv-link"></div>
-      <button class="cpybtn" id="conv-copy">📋 نسخ / تنزيل</button>
+  <div class="modal modal-xl">
+    <div class="m-title" id="cv-title">⚙️ جاري...</div>
+    <div class="conv-pb"><div class="conv-pf" id="cv-pf"></div></div>
+    <div class="conv-steps" id="cv-steps"></div>
+    <div id="cv-res" style="display:none">
+      <div class="lnkbox" id="cv-link"></div>
+      <button class="cpybtn" id="cv-copy">📋 تنزيل / نسخ</button>
     </div>
-    <div id="conv-apk-guide" class="apk-guide" style="display:none">
-      <strong>📌 بناء APK حقيقي:</strong><br>
-      1. نزّل ZIP → افتحه في <strong>Android Studio</strong><br>
-      2. انتظر Gradle Sync ثم: Build → Generate APK<br>
-      3. أو: <code style="color:var(--c1)">./gradlew assembleDebug</code><br>
-      APK في: <code style="color:var(--c1)">app/build/outputs/apk/debug/</code>
+    <div id="cv-apk" class="apk-guide" style="display:none">
+      <strong>📌 كيف تحصل على APK يعمل على الهاتف؟</strong><br><br>
+      <strong>الطريقة 1 — GitHub Actions (الأسرع 5 دق):</strong><br>
+      1. ارفع ZIP على GitHub → Actions تشغل تلقائياً<br>
+      2. انتظر → نزّل APK من Artifacts<br><br>
+      <strong>الطريقة 2 — Android Studio:</strong><br>
+      1. افتح الملف ZIP في Android Studio<br>
+      2. Build → Generate APK<br><br>
+      <strong>الطريقة 3 — Command Line:</strong><br>
+      <code>chmod +x gradlew && ./gradlew assembleDebug</code>
     </div>
-    <div id="conv-gh-info" class="gh-actions-info" style="display:none">
-      <strong>✅ GitHub Actions يبني APK تلقائياً!</strong><br>
-      افتح المستودع → Actions → Build APK → تنزيل artifact<br>
-      وقت البناء: 5-10 دقائق فقط
-    </div>
-    <div class="modal-btns" id="conv-close" style="display:none;margin-top:10px">
-      <button class="mbtn mbtn-ok mbtn-blue" onclick="closeOv('ov-conv')">حسناً ✓</button>
-    </div>
-  </div>
-</div>
-<!-- Projects overlay -->
-<div class="ov" id="ov-projects">
-  <div class="modal modal-lg" style="max-width:560px">
-    <div class="modal-title">📂 مشاريعي</div>
-    <div id="proj-list" style="max-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:7px"></div>
-    <div class="modal-btns" style="margin-top:12px">
-      <button class="mbtn mbtn-cancel" onclick="closeOv('ov-projects')">إغلاق</button>
+    <div class="m-btns" id="cv-close" style="display:none;margin-top:10px">
+      <button class="mb mb-ok mb-blue" onclick="closeOv('ov-conv')">حسناً ✓</button>
     </div>
   </div>
 </div>
 
-<!-- Toasts & Loader -->
 <div class="toast-c" id="toast-c"></div>
 <div class="ldo" id="ldo">
-  <div class="ld-ico">⚡</div>
-  <div class="ld-txt" id="ld-txt">جاري...</div>
-  <div class="ld-sub" id="ld-sub">يرجى الانتظار</div>
-  <div class="ld-bar"><div class="ld-fill" id="ld-fill"></div></div>
+  <div class="ld-i">⚡</div>
+  <div class="ld-t" id="ld-t">جاري...</div>
+  <div class="ld-s" id="ld-s">يرجى الانتظار</div>
+  <div class="ld-b"><div class="ld-f" id="ld-f"></div></div>
 </div>
 
 <script>
-/* ══════════════════════════════════════
-   CONFIG
-══════════════════════════════════════ */
+/* ══ FIREBASE CONFIG ══ */
+const fbConfig={
+  apiKey:"AIzaSyB6NgRD22IG5l2qQ0O-299N1fOjTPNcVF8",
+  authDomain:"tbbbbt-90f6e.firebaseapp.com",
+  projectId:"tbbbbt-90f6e",
+  storageBucket:"tbbbbt-90f6e.firebasestorage.app",
+  messagingSenderId:"65865503138",
+  appId:"1:65865503138:web:0ed5179a8753fad82322fb",
+  measurementId:"G-1R49BFWK7V"
+};
+firebase.initializeApp(fbConfig);
+const auth=firebase.auth();
+const db=firebase.firestore();
+
+/* ══ GROQ CONFIG ══ */
 const GROQ_KEY='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';
-const GROQ_URL='https://api.groq.com/openai/v1/chat/completions';
-const GH_API='https://api.github.com';
+const GROQ='https://api.groq.com/openai/v1/chat/completions';
+const GH='https://api.github.com';
+
+/* ══ STATE ══ */
+let pFiles={},blobURLs={};
+let openTabs=[],activeTab=null,cm=null;
+let errors=[],curProj=null,newFilePar=null;
+let ghToken=null,ghUser=null;
+let prevOpen=false,aiOpen=false,menuOpen=false,aiTab='build',aiHist=[];
+let currentUser=null,userProjects=[];
+try{ghToken=localStorage.getItem('dsp5_gh');}catch(e){}
 
 /* ══════════════════════════════════════
-   STATE
+   FIREBASE AUTH
 ══════════════════════════════════════ */
-let pFiles={},openTabs=[],activeTab=null,cm=null;
-let errors=[],projects=[],curProj=null,newFilePar=null;
-let ghToken=null,ghUser=null,previewVisible=false;
-let aiPanelVisible=true,currentAITab='build',aiHistory=[];
-try{projects=JSON.parse(localStorage.getItem('dsai_projects')||'[]');}catch(e){}
-try{ghToken=localStorage.getItem('dsai_gh');}catch(e){}
+auth.onAuthStateChanged(user=>{
+  if(user){
+    currentUser=user;
+    showApp(user);
+  } else {
+    currentUser=null;
+    showAuthScreen();
+  }
+});
+
+function showAuthScreen(){
+  document.getElementById('auth-screen').classList.remove('gone');
+  document.getElementById('app').classList.remove('on');
+}
+function showApp(user){
+  document.getElementById('auth-screen').classList.add('gone');
+  document.getElementById('app').classList.add('on');
+  document.getElementById('st-u').textContent=user.displayName||user.email?.split('@')[0]||'مستخدم';
+  document.getElementById('menu-nm').textContent=user.displayName||user.email?.split('@')[0]||'المستخدم';
+  document.getElementById('menu-em').textContent=user.email||'';
+  document.getElementById('menu-ava').textContent=user.displayName?user.displayName[0].toUpperCase():'👤';
+  loadUserProjects();
+  log(`✅ أهلاً ${user.displayName||user.email}!`,'ls');
+  log('🤖 Groq AI جاهز','ls');
+  log('📦 ZIP Linker — يربط جميع الملفات تلقائياً','ls');
+}
+
+function switchAuthTab(tab){
+  ['login','signup'].forEach(t=>{
+    document.getElementById(`tab-${t}`).classList.toggle('act',t===tab);
+    document.getElementById(`form-${t}`).classList.toggle('hid',t!==tab);
+  });
+}
+
+async function doLogin(){
+  const email=document.getElementById('login-email').value.trim();
+  const pass=document.getElementById('login-pass').value;
+  const errEl=document.getElementById('login-err');
+  errEl.classList.remove('on');
+  if(!email||!pass){errEl.textContent='الرجاء ملء جميع الحقول';errEl.classList.add('on');return;}
+  document.getElementById('login-btn').disabled=true;
+  document.getElementById('login-btn').textContent='⏳ جاري الدخول...';
+  try{
+    await auth.signInWithEmailAndPassword(email,pass);
+  }catch(e){
+    const msgs={'auth/user-not-found':'البريد غير مسجل','auth/wrong-password':'كلمة المرور خاطئة',
+      'auth/invalid-email':'البريد غير صحيح','auth/too-many-requests':'محاولات كثيرة، حاول لاحقاً'};
+    errEl.textContent=msgs[e.code]||e.message;errEl.classList.add('on');
+  }
+  document.getElementById('login-btn').disabled=false;
+  document.getElementById('login-btn').textContent='🚀 دخول';
+}
+
+async function doSignup(){
+  const name=document.getElementById('su-name').value.trim();
+  const username=document.getElementById('su-user').value.trim();
+  const email=document.getElementById('su-email').value.trim();
+  const pass=document.getElementById('su-pass').value;
+  const terms=document.getElementById('su-terms').checked;
+  const errEl=document.getElementById('signup-err');
+  errEl.classList.remove('on');
+  if(!name||!username||!email||!pass){errEl.textContent='الرجاء ملء جميع الحقول';errEl.classList.add('on');return;}
+  if(pass.length<8){errEl.textContent='كلمة المرور يجب أن تكون 8 أحرف على الأقل';errEl.classList.add('on');return;}
+  if(!terms){errEl.textContent='يجب الموافقة على الشروط';errEl.classList.add('on');return;}
+  document.getElementById('signup-btn').disabled=true;
+  document.getElementById('signup-btn').textContent='⏳ جاري الإنشاء...';
+  try{
+    const cred=await auth.createUserWithEmailAndPassword(email,pass);
+    await cred.user.updateProfile({displayName:name});
+    await db.collection('users').doc(cred.user.uid).set({name,username,email,createdAt:new Date().toISOString()});
+  }catch(e){
+    const msgs={'auth/email-already-in-use':'البريد مستخدم مسبقاً','auth/invalid-email':'البريد غير صحيح',
+      'auth/weak-password':'كلمة المرور ضعيفة جداً'};
+    errEl.textContent=msgs[e.code]||e.message;errEl.classList.add('on');
+  }
+  document.getElementById('signup-btn').disabled=false;
+  document.getElementById('signup-btn').textContent='✨ إنشاء الحساب';
+}
+
+async function doLogout(){
+  toggleMenu();
+  await auth.signOut();
+  pFiles={};blobURLs={};openTabs=[];activeTab=null;curProj=null;userProjects=[];
+  if(cm) cm.setValue('');
+  toast('👋 تم تسجيل الخروج','ti');
+}
 
 /* ══════════════════════════════════════
-   INIT
+   FIRESTORE PROJECTS
 ══════════════════════════════════════ */
-function showApp(){
-  document.getElementById('screen-land').classList.add('hidden');
-  document.getElementById('app').style.display='flex';
+async function loadUserProjects(){
+  if(!currentUser) return;
+  try{
+    const snap=await db.collection('projects').where('userId','==',currentUser.uid).orderBy('updatedAt','desc').get();
+    userProjects=snap.docs.map(d=>({id:d.id,...d.data()}));
+    log(`📂 ${userProjects.length} مشاريع محفوظة`,'ls');
+  }catch(e){log('⚠️ تعذر تحميل المشاريع: '+e.message,'lw');}
 }
-function goHome(){
-  document.getElementById('screen-land').classList.remove('hidden');
-  document.getElementById('app').style.display='none';
+
+async function saveProjectToFirestore(){
+  if(!currentUser||!curProj) return;
+  try{
+    // Save only text files (< 500KB total)
+    const textFiles={};
+    let totalSize=0;
+    for(const[p,c] of Object.entries(pFiles)){
+      if(typeof c==='string'&&totalSize<400000){textFiles[p]=c;totalSize+=c.length;}
+    }
+    const data={
+      userId:currentUser.uid,name:curProj.name,icon:curProj.icon||'📦',
+      type:curProj.type||'project',files:textFiles,
+      fileCount:Object.keys(pFiles).length,
+      updatedAt:firebase.firestore.FieldValue.serverTimestamp(),
+      createdAt:curProj.createdAt||firebase.firestore.FieldValue.serverTimestamp()
+    };
+    if(curProj.id){
+      await db.collection('projects').doc(curProj.id).update(data);
+    } else {
+      const ref=await db.collection('projects').add(data);
+      curProj.id=ref.id;
+    }
+    log('💾 حُفظ على الخادم','ls');
+  }catch(e){log('⚠️ فشل الحفظ: '+e.message,'lw');}
 }
-function doUpload(){
-  showApp();
-  setTimeout(()=>openOv('ov-upload'),50);
+
+async function deleteProject(projId,projName){
+  if(!confirm(`حذف "${projName}" نهائياً؟`)) return;
+  try{
+    await db.collection('projects').doc(projId).delete();
+    userProjects=userProjects.filter(p=>p.id!==projId);
+    renderProjsPanel();
+    if(curProj?.id===projId){
+      curProj=null;pFiles={};blobURLs={};openTabs=[];activeTab=null;
+      if(cm) cm.setValue('');
+      document.getElementById('ed-ph').style.display='flex';
+      renderFTree();renderTabs();
+    }
+    toast('🗑️ تم حذف المشروع','ts');
+  }catch(e){toast('❌ فشل الحذف: '+e.message,'te');}
 }
-function showProjects(){
-  renderProjectsList();
-  openOv('ov-projects');
-}
-function openAIBuilder(){
-  showApp();
-  setAITab('build');
-  if(document.getElementById('ai-panel').classList.contains('collapsed'))
-    toggleAIPanel();
-}
-function openNewProject(){openOv('ov-np');}
 
 /* ══════════════════════════════════════
    CODEMIRROR
@@ -1039,53 +1119,39 @@ function openNewProject(){openOv('ov-np');}
 function initCM(){
   if(cm) return;
   cm=CodeMirror.fromTextArea(document.getElementById('main-editor'),{
-    theme:'dracula',lineNumbers:true,matchBrackets:true,
-    autoCloseBrackets:true,indentWithTabs:true,tabSize:2,lineWrapping:false,
+    theme:'one-dark',lineNumbers:true,matchBrackets:true,
+    autoCloseBrackets:true,indentWithTabs:true,tabSize:2,lineWrapping:false
   });
-  cm.on('cursorActivity',()=>{
-    const c=cm.getCursor();
-    document.getElementById('st-pos').textContent=`${c.line+1}:${c.ch+1}`;
-  });
-  cm.on('change',()=>{if(activeTab) pFiles[activeTab]=cm.getValue();});
+  cm.on('cursorActivity',()=>{const c=cm.getCursor();document.getElementById('st-p').textContent=`${c.line+1}:${c.ch+1}`;});
+  cm.on('change',()=>{if(activeTab&&typeof pFiles[activeTab]==='string') pFiles[activeTab]=cm.getValue();});
   cm.getWrapperElement().style.height='100%';
   setTimeout(()=>cm.refresh(),80);
 }
-const MODES={js:'javascript',jsx:'javascript',ts:'javascript',tsx:'javascript',
-  html:'htmlmixed',htm:'htmlmixed',xml:'xml',css:'css',scss:'css',
-  py:'python',json:'javascript'};
-const LANGS={js:'JavaScript',jsx:'React JSX',ts:'TypeScript',html:'HTML',css:'CSS',
-  py:'Python',json:'JSON',xml:'XML',md:'Markdown',java:'Java',kt:'Kotlin'};
-const ICONS={js:'🟨',jsx:'⚛️',ts:'🔷',html:'🌐',css:'🎨',py:'🐍',json:'📋',
-  md:'📝',xml:'📄',java:'☕',kt:'🎯',txt:'📄',svg:'🖼️'};
-function getExt(n){return n.split('.').pop().toLowerCase();}
-function modeFor(n){return MODES[getExt(n)]||'null';}
-function langFor(n){return LANGS[getExt(n)]||getExt(n).toUpperCase();}
-function iconFor(n){return ICONS[getExt(n)]||'📄';}
+const MODES={js:'javascript',jsx:'javascript',ts:'javascript',html:'htmlmixed',htm:'htmlmixed',xml:'xml',css:'css',scss:'css',py:'python',json:'javascript'};
+const LANGS={js:'JS',jsx:'JSX',ts:'TS',html:'HTML',css:'CSS',py:'Python',json:'JSON',xml:'XML',md:'MD',java:'Java',kt:'Kotlin'};
+const ICONS={js:'🟨',jsx:'⚛️',ts:'🔷',html:'🌐',css:'🎨',py:'🐍',json:'📋',md:'📝',xml:'📄',java:'☕',kt:'🎯',txt:'📄',png:'🖼️',jpg:'🖼️',gif:'🖼️',svg:'🖼️',mp3:'🎵',mp4:'🎬'};
+const ext=n=>n.split('.').pop().toLowerCase();
+const modeF=n=>MODES[ext(n)]||'null';
+const langF=n=>LANGS[ext(n)]||ext(n).toUpperCase();
+const iconF=n=>ICONS[ext(n)]||'📄';
 
-/* ══════════════════════════════════════
-   FILE TREE
-══════════════════════════════════════ */
+/* ══ FILE TREE ══ */
 function buildTree(files){
   const t={};
   Object.keys(files).sort().forEach(p=>{
     const pts=p.split('/');let n=t;
-    for(let i=0;i<pts.length-1;i++){
-      if(!n[pts[i]]) n[pts[i]]={__f:true,__c:{}};
-      n=n[pts[i]].__c;
-    }
+    for(let i=0;i<pts.length-1;i++){if(!n[pts[i]])n[pts[i]]={__f:true,__c:{}};n=n[pts[i]].__c;}
     n[pts[pts.length-1]]={__file:true,__p:p};
   });
   return t;
 }
 function renderFTree(){
-  const t=buildTree(pFiles);
   const c=document.getElementById('filetree');c.innerHTML='';
-  renderNode(t,c,'');
+  renderNode(buildTree(pFiles),c,'');
 }
 function renderNode(node,c,prefix){
   const keys=Object.keys(node).sort((a,b)=>{
-    const af=node[a].__f,bf=node[b].__f;
-    if(af&&!bf)return -1;if(!af&&bf)return 1;
+    if(node[a].__f&&!node[b].__f)return -1;if(!node[a].__f&&node[b].__f)return 1;
     return a.localeCompare(b);
   });
   keys.forEach(k=>{
@@ -1093,914 +1159,692 @@ function renderNode(node,c,prefix){
     if(v.__f){
       const w=document.createElement('div');
       const item=document.createElement('div');
-      item.className='fi fi-folder';
+      item.className='fi fi-fold';
       item.innerHTML=`<span class="fi-ico">📁</span><span class="fi-nm">${k}</span>`;
-      item.onclick=e=>{
-        e.stopPropagation();
-        const ch=w.querySelector('.fi-children');
-        const hidden=ch.style.display==='none';
-        ch.style.display=hidden?'':'none';
-        item.querySelector('.fi-ico').textContent=hidden?'📂':'📁';
-      };
-      item.oncontextmenu=e=>{e.preventDefault();newFilePar=prefix+k;promptNewFile();};
+      item.onclick=e=>{e.stopPropagation();const ch=w.querySelector('.fi-ch');const h=ch.style.display==='none';ch.style.display=h?'':'none';item.querySelector('.fi-ico').textContent=h?'📂':'📁';};
       w.appendChild(item);
-      const ch=document.createElement('div');ch.className='fi-children';
+      const ch=document.createElement('div');ch.className='fi-ch';
       renderNode(v.__c,ch,prefix+k+'/');w.appendChild(ch);c.appendChild(w);
     } else if(v.__file){
       const item=document.createElement('div');
       item.className='fi'+(activeTab===v.__p?' act':'');
-      item.innerHTML=`<span class="fi-ico">${iconFor(k)}</span><span class="fi-nm">${k}</span><span class="fi-del" onclick="delFile('${v.__p}',event)">✕</span>`;
+      item.innerHTML=`<span class="fi-ico">${iconF(k)}</span><span class="fi-nm">${k}</span><span class="fi-del" onclick="delFile('${v.__p}',event)">✕</span>`;
       item.onclick=()=>openFile(v.__p);
       c.appendChild(item);
     }
   });
 }
 
-/* ══════════════════════════════════════
-   FILE OPS
-══════════════════════════════════════ */
+/* ══ FILE OPS ══ */
 function openFile(path){
+  const content=pFiles[path];
+  if(typeof content!=='string'){toast('ملف ثنائي','tw');return;}
   if(!cm) initCM();
   document.getElementById('ed-ph').style.display='none';
   activeTab=path;
-  cm.setValue(pFiles[path]||'');
+  cm.setValue(content);
   const fname=path.split('/').pop();
-  cm.setOption('mode',modeFor(fname));
-  document.getElementById('st-file').textContent=fname;
-  document.getElementById('st-lang').textContent=langFor(fname);
+  cm.setOption('mode',modeF(fname));
+  document.getElementById('st-f').textContent=fname;
+  document.getElementById('st-l').textContent=langF(fname);
   if(!openTabs.find(t=>t.p===path)) openTabs.push({p:path,n:fname});
   renderTabs();setActTab(path);renderFTree();
   setTimeout(()=>cm.refresh(),60);
 }
 function renderTabs(){
   const c=document.getElementById('tb-tabs');
-  if(!openTabs.length){
-    c.innerHTML='<span style="font-size:10px;color:var(--td)">لا توجد ملفات</span>';return;
-  }
-  c.innerHTML=openTabs.map(t=>`
-    <div class="tb-file-chip ${activeTab===t.p?'act':''}" onclick="openFile('${t.p}')">
-      ${t.n}<span class="tc-x" onclick="closeTab('${t.p}',event)">✕</span>
-    </div>`).join('');
+  if(!openTabs.length){c.innerHTML='<span style="font-size:10px;color:var(--td)">لا توجد ملفات</span>';return;}
+  c.innerHTML=openTabs.map(t=>`<div class="tab ${activeTab===t.p?'act':''}" onclick="openFile('${t.p}')">${t.n}<span class="tab-x" onclick="closeTab('${t.p}',event)">✕</span></div>`).join('');
 }
-function setActTab(p){
-  document.querySelectorAll('.tb-file-chip').forEach((c,i)=>{
-    if(openTabs[i]&&openTabs[i].p===p) c.classList.add('act');
-    else c.classList.remove('act');
-  });
-}
+function setActTab(p){document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('act',openTabs[i]?.p===p));}
 function closeTab(p,e){
   e.stopPropagation();
   openTabs=openTabs.filter(t=>t.p!==p);
-  if(activeTab===p){
-    activeTab=openTabs.length?openTabs[openTabs.length-1].p:null;
-    if(activeTab) openFile(activeTab);
-    else{document.getElementById('ed-ph').style.display='flex';cm&&cm.setValue('');}
-  }
+  if(activeTab===p){activeTab=openTabs.length?openTabs[openTabs.length-1].p:null;if(activeTab)openFile(activeTab);else{document.getElementById('ed-ph').style.display='flex';cm&&cm.setValue('');}}
   renderTabs();renderFTree();
 }
 function delFile(p,e){
-  e.stopPropagation();
-  if(!confirm(`حذف "${p}"?`)) return;
-  delete pFiles[p];
+  e.stopPropagation();if(!confirm(`حذف "${p}"?`))return;
+  delete pFiles[p];if(blobURLs[p]){URL.revokeObjectURL(blobURLs[p]);delete blobURLs[p];}
   openTabs=openTabs.filter(t=>t.p!==p);
   if(activeTab===p){activeTab=null;cm&&cm.setValue('');document.getElementById('ed-ph').style.display='flex';}
-  renderFTree();renderTabs();saveProj();toast('🗑️ حُذف','ti');
+  renderFTree();renderTabs();toast('🗑️ حُذف','ti');
 }
-function promptNewFile(){openOv('ov-nf');setTimeout(()=>document.getElementById('nf-name').focus(),120);}
-function promptNewFolder(){openOv('ov-nd');setTimeout(()=>document.getElementById('nd-name').focus(),120);}
+function promptFile(){openOv('ov-nf');sl(120).then(()=>document.getElementById('nf-in').focus());}
+function promptFolder(){openOv('ov-nd');sl(120).then(()=>document.getElementById('nd-in').focus());}
 function doNewFile(){
-  let name=document.getElementById('nf-name').value.trim();
-  if(!name) return toast('أدخل الاسم','tw');
-  const path=newFilePar?`${newFilePar}/${name}`:name;
-  if(pFiles[path]!==undefined) return toast('موجود مسبقاً','tw');
-  pFiles[path]=getTemplate(name);
-  newFilePar=null;document.getElementById('nf-name').value='';
-  closeOv('ov-nf');renderFTree();openFile(path);saveProj();toast('✅ تم','ts');
+  let nm=document.getElementById('nf-in').value.trim();
+  if(!nm)return toast('أدخل الاسم','tw');
+  const path=newFilePar?`${newFilePar}/${nm}`:nm;
+  if(pFiles[path]!==undefined)return toast('موجود','tw');
+  pFiles[path]=getTemplate(nm);newFilePar=null;
+  document.getElementById('nf-in').value='';
+  closeOv('ov-nf');renderFTree();openFile(path);toast('✅ تم','ts');
 }
 function doNewFolder(){
-  const n=document.getElementById('nd-name').value.trim();
-  if(!n) return toast('أدخل الاسم','tw');
+  const n=document.getElementById('nd-in').value.trim();
+  if(!n)return toast('أدخل الاسم','tw');
   pFiles[`${n}/.gitkeep`]='';
-  document.getElementById('nd-name').value='';
-  closeOv('ov-nd');renderFTree();saveProj();toast('📁 تم','ts');
+  document.getElementById('nd-in').value='';
+  closeOv('ov-nd');renderFTree();toast('📁 تم','ts');
 }
-function doNewProject(){
-  const n=document.getElementById('np-name').value.trim();
-  if(!n) return toast('أدخل الاسم','tw');
-  pFiles={'index.html':tpl('index.html'),'style.css':tpl('style.css'),'script.js':tpl('script.js')};
-  curProj={name:n,files:{...pFiles},icon:'🚀',type:'new',date:dateStr()};
-  saveProj();document.getElementById('np-name').value='';
-  closeOv('ov-np');showApp();renderFTree();openFile('index.html');
-  log(`🚀 "${n}"`,'ls');toast('🚀 تم الإنشاء!','ts');
+function openNewProjModal(){closeProjects();openOv('ov-np');sl(120).then(()=>document.getElementById('np-in').focus());}
+async function doNewProj(){
+  const n=document.getElementById('np-in').value.trim();
+  if(!n)return toast('أدخل الاسم','tw');
+  pFiles={'index.html':getTemplate('index.html'),'style.css':getTemplate('style.css'),'script.js':getTemplate('script.js')};
+  await createBlobURLs();
+  curProj={name:n,icon:'🚀',type:'new',createdAt:new Date().toISOString()};
+  document.getElementById('np-in').value='';
+  closeOv('ov-np');closeProjects();
+  renderFTree();openFile('index.html');
+  await saveProjectToFirestore();
+  await loadUserProjects();
+  toast('🚀 تم!','ts');log(`🚀 "${n}"`,'ls');
 }
-function tpl(name){
-  const e=getExt(name);
+function getTemplate(name){
+  const e=ext(name);
   const T={
-    html:`<!DOCTYPE html>\n<html lang="ar" dir="rtl">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>Document</title>\n  <link rel="stylesheet" href="style.css">\n</head>\n<body>\n\n  <script src="script.js"><\/script>\n</body>\n</html>`,
-    css:`/* Styles */\n* { margin: 0; padding: 0; box-sizing: border-box; }\nbody { font-family: sans-serif; }\n`,
-    js:`'use strict';\ndocument.addEventListener('DOMContentLoaded', () => {\n  // App code here\n});\n`,
-    json:`{\n  "name": "project",\n  "version": "1.0.0"\n}\n`,
-    py:`def main():\n    print("Hello!")\n\nif __name__ == "__main__":\n    main()\n`,
-    md:`# العنوان\n\nالوصف هنا.\n`
+    html:`<!DOCTYPE html>\n<html lang="ar" dir="rtl">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width,initial-scale=1">\n  <title>تطبيق</title>\n  <link rel="stylesheet" href="style.css">\n</head>\n<body>\n  <h1>مرحباً</h1>\n  <script src="script.js"><\/script>\n</body>\n</html>`,
+    css:`* { margin: 0; padding: 0; box-sizing: border-box; }\nbody { font-family: 'Cairo', sans-serif; }\n`,
+    js:`'use strict';\ndocument.addEventListener('DOMContentLoaded', () => {\n  console.log('جاهز');\n});\n`,
+    md:`# المشروع\n\nالوصف هنا.\n`
   };
   return T[e]||'';
 }
 
 /* ══════════════════════════════════════
-   PREVIEW
-══════════════════════════════════════ */
-function togglePreviewPane(){
-  previewVisible=!previewVisible;
-  const pane=document.getElementById('preview-pane');
-  const rsz=document.getElementById('rsz-pv');
-  pane.classList.toggle('hidden',!previewVisible);
-  rsz.style.display=previewVisible?'block':'none';
-  if(previewVisible) runPreview();
-}
-function runPreview(){
-  const html=buildPreviewHTML();
-  if(!html){ toast('لا يوجد HTML للمعاينة','tw'); return; }
-  if(!previewVisible){previewVisible=true;document.getElementById('preview-pane').classList.remove('hidden');document.getElementById('rsz-pv').style.display='block';}
-  document.getElementById('pv-loading').classList.remove('hidden');
-  const blob=new Blob([html],{type:'text/html'});
-  const url=URL.createObjectURL(blob);
-  document.getElementById('preview-frame').src=url;
-  document.getElementById('pv-label').textContent='📱 '+(curProj?.name||'معاينة');
-  log('▶️ تشغيل المعاينة','ls');
-}
-function refreshPreview(){runPreview();}
-function previewLoaded(){document.getElementById('pv-loading').classList.add('hidden');}
-function buildPreviewHTML(){
-  const htmlKey=Object.keys(pFiles).find(p=>p==='index.html'||p.endsWith('/index.html')||p.endsWith('.html'));
-  if(!htmlKey) return null;
-  let html=pFiles[htmlKey];
-  const cssKey=Object.keys(pFiles).find(p=>p.endsWith('.css'));
-  if(cssKey) html=html.replace(/<link[^>]*rel=["']stylesheet["'][^>]*>/gi,`<style>${pFiles[cssKey]}</style>`);
-  const jsKey=Object.keys(pFiles).find(p=>p.endsWith('.js')&&!p.includes('min'));
-  if(jsKey) html=html.replace(/<script\s+src=["'][^"']*["']><\/script>/gi,`<script>${pFiles[jsKey]}<\/script>`);
-  return html;
-}
-function runPreviewFromBuild(){
-  showApp();
-  setTimeout(()=>runPreview(),200);
-}
-function switchToEditor(){
-  showApp();
-  const first=Object.keys(pFiles).find(p=>p.endsWith('.html'))||Object.keys(pFiles)[0];
-  if(first) setTimeout(()=>openFile(first),200);
-}
-
-/* ══════════════════════════════════════
-   AI BUILD — GROQ STREAMING EFFECT
-══════════════════════════════════════ */
-function setQuick(el){
-  const QTPL={
-    '📱 دردشة':'تطبيق دردشة مثل واتساب: شاشة رئيسية بقائمة محادثات على اليسار، نافذة دردشة مع فقاعات رسائل، حقل إدخال مع زر إرسال، دعم الإيموجي، تصميم داكن أنيق.',
-    '🛒 متجر':'متجر إلكتروني احترافي: صفحة رئيسية مع بنر، شبكة منتجات مع صور وأسعار، سلة تسوق، تصفية المنتجات، تصميم احترافي ملون.',
-    '📊 لوحة تحكم':'لوحة تحكم مدير: إحصائيات KPI مع أيقونات، رسم بياني خطي متحرك، جدول بيانات، قائمة جانبية قابلة للطي، تصميم داكن رسمي.',
-    '🎮 لعبة':'لعبة Snake كاملة في HTML5 Canvas: تحريك باللمس والكيبورد، نقاط، مستويات، صوت، تصميم ألوان ملون.',
-    '📰 إخبار':'موقع إخباري عربي: رأس مع شعار وتصنيفات، بطاقات أخبار مع صور ووصف، شريط عاجل متحرك، تصميم احترافي.',
-    '🎵 موسيقى':'مشغل موسيقى حديث: واجهة داكنة جميلة، موجة صوتية متحركة، قائمة أغاني، تحكم كامل، صورة ألبوم دوارة.',
-    '📝 مهام':'تطبيق قائمة مهام جميل: إضافة وحذف وتأشير، تصنيفات ملونة، حركات سلسة، حفظ تلقائي، تصميم بسيط أنيق.',
-    '🌦️ طقس':'تطبيق طقس جميل: خلفية متغيرة حسب الحالة، درجة حرارة كبيرة، توقعات أسبوعية، رسوم متحركة للمطر والشمس.'
-  };
-  const txt=QTPL[el.textContent.trim()]||el.textContent.trim();
-  document.getElementById('build-prompt').value=txt;
-  document.getElementById('build-prompt').focus();
-}
-
-async function startBuild(){
-  const prompt=document.getElementById('build-prompt').value.trim();
-  if(!prompt) return toast('اكتب وصف التطبيق','tw');
-  document.getElementById('btn-build-ai').disabled=true;
-  document.getElementById('post-build').classList.remove('on');
-  document.getElementById('gen-files-box').classList.remove('on');
-  const pb=document.getElementById('build-progress-box');
-  pb.classList.add('on');
-  document.getElementById('bprog-spinner').style.display='block';
-  document.getElementById('code-writing-box').classList.remove('on');
-  const setBP=(t,p)=>{document.getElementById('bprog-title').textContent=t;document.getElementById('bprog-fill').style.width=p+'%';};
-  const setSteps=steps=>{
-    document.getElementById('bprog-steps').innerHTML=steps.map(s=>`
-      <div class="bprog-step ${s.status}" id="bps-${s.id}">
-        <span class="step-ico">${s.status==='done'?'✓':s.status==='run'?'⟳':s.status==='err'?'✕':'○'}</span>
-        <span>${s.label}</span>
-      </div>`).join('');
-  };
-  const updateStep=(id,status)=>{
-    const el=document.getElementById(`bps-${id}`);
-    if(!el) return;
-    el.className=`bprog-step ${status}`;
-    el.querySelector('.step-ico').textContent=status==='done'?'✓':status==='run'?'⟳':status==='err'?'✕':'○';
-  };
-  const steps=[
-    {id:'a',label:'تحليل الطلب',status:'pend'},
-    {id:'b',label:'تصميم الهيكل',status:'pend'},
-    {id:'c',label:'كتابة HTML',status:'pend'},
-    {id:'d',label:'تصميم CSS',status:'pend'},
-    {id:'e',label:'برمجة JavaScript',status:'pend'},
-    {id:'f',label:'اكتمل البناء',status:'pend'},
-  ];
-  setSteps(steps);setBP('🤖 يحلل الطلب...',5);
-  updateStep('a','run');await sl(400);
-  setBP('🎨 يصمم الهيكل...',15);updateStep('a','done');updateStep('b','run');await sl(500);
-  setBP('✍️ يكتب الكود...',25);updateStep('b','done');updateStep('c','run');
-  // Show code writing animation
-  document.getElementById('code-writing-box').classList.add('on');
-  try{
-    // Call Groq API
-    const sysPrompt=`أنت مطور ويب خبير متخصص في إنشاء تطبيقات HTML/CSS/JavaScript جميلة ووظيفية.
-
-قواعد صارمة:
-1. الكود يجب أن يكون جاهزاً للتشغيل في المتصفح مباشرة
-2. التصميم يجب أن يكون احترافياً وجميلاً مع ألوان جريئة وتأثيرات
-3. استخدم CSS variables و CSS animations
-4. الجافاسكريبت يجب أن يكون وظيفياً وحقيقياً
-5. أجب بـ JSON صحيح فقط بالشكل التالي (لا شيء خارج JSON):
-{"projectName":"اسم","files":{"index.html":"...","style.css":"...","script.js":"..."}}
-
-ملاحظات:
-- الكود يجب أن يكون كاملاً وطويلاً ومفصلاً
-- أضف تفاعلية حقيقية وليس placeholder
-- التصميم يجب أن يبهر المستخدم
-- استخدم Google Fonts من CDN
-- اجعل التطبيق responsive للموبايل`;
-
-    const animateWriting=async(text)=>{
-      const el=document.getElementById('code-writing-text');
-      const chunk=Math.max(1,Math.floor(text.length/40));
-      let i=0;
-      while(i<text.length){
-        el.textContent=text.substring(0,i);
-        const box=document.getElementById('code-writing-box');
-        box.scrollTop=box.scrollHeight;
-        i+=chunk;
-        await sl(25);
-      }
-      el.textContent=text;
-    };
-
-    const r=await fetch(GROQ_URL,{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':`Bearer ${GROQ_KEY}`},
-      body:JSON.stringify({
-        model:'llama-3.3-70b-versatile',
-        messages:[
-          {role:'system',content:sysPrompt},
-          {role:'user',content:`اصنع لي تطبيق/موقع: ${prompt}\n\nأجب بـ JSON فقط.`}
-        ],
-        max_tokens:8192,temperature:0.35
-      })
-    });
-    if(!r.ok){const e=await r.json();throw new Error(e.error?.message||'Groq Error');}
-    const data=await r.json();
-    const raw=data.choices[0].message.content;
-    setBP('🖌️ يصمم CSS...',55);updateStep('c','done');updateStep('d','run');
-    // Parse JSON
-    let project;
-    try{
-      let js=raw.replace(/```json\n?/g,'').replace(/```\n?/g,'').trim();
-      const s=js.indexOf('{'),end=js.lastIndexOf('}')+1;
-      if(s>=0&&end>s) js=js.substring(s,end);
-      project=JSON.parse(js);
-    }catch(e){
-      // Fallback
-      project={projectName:prompt.substring(0,25),files:{}};
-      const hm=raw.match(/```html\n([\s\S]*?)```/);
-      const cm2=raw.match(/```css\n([\s\S]*?)```/);
-      const jm=raw.match(/```(?:js|javascript)\n([\s\S]*?)```/);
-      if(hm) project.files['index.html']=hm[1];
-      if(cm2) project.files['style.css']=cm2[1];
-      if(jm) project.files['script.js']=jm[1];
-      if(!Object.keys(project.files).length) throw new Error('لم يُنشأ كود');
-    }
-    updateStep('d','done');updateStep('e','run');setBP('⚡ يضيف JavaScript...',75);
-    // Animate writing the HTML
-    const htmlContent=project.files['index.html']||'';
-    if(htmlContent) await animateWriting(htmlContent.substring(0,300)+'...');
-    await sl(300);
-    // Load files
-    pFiles={};
-    Object.entries(project.files||{}).forEach(([fn,c])=>{if(c&&fn) pFiles[fn]=c;});
-    curProj={name:project.projectName||prompt.substring(0,20),files:{...pFiles},icon:'🤖',type:'ai',date:dateStr()};
-    saveProj();
-    updateStep('e','done');updateStep('f','run');setBP('✅ اكتمل!',100);
-    await sl(300);updateStep('f','done');
-    document.getElementById('bprog-spinner').style.display='none';
-    // Show files
-    document.getElementById('gf-list').innerHTML=Object.entries(pFiles).map(([fn,c])=>`
-      <div class="gf-item">
-        <span>${iconFor(fn)}</span>
-        <span class="gf-nm">${fn}</span>
-        <span class="gf-sz">${Math.round((c||'').length/1024*10)/10}KB</span>
-        <span class="gf-ok">✓</span>
-      </div>`).join('');
-    document.getElementById('gen-files-box').classList.add('on');
-    document.getElementById('pb-desc').textContent=`${Object.keys(pFiles).length} ملفات — جاهز للمعاينة والبناء`;
-    document.getElementById('post-build').classList.add('on');
-    // Update file tree
-    renderFTree();renderTabs();
-    log(`🤖 بُني: "${curProj.name}" — ${Object.keys(pFiles).length} ملفات`,'ls');
-    toast('🎉 اكتمل البناء!','ts');
-    termOut(`✓ Build complete: ${Object.keys(pFiles).length} files generated`);
-  }catch(err){
-    document.getElementById('bprog-title').textContent='❌ فشل: '+err.message;
-    document.getElementById('bprog-spinner').style.display='none';
-    steps.forEach(s=>{if(s.status==='run') updateStep(s.id,'err');});
-    log('❌ '+err.message,'le');toast('❌ '+err.message,'te');
-    document.getElementById('btn-build-ai').disabled=false;
-  }
-  document.getElementById('btn-build-ai').disabled=false;
-}
-
-/* ══════════════════════════════════════
-   AI CHAT
-══════════════════════════════════════ */
-function chatKeyDown(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}}
-async function sendChat(){
-  const inp=document.getElementById('chat-input');
-  const msg=inp.value.trim();if(!msg) return;
-  inp.value='';addChatMsg(msg,'user');
-  aiHistory.push({role:'user',content:msg});
-  document.getElementById('chat-typing-row').style.display='block';
-  try{
-    const sys=`أنت مساعد برمجي ذكي في DevStudio AI.
-الملف الحالي: ${activeTab||'لا يوجد'}
-الكود:
-\`\`\`
-${activeTab&&pFiles[activeTab]?pFiles[activeTab].substring(0,1500):'لا يوجد'}
-\`\`\`
-أجب بالعربية بإيجاز.`;
-    const r=await fetch(GROQ_URL,{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':`Bearer ${GROQ_KEY}`},
-      body:JSON.stringify({model:'llama-3.1-8b-instant',
-        messages:[{role:'system',content:sys},...aiHistory],
-        max_tokens:1500,temperature:0.3})
-    });
-    if(!r.ok) throw new Error('API Error');
-    const d=await r.json();
-    const reply=d.choices[0].message.content;
-    aiHistory.push({role:'assistant',content:reply});
-    document.getElementById('chat-typing-row').style.display='none';
-    addChatMsg(reply,'bot');
-  }catch(e){
-    document.getElementById('chat-typing-row').style.display='none';
-    addChatMsg('❌ '+e.message,'bot');
-  }
-}
-function addChatMsg(text,type){
-  const c=document.getElementById('chat-msgs');
-  const d=document.createElement('div');d.className=`chat-msg ${type}`;
-  d.innerHTML=text
-    .replace(/```([a-z]*)\n?([\s\S]*?)```/g,'<pre style="background:rgba(0,0,0,.4);padding:7px;border-radius:5px;font-family:var(--fc);font-size:10px;overflow-x:auto;margin-top:5px;white-space:pre-wrap">$2</pre>')
-    .replace(/`([^`]+)`/g,'<code style="background:rgba(0,0,0,.3);padding:1px 4px;border-radius:3px;font-family:var(--fc)">$1</code>')
-    .replace(/\n/g,'<br>');
-  c.appendChild(d);c.scrollTop=c.scrollHeight;
-}
-
-/* ══════════════════════════════════════
-   AI FIX MODE
-══════════════════════════════════════ */
-async function analyzeAndFix(){
-  const res=document.getElementById('fix-mode-results');
-  res.textContent='🔍 جاري التحليل...';
-  analyze();
-  await sl(1000);
-  res.textContent=errors.length?`وُجد ${errors.length} مشاكل — اضغط "إصلاح AI" في لوحة الأخطاء`:'✅ لا توجد أخطاء واضحة';
-  setAITab('build');
-  switchBot('bc-err',document.querySelectorAll('.bot-tab')[1]);
-}
-
-/* ══════════════════════════════════════
-   ERRORS
-══════════════════════════════════════ */
-function analyze(){
-  errors=[];
-  Object.entries(pFiles).forEach(([path,content])=>{
-    if(!content||typeof content!=='string') return;
-    content.split('\n').forEach((line,i)=>{
-      if((path.endsWith('.js')||path.endsWith('.jsx'))&&line.includes('console.log')&&Math.random()<0.35)
-        errors.push({file:path,line:i+1,msg:'console.log يُزال في الإنتاج',fix:line.replace(/.*console\.log.*/,'// removed')});
-      if(/^\s*var\s+/.test(line)&&path.endsWith('.js')&&Math.random()<0.4)
-        errors.push({file:path,line:i+1,msg:'استبدل var بـ const/let',fix:line.replace(/\bvar\b/,'const')});
-    });
-  });
-  errors=errors.slice(0,8);
-  const badge=document.getElementById('err-cnt');
-  badge.textContent=errors.length||'';
-  document.getElementById('fix-all-row').style.display=errors.length?'flex':'none';
-  document.getElementById('err-list').innerHTML=errors.map((e,i)=>`
-    <div class="err-item" id="ei-${i}">
-      <div class="ei-file">📄 ${e.file}</div>
-      <div class="ei-line">السطر ${e.line}</div>
-      <div class="ei-msg">⚠️ ${e.msg}</div>
-      <div class="ei-btns">
-        <button class="ei-fix" onclick="fixOne(${i})">🔧 إصلاح</button>
-        <button class="ei-aifix" onclick="aiFixOne(${i})">🤖 AI</button>
-      </div>
-    </div>`).join('');
-}
-function fixOne(i){
-  const e=errors[i];if(!e) return;
-  const lines=(pFiles[e.file]||'').split('\n');
-  if(lines[e.line-1]!==undefined){lines[e.line-1]=e.fix;pFiles[e.file]=lines.join('\n');}
-  if(activeTab===e.file) cm.setValue(pFiles[e.file]);
-  document.getElementById(`ei-${i}`)?.remove();
-  errors.splice(i,1);
-  document.getElementById('err-cnt').textContent=errors.length||'';
-  document.getElementById('fix-all-row').style.display=errors.length?'flex':'none';
-  log(`🔧 إصلاح: ${e.file}:${e.line}`,'ls');toast('✅ تم','ts');saveProj();
-}
-async function aiFixOne(i){
-  const e=errors[i];if(!e) return;
-  toast('🤖 يصلح...','ti');
-  try{
-    const lines=(pFiles[e.file]||'').split('\n');
-    const r=await fetch(GROQ_URL,{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':`Bearer ${GROQ_KEY}`},
-      body:JSON.stringify({model:'llama-3.1-8b-instant',
-        messages:[{role:'user',content:`أصلح هذا السطر:\nالمشكلة: ${e.msg}\nالسطر: ${lines[e.line-1]}\nأعطني السطر المصحح فقط بدون أي شرح.`}],
-        max_tokens:150,temperature:0.1})
-    });
-    if(!r.ok) throw new Error('Error');
-    const d=await r.json();
-    const fixed=d.choices[0].message.content.trim().replace(/```[a-z]*\n?/g,'').replace(/```/g,'').trim();
-    lines[e.line-1]=fixed;pFiles[e.file]=lines.join('\n');
-    if(activeTab===e.file) cm.setValue(pFiles[e.file]);
-    document.getElementById(`ei-${i}`)?.remove();
-    errors.splice(i,1);
-    document.getElementById('err-cnt').textContent=errors.length||'';
-    document.getElementById('fix-all-row').style.display=errors.length?'flex':'none';
-    toast('🤖 تم الإصلاح!','ts');saveProj();
-  }catch(e2){toast('❌ '+e2.message,'te');}
-}
-function fixAllBasic(){const c=errors.length;[...errors].forEach((e,_)=>fixOne(0));toast(`✨ ${c} إصلاح`,'ts');}
-async function fixAllAI(){for(let i=errors.length-1;i>=0;i--){await aiFixOne(0);await sl(300);}toast('🤖 اكتمل','ts');}
-
-/* ══════════════════════════════════════
-   APK BUILD (Android Project + GH Actions)
-══════════════════════════════════════ */
-async function buildAPK(){
-  if(!Object.keys(pFiles).length) return toast('لا يوجد مشروع','tw');
-  openOv('ov-conv');
-  const title=document.getElementById('conv-title');
-  const pf=document.getElementById('conv-pf');
-  const stepsEl=document.getElementById('conv-steps');
-  const res=document.getElementById('conv-res');
-  const guide=document.getElementById('conv-apk-guide');
-  const ghInfo=document.getElementById('conv-gh-info');
-  const cls=document.getElementById('conv-close');
-  res.style.display='none';guide.style.display='none';ghInfo.style.display='none';cls.style.display='none';
-  title.textContent='📱 بناء مشروع Android...';
-
-  const steps=[
-    'تحليل هيكل المشروع',
-    'إنشاء AndroidManifest.xml',
-    'توليد MainActivity.java',
-    'إنشاء ملفات Gradle + Workflow',
-    'نسخ ملفات المشروع إلى assets',
-    'ضغط مشروع Android ZIP',
-    'جاهز للتنزيل ✓',
-  ];
-  const TIMES=[200,200,250,200,300,400,150];
-  stepsEl.innerHTML=steps.map((s,i)=>`
-    <div class="conv-step" id="cs-${i}">
-      <div class="cs-ico pend">○</div><div class="cs-lbl">${s}</div>
-    </div>`).join('');
-
-  for(let i=0;i<steps.length;i++){
-    const el=document.getElementById(`cs-${i}`);
-    el.querySelector('.cs-ico').className='cs-ico run';el.querySelector('.cs-ico').textContent='⟳';
-    await sl(TIMES[i]);
-    el.querySelector('.cs-ico').className='cs-ico done';el.querySelector('.cs-ico').textContent='✓';
-    pf.style.width=((i+1)/steps.length*100)+'%';
-    termOut(`[Gradle] ${steps[i]}... done`);
-  }
-  try{
-    const androidZip=await genAndroid();
-    const blob=await androidZip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:6}});
-    const url=URL.createObjectURL(blob);
-    const pname=(curProj?.name||'MyApp').replace(/[^a-zA-Z0-9]/g,'_');
-    title.textContent='✅ مشروع Android جاهز!';
-    document.getElementById('conv-link').textContent=`📦 ${pname}-android.zip — انقر للتنزيل`;
-    document.getElementById('conv-copy').textContent='📥 تنزيل مشروع Android';
-    document.getElementById('conv-copy').onclick=()=>{
-      const a=document.createElement('a');a.href=url;a.download=`${pname}-android.zip`;a.click();
-      toast('📥 جاري التنزيل...','ts');
-    };
-    res.style.display='block';
-    guide.style.display='block';
-    cls.style.display='flex';
-    log(`📱 Android ZIP: ${pname}-android.zip`,'ls');
-    termOut(`✓ Android project packaged: ${pname}-android.zip`);
-  }catch(err){
-    title.textContent='❌ فشل: '+err.message;cls.style.display='flex';
-    log('❌ '+err.message,'le');
-  }
-}
-
-async function genAndroid(){
-  const zip=new JSZip();
-  const pname=(curProj?.name||'MyApp').replace(/[^a-zA-Z0-9]/g,'');
-  const pkg=`com.devstudio.${pname.toLowerCase().replace(/[^a-z0-9]/g,'').substring(0,20)||'app'}`;
-  const pkgPath=pkg.replace(/\./g,'/');
-
-  zip.file('settings.gradle',`rootProject.name = "${pname}"\ninclude ':app'`);
-  zip.file('build.gradle',`buildscript {\n    repositories { google(); mavenCentral() }\n    dependencies { classpath 'com.android.tools.build:gradle:8.1.0' }\n}\nallprojects { repositories { google(); mavenCentral() } }`);
-  zip.file('gradle.properties','android.useAndroidX=true\nandroid.enableJetifier=true\norg.gradle.jvmargs=-Xmx2g');
-  zip.file('local.properties','# sdk.dir=/path/to/android/sdk');
-  zip.file('gradlew','#!/usr/bin/env sh\nexec gradle "$@"');
-  zip.file('gradle/wrapper/gradle-wrapper.properties',`distributionBase=GRADLE_USER_HOME\ndistributionPath=wrapper/dists\ndistributionUrl=https\\://services.gradle.org/distributions/gradle-8.1.1-bin.zip\nzipStoreBase=GRADLE_USER_HOME\nzipStorePath=wrapper/dists`);
-  zip.file('app/build.gradle',`plugins { id 'com.android.application' }\nandroid {\n    namespace '${pkg}'\n    compileSdk 34\n    defaultConfig {\n        applicationId "${pkg}"\n        minSdk 21\n        targetSdk 34\n        versionCode 1\n        versionName "1.0"\n    }\n    buildTypes {\n        release { minifyEnabled false }\n        debug { debuggable true }\n    }\n    compileOptions {\n        sourceCompatibility JavaVersion.VERSION_1_8\n        targetCompatibility JavaVersion.VERSION_1_8\n    }\n}\ndependencies {\n    implementation 'androidx.appcompat:appcompat:1.6.1'\n    implementation 'com.google.android.material:material:1.9.0'\n    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'\n}`);
-  zip.file(`app/src/main/AndroidManifest.xml`,
-`<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <application
-        android:allowBackup="true"
-        android:label="@string/app_name"
-        android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-        android:usesCleartextTraffic="true">
-        <activity android:name=".MainActivity"
-            android:exported="true"
-            android:configChanges="orientation|keyboardHidden|screenSize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-    </application>
-</manifest>`);
-  zip.file(`app/src/main/java/${pkgPath}/MainActivity.java`,
-`package ${pkg};
-import android.os.Bundle;
-import android.webkit.*;
-import android.view.KeyEvent;
-import android.view.View;
-import android.widget.ProgressBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-public class MainActivity extends AppCompatActivity {
-    private WebView webView;
-    @Override protected void onCreate(Bundle b) {
-        super.onCreate(b);
-        setContentView(R.layout.activity_main);
-        webView = findViewById(R.id.webview);
-        WebSettings s = webView.getSettings();
-        s.setJavaScriptEnabled(true);
-        s.setDomStorageEnabled(true);
-        s.setAllowFileAccessFromFileURLs(true);
-        s.setAllowUniversalAccessFromFileURLs(true);
-        s.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        s.setBuiltInZoomControls(false);
-        s.setLoadWithOverviewMode(true);
-        s.setUseWideViewPort(true);
-        s.setMediaPlaybackRequiresUserGesture(false);
-        webView.setWebViewClient(new WebViewClient(){
-            @Override public boolean shouldOverrideUrlLoading(WebView v,String u){return false;}
-        });
-        webView.setWebChromeClient(new WebChromeClient(){
-            @Override public void onPermissionRequest(PermissionRequest r){r.grant(r.getResources());}
-        });
-        webView.loadUrl("file:///android_asset/index.html");
-    }
-    @Override public boolean onKeyDown(int k,KeyEvent e){
-        if(k==KeyEvent.KEYCODE_BACK&&webView.canGoBack()){webView.goBack();return true;}
-        return super.onKeyDown(k,e);
-    }
-}`);
-  zip.file('app/src/main/res/layout/activity_main.xml',
-`<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="#000">
-    <WebView android:id="@+id/webview"
-        android:layout_width="match_parent" android:layout_height="match_parent"/>
-</RelativeLayout>`);
-  zip.file('app/src/main/res/values/strings.xml',`<resources><string name="app_name">${pname}</string></resources>`);
-  zip.file('app/src/main/res/values/colors.xml',`<?xml version="1.0" encoding="utf-8"?><resources><color name="colorPrimary">#7C3AED</color></resources>`);
-  zip.file('app/proguard-rules.pro','');
-  // GitHub Actions workflow for auto APK build
-  zip.file('.github/workflows/build-apk.yml',
-`name: Build APK
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug --stacktrace
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
-          retention-days: 30
-`);
-  // Copy project files to assets
-  const assets=zip.folder('app/src/main/assets');
-  let hasIdx=false;
-  Object.entries(pFiles).forEach(([path,content])=>{
-    if(typeof content==='string'&&!path.includes('.gitkeep')&&content.length<600000){
-      try{assets.file(path,content);}catch(e){}
-      if(path==='index.html'||path.endsWith('/index.html')) hasIdx=true;
-    }
-  });
-  if(!hasIdx){
-    const h=Object.keys(pFiles).find(p=>p.endsWith('.html'));
-    if(h) assets.file('index.html',pFiles[h]);
-    else assets.file('index.html',`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${pname}</title><style>body{font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;background:#1a1a2e;color:#fff;text-align:center}h1{font-size:2em}p{opacity:.7}</style></head><body><h1>⚡ ${pname}</h1><p>تطبيق من DevStudio AI</p></body></html>`);
-  }
-  return zip;
-}
-
-/* ══════════════════════════════════════
-   GITHUB DEPLOY
-══════════════════════════════════════ */
-function deployWeb(){
-  if(!Object.keys(pFiles).length) return toast('لا يوجد مشروع','tw');
-  document.getElementById('gh-user-row').style.display='none';
-  document.getElementById('gh-form-box').style.display='block';
-  document.getElementById('gh-conn').style.display='inline-flex';
-  document.getElementById('gh-deploy').style.display='none';
-  document.getElementById('gh-conn').textContent='ربط';
-  if(ghToken){
-    verifyGH(ghToken).then(()=>{
-      document.getElementById('gh-form-box').style.display='none';
-      document.getElementById('gh-conn').style.display='none';
-      document.getElementById('gh-deploy').style.display='inline-flex';
-    }).catch(()=>{ghToken=null;localStorage.removeItem('dsai_gh');});
-  }
-  openOv('ov-gh');
-}
-async function connectGH(){
-  const tok=document.getElementById('gh-tok').value.trim();
-  if(!tok) return toast('أدخل التوكن','tw');
-  document.getElementById('gh-conn').textContent='⏳...';
-  try{
-    await verifyGH(tok);ghToken=tok;localStorage.setItem('dsai_gh',tok);
-    document.getElementById('gh-form-box').style.display='none';
-    document.getElementById('gh-conn').style.display='none';
-    document.getElementById('gh-deploy').style.display='inline-flex';
-    toast('✅ تم الربط!','ts');
-  }catch(e){document.getElementById('gh-conn').textContent='ربط';toast('❌ توكن خاطئ','te');}
-}
-async function verifyGH(tok){
-  const r=await fetch(`${GH_API}/user`,{headers:{Authorization:`token ${tok}`,Accept:'application/vnd.github.v3+json'}});
-  if(!r.ok) throw new Error('Invalid');
-  ghUser=await r.json();
-  document.getElementById('gh-ava').src=ghUser.avatar_url||'';
-  document.getElementById('gh-nm').textContent=ghUser.name||ghUser.login;
-  document.getElementById('gh-un').textContent='@'+ghUser.login;
-  document.getElementById('gh-user-row').style.display='flex';
-}
-async function doGHDeploy(){
-  closeOv('ov-gh');openOv('ov-conv');
-  const title=document.getElementById('conv-title');
-  const pf=document.getElementById('conv-pf');
-  const stepsEl=document.getElementById('conv-steps');
-  const res=document.getElementById('conv-res');
-  const guide=document.getElementById('conv-apk-guide');
-  const ghI=document.getElementById('conv-gh-info');
-  const cls=document.getElementById('conv-close');
-  res.style.display='none';guide.style.display='none';ghI.style.display='none';cls.style.display='none';
-  title.textContent='🌐 نشر على GitHub Pages...';
-  const steps=['إنشاء المستودع','رفع الملفات','تفعيل Pages','اكتمل'];
-  stepsEl.innerHTML=steps.map((s,i)=>`
-    <div class="conv-step" id="gcs-${i}">
-      <div class="cs-ico pend">○</div><div class="cs-lbl">${s}</div>
-    </div>`).join('');
-  const setS=(i,t)=>{const el=document.getElementById(`gcs-${i}`);el.querySelector('.cs-ico').className=`cs-ico ${t}`;el.querySelector('.cs-ico').textContent=t==='run'?'⟳':t==='done'?'✓':'✕';};
-  try{
-    setS(0,'run');
-    const pname=(curProj?.name||'app').toLowerCase().replace(/[^a-z0-9]/g,'-');
-    const repo=`${pname}-${Date.now().toString(36)}`;
-    const cr=await fetch(`${GH_API}/user/repos`,{method:'POST',
-      headers:{Authorization:`token ${ghToken}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},
-      body:JSON.stringify({name:repo,private:false,auto_init:false})});
-    if(!cr.ok){const e=await cr.json();throw new Error(e.message);}
-    setS(0,'done');pf.style.width='25%';await sl(300);
-    setS(1,'run');
-    let files={...pFiles};
-    if(!files['index.html']){const h=Object.keys(files).find(p=>p.endsWith('.html'));if(h) files['index.html']=files[h];}
-    let uploaded=0;
-    for(const[path,content] of Object.entries(files)){
-      if(typeof content!=='string'||content.length>500000) continue;
-      try{
-        let enc;try{enc=btoa(unescape(encodeURIComponent(content)));}catch(e){enc=btoa(content);}
-        await fetch(`${GH_API}/repos/${ghUser.login}/${repo}/contents/${path}`,{
-          method:'PUT',headers:{Authorization:`token ${ghToken}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},
-          body:JSON.stringify({message:`Add ${path}`,content:enc})});
-        uploaded++;if(uploaded%4===0) await sl(150);
-      }catch(e){}
-    }
-    setS(1,'done');pf.style.width='60%';await sl(300);
-    setS(2,'run');
-    await fetch(`${GH_API}/repos/${ghUser.login}/${repo}/pages`,{
-      method:'POST',headers:{Authorization:`token ${ghToken}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},
-      body:JSON.stringify({source:{branch:'main',path:'/'}})});
-    setS(2,'done');pf.style.width='85%';await sl(300);
-    setS(3,'done');pf.style.width='100%';
-    const siteUrl=`https://${ghUser.login}.github.io/${repo}`;
-    const repoUrl=`https://github.com/${ghUser.login}/${repo}`;
-    title.textContent='🎉 تم النشر!';
-    document.getElementById('conv-link').textContent=siteUrl;
-    document.getElementById('conv-copy').textContent='📋 نسخ الرابط';
-    document.getElementById('conv-copy').onclick=()=>{navigator.clipboard?.writeText(siteUrl);toast('✅ تم النسخ!','ts');};
-    res.style.display='block';cls.style.display='flex';
-    log(`🌐 ${siteUrl}`,'ls');
-    log(`📦 ${repoUrl}`,'ls');
-    toast('🎉 تم النشر!','ts');
-  }catch(err){
-    title.textContent='❌ فشل: '+err.message;
-    for(let i=0;i<4;i++){const el=document.getElementById(`gcs-${i}`);if(el&&el.querySelector('.cs-ico').classList.contains('run')){el.querySelector('.cs-ico').className='cs-ico err';el.querySelector('.cs-ico').textContent='✕';break;}}
-    cls.style.display='flex';log('❌ '+err.message,'le');toast('❌ '+err.message,'te');
-  }
-}
-
-/* ══════════════════════════════════════
-   PROJECTS
-══════════════════════════════════════ */
-function saveProj(){
-  if(!curProj) return;
-  curProj.files={...pFiles};
-  const i=projects.findIndex(p=>p.name===curProj.name);
-  if(i>=0) projects[i]=curProj;else projects.push(curProj);
-  try{localStorage.setItem('dsai_projects',JSON.stringify(projects));}catch(e){}
-}
-function renderProjectsList(){
-  const c=document.getElementById('proj-list');
-  if(!projects.length){c.innerHTML='<div style="text-align:center;padding:30px;color:var(--td);font-size:12px">لا توجد مشاريع محفوظة</div>';return;}
-  c.innerHTML=projects.map((p,i)=>`
-    <div onclick="loadProj(${i})" style="display:flex;align-items:center;gap:10px;padding:10px;
-      background:var(--bg3);border-radius:8px;cursor:pointer;transition:all .15s;border:1px solid var(--border)"
-      onmouseover="this.style.borderColor='var(--c1)'" onmouseout="this.style.borderColor='var(--border)'">
-      <span style="font-size:24px">${p.icon||'📦'}</span>
-      <div style="flex:1">
-        <div style="font-size:13px;font-weight:800">${p.name}</div>
-        <div style="font-size:10px;color:var(--ts)">${p.date||''} · ${Object.keys(p.files||{}).length} ملف</div>
-      </div>
-      <span style="font-size:10px;color:var(--td)">→</span>
-    </div>`).join('');
-}
-function loadProj(i){
-  const p=projects[i];curProj=p;pFiles={...(p.files||{})};
-  openTabs=[];activeTab=null;
-  closeOv('ov-projects');showApp();renderFTree();
-  if(cm){cm.setValue('');document.getElementById('ed-ph').style.display='flex';}
-  renderTabs();toast(`📂 ${p.name}`,'ti');
-}
-
-/* ══════════════════════════════════════
-   ZIP UPLOAD
+   ZIP UPLOAD + FILE LINKER
 ══════════════════════════════════════ */
 const uzEl=document.getElementById('uz');
 uzEl.addEventListener('dragover',e=>{e.preventDefault();uzEl.classList.add('dv');});
 uzEl.addEventListener('dragleave',()=>uzEl.classList.remove('dv'));
-uzEl.addEventListener('drop',e=>{e.preventDefault();uzEl.classList.remove('dv');const f=e.dataTransfer.files[0];if(f&&f.name.endsWith('.zip')) processZip(f);else toast('ZIP فقط','te');});
-function handleZip(e){const f=e.target.files[0];if(f) processZip(f);}
+uzEl.addEventListener('drop',e=>{e.preventDefault();uzEl.classList.remove('dv');const f=e.dataTransfer.files[0];if(f&&f.name.endsWith('.zip'))processZip(f);else toast('ZIP فقط','te');});
+function handleZip(e){const f=e.target.files[0];if(f)processZip(f);}
+function openUpload(){closeProjects();openOv('ov-upload');}
+
+const BIN_EXT=/\.(png|jpg|jpeg|gif|ico|bmp|webp|mp3|mp4|ogg|wav|pdf|woff|woff2|ttf|eot|zip|bin|wasm|apk)$/i;
+const MIMES={html:'text/html',htm:'text/html',css:'text/css',js:'application/javascript',
+  mjs:'application/javascript',json:'application/json',xml:'application/xml',svg:'image/svg+xml',
+  txt:'text/plain',md:'text/plain',png:'image/png',jpg:'image/jpeg',jpeg:'image/jpeg',
+  gif:'image/gif',ico:'image/x-icon',webp:'image/webp',mp3:'audio/mpeg',mp4:'video/mp4',
+  ogg:'audio/ogg',wav:'audio/wav',woff:'font/woff',woff2:'font/woff2',ttf:'font/ttf',pdf:'application/pdf'};
+
 async function processZip(file){
-  closeOv('ov-upload');
-  showLd('📦','فك ضغط...','يرجى الانتظار',0);
+  closeOv('ov-upload');closeProjects();
+  showLD('📦','فك ضغط وربط الملفات...','يرجى الانتظار',0);
   try{
     const zip=new JSZip();
     const zc=await zip.loadAsync(file);
-    const ents=Object.entries(zc.files).filter(([,v])=>!v.dir);
-    pFiles={};
-    for(let i=0;i<ents.length;i++){
-      const[path,entry]=ents[i];
-      updLd(path.split('/').pop(),Math.round((i/ents.length)*100));
-      try{pFiles[path]=await entry.async('string');}catch(e){pFiles[path]=`// Binary: ${path}`;}
-      await sl(4);
+    const entries=Object.entries(zc.files).filter(([,v])=>!v.dir);
+    // Revoke old blob URLs
+    Object.values(blobURLs).forEach(u=>URL.revokeObjectURL(u));
+    pFiles={};blobURLs={};
+    let done=0;
+    for(const[path,entry] of entries){
+      updLD(path.split('/').pop().substring(0,25),Math.round((done/entries.length)*75));
+      try{
+        if(BIN_EXT.test(path)) pFiles[path]=await entry.async('arraybuffer');
+        else pFiles[path]=await entry.async('string');
+      }catch(e){pFiles[path]='';}
+      done++;if(done%15===0)await sl(1);
     }
-    updLd('تحليل...',100);await sl(200);hideLd();
+    updLD('ربط الملفات...',80);
+    await createBlobURLs();
+    updLD('حفظ المشروع...',95);
+    hideLD();
     const pname=file.name.replace('.zip','');
-    curProj={name:pname,files:{...pFiles},icon:'📦',type:'uploaded',date:dateStr()};
-    saveProj();log(`✅ "${pname}" — ${Object.keys(pFiles).length} ملفات`,'ls');
-    showApp();renderFTree();
-    const auto=Object.keys(pFiles).find(p=>/index\.(html?|js)$/i.test(p));
-    if(auto) openFile(auto);
-    analyze();toast('🚀 تم الرفع!','ts');
-  }catch(err){hideLd();toast('❌ '+err.message,'te');}
+    curProj={name:pname,icon:'📦',type:'uploaded',createdAt:new Date().toISOString()};
+    renderFTree();
+    // Auto-open index.html
+    const idx=Object.keys(pFiles).find(p=>/^(index\.html?|home\.html?|main\.html?)$/i.test(p.split('/').pop()));
+    if(idx) openFile(idx);
+    // Auto preview
+    await sl(300);runPreview();
+    // Save
+    await saveProjectToFirestore();
+    await loadUserProjects();
+    log(`✅ "${pname}" — ${Object.keys(pFiles).length} ملف`,'ls');
+    log(`🔗 ${Object.keys(blobURLs).length} ملف مرتبط للمعاينة`,'ls');
+    toast(`🚀 ${Object.keys(pFiles).length} ملف — جاهز!`,'ts');
+  }catch(err){hideLD();toast('❌ '+err.message,'te');console.error(err);}
 }
 
-/* ══════════════════════════════════════
-   UI HELPERS
-══════════════════════════════════════ */
-function setAITab(tab){
-  currentAITab=tab;
-  document.querySelectorAll('.ai-mode-tab').forEach(t=>t.classList.remove('act'));
-  document.getElementById(`tab-${tab}`).classList.add('act');
-  document.getElementById('ai-build-mode').classList.toggle('hid',tab!=='build');
-  document.getElementById('ai-chat-mode').classList.toggle('on',tab==='chat');
-  document.getElementById('ai-fix-mode').classList.toggle('on',tab==='fix');
-  if(document.getElementById('ai-panel').classList.contains('collapsed')) toggleAIPanel();
+async function createBlobURLs(){
+  for(const[path,content] of Object.entries(pFiles)){
+    const e=ext(path);
+    const mime=MIMES[e]||'application/octet-stream';
+    try{
+      const blob=content instanceof ArrayBuffer?new Blob([content],{type:mime}):new Blob([content],{type:mime+';charset=utf-8'});
+      if(blobURLs[path]) URL.revokeObjectURL(blobURLs[path]);
+      blobURLs[path]=URL.createObjectURL(blob);
+    }catch(e){}
+  }
 }
-function toggleAIPanel(){
-  const p=document.getElementById('ai-panel');
-  p.classList.toggle('collapsed');
-  aiPanelVisible=!p.classList.contains('collapsed');
+
+/* ══ PREVIEW — Full Linker ══ */
+function buildLinkedHTML(){
+  const htmlKey=findIndexHtml();
+  if(!htmlKey) return null;
+  const html=typeof pFiles[htmlKey]==='string'?pFiles[htmlKey]:'';
+  const baseDir=htmlKey.includes('/')?htmlKey.substring(0,htmlKey.lastIndexOf('/'))+'/':'';
+  return rewriteHTML(html,baseDir);
 }
-function togglePreviewPane(){
-  previewVisible=!previewVisible;
-  const pane=document.getElementById('preview-pane');
-  const rsz=document.getElementById('rsz-pv');
-  pane.classList.toggle('hidden',!previewVisible);
-  rsz.style.display=previewVisible?'block':'none';
-  if(previewVisible) runPreview();
+function findIndexHtml(){
+  return Object.keys(pFiles).find(p=>/^index\.html?$/i.test(p.split('/').pop()))
+      || Object.keys(pFiles).find(p=>p.endsWith('.html'));
 }
-function switchBot(id,el){
-  document.querySelectorAll('.bot-tab').forEach(t=>t.classList.remove('act'));
-  document.querySelectorAll('.bot-content').forEach(c=>c.classList.add('hid'));
-  el.classList.add('act');
-  document.getElementById(id).classList.remove('hid');
+function resolvePath(base,rel){
+  if(!rel||rel.startsWith('http')||rel.startsWith('data:')||rel.startsWith('blob:')||rel.startsWith('#')||rel.startsWith('mailto:')||rel.startsWith('tel:')) return null;
+  if(rel.startsWith('/')) rel=rel.substring(1);
+  const parts=(base+rel).split('/');
+  const resolved=[];
+  for(const p of parts){if(p==='..')resolved.pop();else if(p&&p!='.')resolved.push(p);}
+  return resolved.join('/');
 }
+function getBlobURL(base,rel){
+  if(!rel) return null;
+  const r=resolvePath(base,rel);
+  if(r&&blobURLs[r]) return blobURLs[r];
+  const r2=rel.replace(/^\.\//,'');
+  if(blobURLs[r2]) return blobURLs[r2];
+  // Try direct
+  if(blobURLs[rel]) return blobURLs[rel];
+  return null;
+}
+function rewriteHTML(html,baseDir){
+  // Rewrite href/src attributes
+  html=html.replace(/(href|src|action|data-src)=["']([^"'#?][^"']*)["']/gi,(match,attr,url)=>{
+    const blob=getBlobURL(baseDir,url);
+    return blob?`${attr}="${blob}"`:match;
+  });
+  // Inline <link rel="stylesheet">
+  html=html.replace(/<link([^>]*?)href=["']([^"']+)["']([^>]*?)>/gi,(match,before,href,after)=>{
+    if(!after.includes('stylesheet')&&!before.includes('stylesheet')) return match;
+    if(href.startsWith('http')) return match;
+    const r=resolvePath(baseDir,href);
+    const css=r&&typeof pFiles[r]==='string'?pFiles[r]:(typeof pFiles[href.replace(/^\.\//,'')])==='string'?pFiles[href.replace(/^\.\//,'')]:null;
+    if(css){
+      const cssDir=r&&r.includes('/')?r.substring(0,r.lastIndexOf('/'))+'/':'';
+      const rewritten=css.replace(/url\(["']?([^"')]+)["']?\)/gi,(m,u)=>{const b=getBlobURL(cssDir,u);return b?`url("${b}")`:m;});
+      return `<style>${rewritten}</style>`;
+    }
+    return match;
+  });
+  // Inline <script src>
+  html=html.replace(/<script([^>]*)src=["']([^"']+)["']([^>]*)><\/script>/gi,(match,before,src,after)=>{
+    if(src.startsWith('http')) return match;
+    const r=resolvePath(baseDir,src);
+    const js=r&&typeof pFiles[r]==='string'?pFiles[r]:(typeof pFiles[src.replace(/^\.\//,'')]==='string'?pFiles[src.replace(/^\.\//,'')]:null);
+    if(js) return `<script${before}${after}>${js}<\/script>`;
+    return match;
+  });
+  // Fix url() in inline styles
+  html=html.replace(/<style([^>]*)>([\s\S]*?)<\/style>/gi,(match,attrs,css)=>{
+    const rewritten=css.replace(/url\(["']?([^"')]+)["']?\)/gi,(m,u)=>{const b=getBlobURL(baseDir,u);return b?`url("${b}")`:m;});
+    return `<style${attrs}>${rewritten}</style>`;
+  });
+  // Add base navigation interceptor
+  html=html.replace('</head>',`<script>
+(function(){
+  // Intercept navigation links to use blob URLs
+  document.addEventListener('click',function(e){
+    const a=e.target.closest('a');
+    if(!a||!a.getAttribute('href')) return;
+    const href=a.getAttribute('href');
+    if(href.startsWith('http')||href.startsWith('#')||href.startsWith('blob:')) return;
+    // handled by blob URL rewriting above
+  },true);
+})();
+<\/script></head>`);
+  return html;
+}
+
+function runPreview(){
+  const html=buildLinkedHTML();
+  if(!html){toast('لا يوجد index.html','tw');return;}
+  if(!prevOpen){prevOpen=true;document.getElementById('prev-pane').classList.remove('closed');document.getElementById('rsz-pv').style.display='block';}
+  document.getElementById('pv-overlay').classList.remove('hide');
+  document.getElementById('pv-overlay').innerHTML='<div class="pv-spin"></div><div style="font-size:11px;color:var(--ts);margin-top:8px">تحميل...</div>';
+  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  document.getElementById('preview-frame').src=URL.createObjectURL(blob);
+  document.getElementById('pv-label').textContent='📱 '+(curProj?.name||'معاينة');
+  log('▶️ معاينة','ls');
+}
+function closePreview(){prevOpen=false;document.getElementById('prev-pane').classList.add('closed');document.getElementById('rsz-pv').style.display='none';}
+function previewLoaded(){setTimeout(()=>document.getElementById('pv-overlay').classList.add('hide'),400);}
+function runPreviewAI(){closeProjects();setTimeout(()=>runPreview(),200);}
+function editAI(){closeProjects();const f=Object.keys(pFiles).find(p=>p.endsWith('.html'))||Object.keys(pFiles)[0];if(f)setTimeout(()=>openFile(f),200);}
+
+/* ══ AI BUILD ══ */
+function toggleAI(){
+  aiOpen=!aiOpen;
+  document.getElementById('ai-drawer').classList.toggle('open',aiOpen);
+  document.getElementById('ai-backdrop').classList.toggle('on',aiOpen);
+}
+function setAITab(t){
+  aiTab=t;
+  ['build','chat','fix'].forEach(x=>{
+    document.getElementById(`at-${x}`).classList.toggle('act',x===t);
+    const sec=document.getElementById(`ai-${x}`);
+    sec.classList.toggle('hid',x!==t);
+    if(x==='chat') sec.style.display=t==='chat'?'flex':'none';
+  });
+}
+
+function setChip(el){
+  const MAP={
+    '📱 دردشة':'تطبيق دردشة مثل واتساب: قائمة محادثات، نافذة دردشة بفقاعات رسائل، حقل إدخال مع إيموجي، تصميم داكن احترافي.',
+    '🛒 متجر':'متجر إلكتروني: بنر رئيسي، شبكة منتجات مع صور وأسعار، سلة تسوق، تصفية وبحث، تصميم ملون.',
+    '📊 تحكم':'لوحة تحكم: إحصائيات KPI، رسم بياني، جدول بيانات، قائمة جانبية، ثيم داكن.',
+    '🎮 لعبة':'لعبة Snake أو Tetris في Canvas: تحكم كامل، نقاط، مستويات، تصميم ملون.',
+    '📰 أخبار':'موقع إخباري: شريط عاجل، بطاقات أخبار بصور، تصنيفات، تصميم احترافي.',
+    '🎵 موسيقى':'مشغل موسيقى: موجة صوتية، قائمة أغاني، تحكم كامل، تصميم داكن.',
+    '📝 مهام':'تطبيق مهام: إضافة وحذف وتأشير، تصنيفات، حفظ تلقائي.',
+    '🌦️ طقس':'تطبيق طقس: خلفية ديناميكية، درجة حرارة، توقعات أسبوعية.'
+  };
+  document.getElementById('ai-prompt').value=MAP[el.textContent.trim()]||el.textContent.trim();
+}
+
+async function startBuild(){
+  const prompt=document.getElementById('ai-prompt').value.trim();
+  if(!prompt) return toast('اكتب وصف التطبيق','tw');
+  document.getElementById('ai-build-btn').disabled=true;
+  ['post-build','gfiles'].forEach(id=>document.getElementById(id).classList.remove('on'));
+  const bprog=document.getElementById('bprog');bprog.classList.add('on');
+  document.getElementById('bp-spin').style.display='block';
+  document.getElementById('code-stream').classList.remove('on');
+  const steps=[{id:'a',lbl:'تحليل الطلب'},{id:'b',lbl:'تصميم الهيكل'},{id:'c',lbl:'كتابة HTML'},{id:'d',lbl:'تصميم CSS'},{id:'e',lbl:'JavaScript'},{id:'f',lbl:'ربط الملفات'}];
+  const renderSteps=()=>document.getElementById('bp-steps').innerHTML=steps.map(s=>`<div class="bp-step ${s.st||'pend'}" id="bs-${s.id}"><span class="sico">${s.st==='done'?'✓':s.st==='run'?'⟳':s.st==='err'?'✕':'○'}</span><span>${s.lbl}</span></div>`).join('');
+  const setStep=(id,st)=>{const s=steps.find(x=>x.id===id);if(s)s.st=st;const el=document.getElementById(`bs-${id}`);if(el){el.className=`bp-step ${st}`;el.querySelector('.sico').textContent=st==='done'?'✓':st==='run'?'⟳':st==='err'?'✕':'○';}};
+  const setBP=(t,p)=>{document.getElementById('bp-tt').textContent=t;document.getElementById('bp-fill').style.width=p+'%';};
+  renderSteps();setBP('🤖 يحلل...',5);setStep('a','run');await sl(400);
+  try{
+    const sys=`أنت مطور ويب خبير. اصنع تطبيقاً HTML/CSS/JS جميلاً ووظيفياً حقيقياً.
+قواعد: الكود يعمل في المتصفح مباشرة. تصميم احترافي جداً. JS وظيفي حقيقي لا placeholder.
+استخدم Google Fonts من CDN. التنقل بين الصفحات عبر JS (لا href لملفات أخرى).
+أجب بـ JSON فقط: {"projectName":"اسم","files":{"index.html":"...","style.css":"...","script.js":"..."}}
+لا شيء خارج JSON.`;
+    setBP('✍️ يكتب...',25);setStep('a','done');setStep('b','run');await sl(300);setStep('b','done');setStep('c','run');
+    document.getElementById('code-stream').classList.add('on');
+    const stream=async txt=>{
+      const el=document.getElementById('cs-txt');
+      const chunk=Math.max(2,Math.floor(txt.length/50));
+      for(let i=0;i<txt.length;i+=chunk){el.textContent=txt.substring(0,i);await sl(18);}
+      el.textContent=txt;
+    };
+    const resp=await fetch(GROQ,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${GROQ_KEY}`},
+      body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:[{role:'system',content:sys},{role:'user',content:`اصنع: ${prompt}\nJSON فقط.`}],max_tokens:8192,temperature:0.35})});
+    if(!resp.ok){const e=await resp.json();throw new Error(e.error?.message||'Groq Error');}
+    const data=await resp.json();const raw=data.choices[0].message.content;
+    setBP('🖌️ CSS...',55);setStep('c','done');setStep('d','run');
+    let proj;
+    try{
+      let js=raw.replace(/```json\n?/g,'').replace(/```\n?/g,'').trim();
+      const s=js.indexOf('{'),end=js.lastIndexOf('}')+1;
+      if(s>=0&&end>s) js=js.substring(s,end);
+      proj=JSON.parse(js);
+    }catch(e){
+      proj={projectName:prompt.substring(0,20),files:{}};
+      const hm=raw.match(/```html\n([\s\S]*?)```/);const cm2=raw.match(/```css\n([\s\S]*?)```/);const jm=raw.match(/```(?:js|javascript)\n([\s\S]*?)```/);
+      if(hm)proj.files['index.html']=hm[1];if(cm2)proj.files['style.css']=cm2[1];if(jm)proj.files['script.js']=jm[1];
+      if(!Object.keys(proj.files).length) throw new Error('لم يُنشأ كود');
+    }
+    setBP('⚡ JS...',75);setStep('d','done');setStep('e','run');
+    await stream((proj.files['index.html']||'').substring(0,200)+'...');
+    await sl(200);
+    Object.values(blobURLs).forEach(u=>URL.revokeObjectURL(u));
+    pFiles={};blobURLs={};
+    Object.entries(proj.files||{}).forEach(([fn,c])=>{if(c&&fn)pFiles[fn]=c;});
+    setBP('🔗 ربط...',90);setStep('e','done');setStep('f','run');
+    await createBlobURLs();await sl(200);
+    curProj={name:proj.projectName||prompt.substring(0,20),icon:'🤖',type:'ai',createdAt:new Date().toISOString()};
+    setStep('f','done');setBP('✅ اكتمل!',100);
+    document.getElementById('bp-spin').style.display='none';
+    document.getElementById('gf-list').innerHTML=Object.entries(pFiles).map(([fn,c])=>`<div class="gf-item"><span>${iconF(fn)}</span><span class="gf-nm">${fn}</span><span class="gf-sz">${Math.round((typeof c==='string'?c:'').length/1024*10)/10}KB</span><span class="gf-ok">✓</span></div>`).join('');
+    document.getElementById('gfiles').classList.add('on');
+    document.getElementById('pb-info').textContent=`${Object.keys(pFiles).length} ملفات — جاهز`;
+    document.getElementById('post-build').classList.add('on');
+    renderFTree();renderTabs();
+    await saveProjectToFirestore();await loadUserProjects();
+    log(`🤖 بُني: "${curProj.name}"`,'ls');toast('🎉 اكتمل!','ts');
+  }catch(err){
+    document.getElementById('bp-tt').textContent='❌ '+err.message;
+    document.getElementById('bp-spin').style.display='none';
+    steps.filter(s=>s.st==='run').forEach(s=>setStep(s.id,'err'));
+    log('❌ '+err.message,'le');toast('❌ '+err.message,'te');
+  }
+  document.getElementById('ai-build-btn').disabled=false;
+}
+
+/* ══ CHAT ══ */
+function chatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}}
+async function sendChat(){
+  const inp=document.getElementById('chat-in');const msg=inp.value.trim();if(!msg)return;
+  inp.value='';addMsg(msg,'user');aiHist.push({role:'user',content:msg});
+  document.getElementById('typing-row').style.display='block';
+  try{
+    const r=await fetch(GROQ,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${GROQ_KEY}`},
+      body:JSON.stringify({model:'llama-3.1-8b-instant',messages:[{role:'system',content:`مساعد برمجي. الملف: ${activeTab||'لا'}. الكود:\n\`\`\`\n${activeTab&&typeof pFiles[activeTab]==='string'?pFiles[activeTab].substring(0,1200):''}\n\`\`\`\nأجب بالعربية.`},...aiHist],max_tokens:1200,temperature:0.3})});
+    const d=await r.json();const rep=d.choices[0].message.content;
+    aiHist.push({role:'assistant',content:rep});
+    document.getElementById('typing-row').style.display='none';addMsg(rep,'bot');
+  }catch(e){document.getElementById('typing-row').style.display='none';addMsg('❌ '+e.message,'bot');}
+}
+function addMsg(txt,type){
+  const c=document.getElementById('chat-msgs');
+  const d=document.createElement('div');d.className=`chat-msg ${type}`;
+  d.innerHTML=txt.replace(/```([a-z]*)\n?([\s\S]*?)```/g,'<pre style="background:rgba(0,0,0,.4);padding:6px;border-radius:5px;font-family:var(--fc);font-size:9.5px;overflow-x:auto;margin-top:5px;white-space:pre-wrap">$2</pre>').replace(/`([^`]+)`/g,'<code style="background:rgba(0,0,0,.3);padding:1px 4px;border-radius:3px;font-family:var(--fc)">$1</code>').replace(/\n/g,'<br>');
+  c.appendChild(d);c.scrollTop=c.scrollHeight;
+}
+
+/* ══ FIX ══ */
+async function analyzeAll(){document.getElementById('fix-results').textContent='🔍 يحلل...';analyze();await sl(700);document.getElementById('fix-results').textContent=errors.length?`وُجد ${errors.length} مشاكل — اضغط "إصلاح AI" في لوحة الأخطاء`:'✅ لا توجد أخطاء واضحة';}
+function analyze(){
+  errors=[];
+  Object.entries(pFiles).forEach(([path,content])=>{
+    if(typeof content!=='string')return;
+    content.split('\n').forEach((line,i)=>{
+      if((path.endsWith('.js'))&&line.includes('console.log')&&Math.random()<0.3) errors.push({file:path,line:i+1,msg:'console.log يُزال في الإنتاج',fix:line.replace(/.*console\.log.*/,'// removed')});
+      if(/^\s*var\s+/.test(line)&&path.endsWith('.js')&&Math.random()<0.35) errors.push({file:path,line:i+1,msg:'استبدل var بـ const/let',fix:line.replace(/\bvar\b/,'const')});
+    });
+  });
+  errors=errors.slice(0,8);
+  document.getElementById('ecnt').textContent=errors.length||'';
+  document.getElementById('fix-row').style.display=errors.length?'flex':'none';
+  document.getElementById('err-list').innerHTML=errors.map((e,i)=>`<div class="err-i" id="ei-${i}"><div class="ei-f">📄 ${e.file}</div><div class="ei-l">السطر ${e.line}</div><div class="ei-m">⚠️ ${e.msg}</div><div class="ei-btns"><button class="ei-fix" onclick="fixOne(${i})">🔧</button><button class="ei-ai" onclick="aiFixOne(${i})">🤖 AI</button></div></div>`).join('');
+}
+function fixOne(i){
+  const e=errors[i];if(!e)return;
+  const lines=(typeof pFiles[e.file]==='string'?pFiles[e.file]:'').split('\n');
+  if(lines[e.line-1]!==undefined){lines[e.line-1]=e.fix;pFiles[e.file]=lines.join('\n');}
+  if(activeTab===e.file)cm.setValue(pFiles[e.file]);
+  document.getElementById(`ei-${i}`)?.remove();errors.splice(i,1);
+  document.getElementById('ecnt').textContent=errors.length||'';
+  document.getElementById('fix-row').style.display=errors.length?'flex':'none';
+  toast('✅ تم','ts');
+}
+async function aiFixOne(i){
+  const e=errors[i];if(!e)return;toast('🤖 يصلح...','ti');
+  try{
+    const lines=(typeof pFiles[e.file]==='string'?pFiles[e.file]:'').split('\n');
+    const r=await fetch(GROQ,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${GROQ_KEY}`},
+      body:JSON.stringify({model:'llama-3.1-8b-instant',messages:[{role:'user',content:`أصلح: المشكلة: ${e.msg}\nالسطر: ${lines[e.line-1]}\nأعط السطر المصحح فقط.`}],max_tokens:150,temperature:0.1})});
+    const d=await r.json();
+    const fixed=d.choices[0].message.content.trim().replace(/```[a-z]*\n?/g,'').replace(/```/g,'').trim();
+    lines[e.line-1]=fixed;pFiles[e.file]=lines.join('\n');
+    if(activeTab===e.file)cm.setValue(pFiles[e.file]);
+    document.getElementById(`ei-${i}`)?.remove();errors.splice(i,1);
+    document.getElementById('ecnt').textContent=errors.length||'';
+    document.getElementById('fix-row').style.display=errors.length?'flex':'none';
+    toast('🤖 تم!','ts');
+  }catch(e2){toast('❌ '+e2.message,'te');}
+}
+function fixAllBasic(){const c=errors.length;for(let i=c-1;i>=0;i--)fixOne(0);toast(`✨ ${c}`,'ts');}
+async function fixAllAI(){for(let i=errors.length-1;i>=0;i--){await aiFixOne(0);await sl(300);}toast('🤖 اكتمل','ts');}
+
+/* ══ APK BUILD ══ */
+async function buildAPK(){
+  if(!Object.keys(pFiles).length)return toast('لا يوجد مشروع','tw');
+  openOv('ov-conv');
+  const ct=document.getElementById('cv-title');const cpf=document.getElementById('cv-pf');
+  const cst=document.getElementById('cv-steps');const cres=document.getElementById('cv-res');
+  const capk=document.getElementById('cv-apk');const ccl=document.getElementById('cv-close');
+  cres.style.display='none';capk.style.display='none';ccl.style.display='none';
+  ct.textContent='📱 بناء مشروع Android...';
+  const steps=['تحليل الملفات','إنشاء AndroidManifest.xml','توليد MainActivity.java','إنشاء Gradle + GitHub Actions','نسخ جميع الملفات','ضغط المشروع'];
+  const TIMES=[200,200,250,200,350,400];
+  cst.innerHTML=steps.map((s,i)=>`<div class="cs" id="cs-${i}"><div class="cs-ico p">○</div><div class="cs-lbl">${s}</div></div>`).join('');
+  for(let i=0;i<steps.length;i++){
+    const el=document.getElementById(`cs-${i}`);
+    el.querySelector('.cs-ico').className='cs-ico r';el.querySelector('.cs-ico').textContent='⟳';
+    await sl(TIMES[i]);
+    el.querySelector('.cs-ico').className='cs-ico d';el.querySelector('.cs-ico').textContent='✓';
+    cpf.style.width=((i+1)/steps.length*100)+'%';
+  }
+  try{
+    const apkZip=await genAndroid();
+    const blob=await apkZip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:6}});
+    const url=URL.createObjectURL(blob);
+    const pname=(curProj?.name||'MyApp').replace(/[^a-zA-Z0-9]/g,'_');
+    ct.textContent='✅ مشروع Android جاهز للتنزيل!';
+    document.getElementById('cv-link').innerHTML=`<strong style="color:var(--c2)">📦 ${pname}-android.zip</strong><br><span style="font-size:10px;color:var(--ts)">يحتوي مشروع Android كامل + GitHub Actions يبني APK تلقائياً</span>`;
+    document.getElementById('cv-copy').textContent='📥 تنزيل مشروع Android (ZIP)';
+    document.getElementById('cv-copy').onclick=()=>{const a=document.createElement('a');a.href=url;a.download=`${pname}-android.zip`;a.click();toast('📥 جاري التنزيل...','ts');};
+    cres.style.display='block';capk.style.display='block';ccl.style.display='flex';
+    log(`📱 ${pname}-android.zip جاهز`,'ls');
+  }catch(err){ct.textContent='❌ '+err.message;ccl.style.display='flex';log('❌ '+err.message,'le');}
+}
+
+async function genAndroid(){
+  const zip=new JSZip();
+  const pname=(curProj?.name||'MyApp').replace(/[^a-zA-Z0-9]/g,'')||'MyApp';
+  const pkg=`com.devstudio.${pname.toLowerCase().replace(/[^a-z0-9]/g,'').substring(0,18)||'app'}`;
+  const pkgPath=pkg.replace(/\./g,'/');
+  zip.file('settings.gradle',`rootProject.name = "${pname}"\ninclude ':app'`);
+  zip.file('build.gradle',`buildscript {\n    repositories { google(); mavenCentral() }\n    dependencies { classpath 'com.android.tools.build:gradle:8.1.4' }\n}\nallprojects { repositories { google(); mavenCentral() } }`);
+  zip.file('gradle.properties','android.useAndroidX=true\nandroid.enableJetifier=true\norg.gradle.jvmargs=-Xmx2048m');
+  zip.file('local.properties','# sdk.dir=/path/to/android/sdk');
+  zip.file('gradlew','#!/bin/sh\nexec gradle "$@"');
+  zip.file('gradle/wrapper/gradle-wrapper.properties',`distributionBase=GRADLE_USER_HOME\ndistributionPath=wrapper/dists\ndistributionUrl=https\\://services.gradle.org/distributions/gradle-8.1.1-bin.zip\nzipStoreBase=GRADLE_USER_HOME\nzipStorePath=wrapper/dists`);
+  zip.file('app/build.gradle',`plugins { id 'com.android.application' }\nandroid {\n    namespace '${pkg}'\n    compileSdk 34\n    defaultConfig {\n        applicationId "${pkg}"\n        minSdk 21\n        targetSdk 34\n        versionCode 1\n        versionName "1.0"\n    }\n    buildTypes {\n        debug { debuggable true }\n        release { minifyEnabled false }\n    }\n    compileOptions {\n        sourceCompatibility JavaVersion.VERSION_1_8\n        targetCompatibility JavaVersion.VERSION_1_8\n    }\n}\ndependencies {\n    implementation 'androidx.appcompat:appcompat:1.6.1'\n    implementation 'com.google.android.material:material:1.9.0'\n}`);
+  zip.file(`app/src/main/AndroidManifest.xml`,`<?xml version="1.0" encoding="utf-8"?>\n<manifest xmlns:android="http://schemas.android.com/apk/res/android">\n    <uses-permission android:name="android.permission.INTERNET"/>\n    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>\n    <application\n        android:allowBackup="true"\n        android:label="${pname}"\n        android:theme="@style/Theme.AppCompat.Light.NoActionBar"\n        android:usesCleartextTraffic="true"\n        android:hardwareAccelerated="true">\n        <activity android:name=".MainActivity" android:exported="true"\n            android:configChanges="orientation|keyboardHidden|screenSize">\n            <intent-filter>\n                <action android:name="android.intent.action.MAIN"/>\n                <category android:name="android.intent.category.LAUNCHER"/>\n            </intent-filter>\n        </activity>\n    </application>\n</manifest>`);
+  zip.file(`app/src/main/java/${pkgPath}/MainActivity.java`,`package ${pkg};\nimport android.annotation.SuppressLint;\nimport android.os.Bundle;\nimport android.view.KeyEvent;\nimport android.webkit.*;\nimport androidx.appcompat.app.AppCompatActivity;\npublic class MainActivity extends AppCompatActivity {\n    private WebView webView;\n    @SuppressLint("SetJavaScriptEnabled")\n    @Override protected void onCreate(Bundle b) {\n        super.onCreate(b);\n        setContentView(R.layout.activity_main);\n        webView=findViewById(R.id.webview);\n        WebSettings ws=webView.getSettings();\n        ws.setJavaScriptEnabled(true);\n        ws.setDomStorageEnabled(true);\n        ws.setDatabaseEnabled(true);\n        ws.setAllowFileAccessFromFileURLs(true);\n        ws.setAllowUniversalAccessFromFileURLs(true);\n        ws.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);\n        ws.setLoadWithOverviewMode(true);\n        ws.setUseWideViewPort(true);\n        ws.setBuiltInZoomControls(false);\n        ws.setMediaPlaybackRequiresUserGesture(false);\n        webView.setWebViewClient(new WebViewClient(){\n            @Override public boolean shouldOverrideUrlLoading(WebView v,String url){\n                if(url.startsWith("file://")||url.startsWith("about:"))return false;\n                v.loadUrl(url);return true;}\n        });\n        webView.setWebChromeClient(new WebChromeClient(){\n            @Override public void onPermissionRequest(PermissionRequest r){r.grant(r.getResources());}\n        });\n        webView.loadUrl("file:///android_asset/index.html");\n    }\n    @Override public boolean onKeyDown(int k,KeyEvent e){\n        if(k==KeyEvent.KEYCODE_BACK&&webView.canGoBack()){webView.goBack();return true;}\n        return super.onKeyDown(k,e);\n    }\n}`);
+  zip.file('app/src/main/res/layout/activity_main.xml',`<?xml version="1.0" encoding="utf-8"?>\n<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    android:layout_width="match_parent" android:layout_height="match_parent" android:background="#000">\n    <WebView android:id="@+id/webview"\n        android:layout_width="match_parent" android:layout_height="match_parent"/>\n</RelativeLayout>`);
+  zip.file('app/src/main/res/values/strings.xml',`<resources><string name="app_name">${pname}</string></resources>`);
+  zip.file('app/src/main/res/values/colors.xml',`<?xml version="1.0" encoding="utf-8"?><resources><color name="colorPrimary">#58a6ff</color></resources>`);
+  zip.file('app/proguard-rules.pro','');
+  // GitHub Actions auto-build APK
+  zip.file('.github/workflows/build-apk.yml',`name: Build APK\non:\n  push:\n    branches: [ main, master ]\n  workflow_dispatch:\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n    - uses: actions/checkout@v4\n    - name: Set up JDK 17\n      uses: actions/setup-java@v4\n      with:\n        java-version: '17'\n        distribution: 'temurin'\n    - name: Setup Android SDK\n      uses: android-actions/setup-android@v3\n    - name: Make gradlew executable\n      run: chmod +x gradlew\n    - name: Build Debug APK\n      run: ./gradlew assembleDebug\n    - name: Upload APK\n      uses: actions/upload-artifact@v4\n      with:\n        name: ${pname}-apk\n        path: app/build/outputs/apk/debug/app-debug.apk\n        retention-days: 30\n`);
+  // Copy all project files to assets
+  const assets=zip.folder('app/src/main/assets');
+  let hasIdx=false;
+  for(const[path,content] of Object.entries(pFiles)){
+    if(path.includes('.gitkeep'))continue;
+    try{
+      if(content instanceof ArrayBuffer)assets.file(path,content);
+      else if(typeof content==='string')assets.file(path,content);
+      if(/^index\.html?$/i.test(path.split('/').pop()))hasIdx=true;
+    }catch(e){}
+  }
+  if(!hasIdx){
+    const h=Object.keys(pFiles).find(p=>p.endsWith('.html'));
+    if(h&&typeof pFiles[h]==='string')assets.file('index.html',pFiles[h]);
+    else assets.file('index.html',`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${pname}</title><style>body{font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;background:#0d1117;color:#cdd9e5;text-align:center;flex-direction:column;gap:16px}h1{font-size:2em;color:#58a6ff}</style></head><body><h1>⚡ ${pname}</h1><p>DevStudio Pro</p></body></html>`);
+  }
+  zip.file('README.md',`# ${pname}\n\n## بناء APK\n\n### الطريقة 1 — GitHub Actions (الأسرع)\n1. ارفع هذا المجلد على GitHub\n2. Actions → "Build APK" → Run workflow\n3. نزّل APK من Artifacts\n\n### الطريقة 2 — Android Studio\n1. افتح المجلد في Android Studio\n2. Build → Generate APK\n\n### الطريقة 3\n\`\`\`bash\nchmod +x gradlew && ./gradlew assembleDebug\n\`\`\`\n`);
+  return zip;
+}
+
+/* ══ WEB DEPLOY ══ */
+async function deployWeb(){
+  if(!Object.keys(pFiles).length)return toast('لا يوجد مشروع','tw');
+  document.getElementById('gh-row').style.display='none';
+  document.getElementById('gh-form').style.display='block';
+  document.getElementById('gh-conn-btn').style.display='inline-flex';
+  document.getElementById('gh-dep-btn').style.display='none';
+  document.getElementById('gh-conn-btn').textContent='ربط';
+  if(ghToken){
+    try{await verifyGH(ghToken);
+      document.getElementById('gh-form').style.display='none';
+      document.getElementById('gh-conn-btn').style.display='none';
+      document.getElementById('gh-dep-btn').style.display='inline-flex';
+    }catch(e){ghToken=null;localStorage.removeItem('dsp5_gh');}
+  }
+  openOv('ov-gh');
+}
+async function connectGH(){
+  const tok=document.getElementById('gh-tok').value.trim();if(!tok)return toast('أدخل التوكن','tw');
+  document.getElementById('gh-conn-btn').textContent='⏳...';
+  try{await verifyGH(tok);ghToken=tok;localStorage.setItem('dsp5_gh',tok);
+    document.getElementById('gh-form').style.display='none';document.getElementById('gh-conn-btn').style.display='none';
+    document.getElementById('gh-dep-btn').style.display='inline-flex';toast('✅ تم!','ts');
+  }catch(e){document.getElementById('gh-conn-btn').textContent='ربط';toast('❌ توكن خاطئ','te');}
+}
+async function verifyGH(tok){
+  const r=await fetch(`${GH}/user`,{headers:{Authorization:`token ${tok}`,Accept:'application/vnd.github.v3+json'}});
+  if(!r.ok) throw new Error('Invalid');
+  ghUser=await r.json();
+  document.getElementById('gh-av').src=ghUser.avatar_url||'';
+  document.getElementById('gh-nm').textContent=ghUser.name||ghUser.login;
+  document.getElementById('gh-un').textContent='@'+ghUser.login;
+  document.getElementById('gh-row').style.display='flex';
+}
+async function doGHDeploy(){
+  closeOv('ov-gh');openOv('ov-conv');
+  const ct=document.getElementById('cv-title');const cpf=document.getElementById('cv-pf');
+  const cst=document.getElementById('cv-steps');const cres=document.getElementById('cv-res');
+  const capk=document.getElementById('cv-apk');const ccl=document.getElementById('cv-close');
+  cres.style.display='none';capk.style.display='none';ccl.style.display='none';
+  ct.textContent='🌐 نشر على GitHub Pages...';
+  const steps=['إنشاء المستودع','رفع الملفات','تفعيل Pages','اكتمل'];
+  cst.innerHTML=steps.map((s,i)=>`<div class="cs" id="gcs-${i}"><div class="cs-ico p">○</div><div class="cs-lbl">${s}</div></div>`).join('');
+  const setS=(i,t)=>{const el=document.getElementById(`gcs-${i}`);el.querySelector('.cs-ico').className=`cs-ico ${t}`;el.querySelector('.cs-ico').textContent=t==='r'?'⟳':t==='d'?'✓':'✕';};
+  try{
+    setS(0,'r');
+    const pn=(curProj?.name||'app').toLowerCase().replace(/[^a-z0-9]/g,'-');
+    const repo=`${pn}-${Date.now().toString(36)}`;
+    const cr=await fetch(`${GH}/user/repos`,{method:'POST',headers:{Authorization:`token ${ghToken}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify({name:repo,private:false,auto_init:false})});
+    if(!cr.ok){const e=await cr.json();throw new Error(e.message);}
+    setS(0,'d');cpf.style.width='25%';await sl(300);
+    setS(1,'r');
+    let files={...pFiles};
+    if(!files['index.html']){const h=Object.keys(files).find(p=>p.endsWith('.html'));if(h)files['index.html']=files[h];}
+    let up=0;
+    for(const[path,content] of Object.entries(files)){
+      if(typeof content!=='string'||content.length>500000)continue;
+      try{let enc;try{enc=btoa(unescape(encodeURIComponent(content)));}catch(e){enc=btoa(content);}
+        await fetch(`${GH}/repos/${ghUser.login}/${repo}/contents/${path}`,{method:'PUT',headers:{Authorization:`token ${ghToken}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify({message:`Add ${path}`,content:enc})});
+        up++;if(up%5===0)await sl(150);}catch(e){}
+      cpf.style.width=(25+Math.round((up/Object.keys(files).length)*50))+'%';
+    }
+    setS(1,'d');setS(2,'r');
+    await fetch(`${GH}/repos/${ghUser.login}/${repo}/pages`,{method:'POST',headers:{Authorization:`token ${ghToken}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify({source:{branch:'main',path:'/'}})});
+    setS(2,'d');cpf.style.width='90%';await sl(400);setS(3,'d');cpf.style.width='100%';
+    const site=`https://${ghUser.login}.github.io/${repo}`;
+    ct.textContent='🎉 تم النشر!';
+    document.getElementById('cv-link').innerHTML=`<strong style="color:var(--c2)">🌐 ${site}</strong><br><span style="font-size:10px;color:var(--ts)">قد يحتاج 1-3 دقائق ليظهر</span>`;
+    document.getElementById('cv-copy').textContent='📋 نسخ الرابط';
+    document.getElementById('cv-copy').onclick=()=>{navigator.clipboard?.writeText(site);toast('✅ نُسخ!','ts');};
+    cres.style.display='block';ccl.style.display='flex';
+    log(`🌐 ${site}`,'ls');toast('🎉 تم!','ts');
+  }catch(err){ct.textContent='❌ '+err.message;for(let i=0;i<4;i++){const el=document.getElementById(`gcs-${i}`);if(el&&el.querySelector('.cs-ico').classList.contains('r')){el.querySelector('.cs-ico').className='cs-ico e';el.querySelector('.cs-ico').textContent='✕';break;}}ccl.style.display='flex';toast('❌ '+err.message,'te');}
+}
+
+/* ══ PROJECTS PANEL ══ */
+function showProjects(){
+  document.getElementById('projs-panel').classList.add('on');
+  renderProjsPanel();
+}
+function closeProjects(){document.getElementById('projs-panel').classList.remove('on');}
+function renderProjsPanel(){
+  const c=document.getElementById('pp-body');
+  if(!userProjects.length){c.innerHTML='<div class="proj-empty"><div class="pe-ico">📂</div><p>لا توجد مشاريع — ارفع ZIP أو أنشئ جديد</p></div>';return;}
+  c.innerHTML=userProjects.map(p=>`
+    <div class="proj-card" onclick="loadProject('${p.id}')">
+      <div class="proj-ico">${p.icon||'📦'}</div>
+      <div class="proj-info">
+        <div class="proj-name">${p.name}</div>
+        <div class="proj-meta">${p.type||''} · ${p.fileCount||0} ملف</div>
+      </div>
+      <button class="proj-del" onclick="deleteProject('${p.id}','${p.name}',event)" title="حذف">🗑️</button>
+    </div>`).join('');
+}
+async function deleteProject(id,name,e){
+  if(e) e.stopPropagation();
+  if(!confirm(`حذف "${name}" نهائياً؟`))return;
+  try{
+    await db.collection('projects').doc(id).delete();
+    userProjects=userProjects.filter(p=>p.id!==id);
+    renderProjsPanel();
+    if(curProj?.id===id){curProj=null;pFiles={};blobURLs={};openTabs=[];activeTab=null;if(cm)cm.setValue('');document.getElementById('ed-ph').style.display='flex';renderFTree();renderTabs();}
+    toast('🗑️ حُذف','ts');
+  }catch(e2){toast('❌ فشل: '+e2.message,'te');}
+}
+async function loadProject(id){
+  const p=userProjects.find(x=>x.id===id);if(!p)return;
+  Object.values(blobURLs).forEach(u=>URL.revokeObjectURL(u));
+  pFiles={...(p.files||{})};blobURLs={};
+  await createBlobURLs();
+  curProj={...p};openTabs=[];activeTab=null;
+  closeProjects();renderFTree();
+  if(cm){cm.setValue('');document.getElementById('ed-ph').style.display='flex';}
+  renderTabs();
+  const idx=Object.keys(pFiles).find(path=>/^index\.html?$/i.test(path.split('/').pop()));
+  if(idx)setTimeout(()=>openFile(idx),200);
+  toast(`📂 ${p.name}`,'ti');log(`📂 فُتح: ${p.name}`,'ls');
+}
+
+/* ══ MENU ══ */
+function toggleMenu(){
+  menuOpen=!menuOpen;
+  document.getElementById('menu-drawer').classList.toggle('open',menuOpen);
+  document.getElementById('menu-backdrop').classList.toggle('on',menuOpen);
+}
+function openPage(page){
+  toggleMenu();
+  document.getElementById(`page-${page}`).classList.add('on');
+}
+function closePage(){
+  document.querySelectorAll('.menu-page.on').forEach(p=>p.classList.remove('on'));
+}
+
+/* ══ CONSOLE ══ */
 function log(msg,cls='li'){
   const c=document.getElementById('bc-log');
   const t=new Date().toLocaleTimeString('ar',{hour12:false});
   const d=document.createElement('div');d.className=`ll ${cls}`;
-  d.innerHTML=`<span class="ll-t">${t}</span><span class="ll-m">${msg}</span>`;
+  d.innerHTML=`<span class="lt">${t}</span><span class="lm">${msg}</span>`;
   c.appendChild(d);c.scrollTop=c.scrollHeight;
 }
-function termOut(msg){
-  const c=document.getElementById('term-out');
-  const d=document.createElement('div');d.textContent='$ '+msg;
-  c.appendChild(d);c.scrollTop=c.scrollHeight;
+function swBot(id,el){
+  document.querySelectorAll('.bt').forEach(t=>t.classList.remove('act'));
+  document.querySelectorAll('.bc').forEach(c=>c.classList.add('hid'));
+  el.classList.add('act');document.getElementById(id).classList.remove('hid');
 }
+
+/* ══ MODALS ══ */
 function openOv(id){document.getElementById(id).classList.add('on');}
 function closeOv(id){document.getElementById(id).classList.remove('on');}
 document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)closeOv(o.id);}));
-function showLd(ico,t,s,p){
-  const l=document.getElementById('ldo');
-  l.querySelector('.ld-ico').textContent=ico;
-  document.getElementById('ld-txt').textContent=t;
-  document.getElementById('ld-sub').textContent=s;
-  document.getElementById('ld-fill').style.width=p+'%';
-  l.classList.add('on');
-}
-function updLd(s,p){document.getElementById('ld-sub').textContent=s;document.getElementById('ld-fill').style.width=p+'%';}
-function hideLd(){document.getElementById('ldo').classList.remove('on');}
+
+/* ══ LOADER ══ */
+function showLD(ico,t,s,p){const l=document.getElementById('ldo');l.querySelector('.ld-i').textContent=ico;document.getElementById('ld-t').textContent=t;document.getElementById('ld-s').textContent=s;document.getElementById('ld-f').style.width=p+'%';l.classList.add('on');}
+function updLD(s,p){document.getElementById('ld-s').textContent=s;document.getElementById('ld-f').style.width=p+'%';}
+function hideLD(){document.getElementById('ldo').classList.remove('on');}
+
+/* ══ TOAST ══ */
 function toast(msg,type='ti'){
   const c=document.getElementById('toast-c');
   const t=document.createElement('div');t.className=`toast ${type}`;
   const ico={ts:'✅',te:'❌',ti:'ℹ️',tw:'⚠️'};
   t.innerHTML=`<span>${ico[type]||'ℹ️'}</span><span>${msg}</span>`;
   c.appendChild(t);
-  setTimeout(()=>{t.style.opacity='0';t.style.transform='translateY(6px) scale(.95)';setTimeout(()=>t.remove(),300);},3000);
+  setTimeout(()=>{t.style.opacity='0';t.style.transform='translateY(5px) scale(.95)';setTimeout(()=>t.remove(),300);},3000);
 }
-const sl=ms=>new Promise(r=>setTimeout(r,ms));
-const dateStr=()=>new Date().toLocaleDateString('ar');
 
-/* ══════════════════════════════════════
-   RESIZE PANELS
-══════════════════════════════════════ */
-let rszing=null,rsX=0,rsSW=0;
-document.getElementById('rsz-sb').addEventListener('mousedown',e=>{rszing='sb';rsX=e.clientX;rsSW=document.getElementById('sidebar').offsetWidth;e.preventDefault();});
-document.getElementById('rsz-ai').addEventListener('mousedown',e=>{rszing='ai';rsX=e.clientX;rsSW=document.getElementById('ai-panel').offsetWidth;e.preventDefault();});
-document.getElementById('rsz-pv').addEventListener('mousedown',e=>{rszing='pv';rsX=e.clientX;rsSW=document.getElementById('preview-pane').offsetWidth;e.preventDefault();});
+/* ══ RESIZE ══ */
+let rsz=null,rx=0,rw=0;
+document.getElementById('rsz-sb').addEventListener('mousedown',e=>{rsz='sb';rx=e.clientX;rw=document.getElementById('sidebar').offsetWidth;e.preventDefault();});
+document.getElementById('rsz-pv').addEventListener('mousedown',e=>{rsz='pv';rx=e.clientX;rw=document.getElementById('prev-pane').offsetWidth;e.preventDefault();});
 document.addEventListener('mousemove',e=>{
-  if(!rszing) return;
-  if(rszing==='sb'){const sb=document.getElementById('sidebar');const nw=Math.max(140,Math.min(400,rsSW+(rsX-e.clientX)));sb.style.width=nw+'px';}
-  else if(rszing==='ai'){const ap=document.getElementById('ai-panel');const nw=Math.max(240,Math.min(500,rsSW+(rsX-e.clientX)));ap.style.width=nw+'px';}
-  else if(rszing==='pv'){const pv=document.getElementById('preview-pane');const nw=Math.max(200,Math.min(600,rsSW+(rsX-e.clientX)));pv.style.width=nw+'px';}
+  if(!rsz)return;
+  if(rsz==='sb'){const sb=document.getElementById('sidebar');sb.style.width=Math.max(140,Math.min(380,rw+(rx-e.clientX)))+'px';}
+  else if(rsz==='pv'){const pv=document.getElementById('prev-pane');pv.style.width=Math.max(200,Math.min(650,rw+(rx-e.clientX)))+'px';}
 });
-document.addEventListener('mouseup',()=>rszing=null);
+document.addEventListener('mouseup',()=>rsz=null);
 
-/* ══════════════════════════════════════
-   KEYBOARD
-══════════════════════════════════════ */
+/* ══ KEYBOARD ══ */
 document.addEventListener('keydown',e=>{
-  if((e.ctrlKey||e.metaKey)&&e.key==='s'){e.preventDefault();if(activeTab){saveProj();toast('💾 حُفظ','ti');}}
-  if((e.ctrlKey||e.metaKey)&&e.key==='n'){e.preventDefault();if(document.getElementById('app').style.display!=='none') promptNewFile();}
+  if((e.ctrlKey||e.metaKey)&&e.key==='s'){e.preventDefault();if(curProj)saveProjectToFirestore();}
   if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();runPreview();}
-  if(e.key==='Escape') document.querySelectorAll('.ov.on').forEach(o=>o.classList.remove('on'));
+  if(e.key==='Escape'){document.querySelectorAll('.ov.on').forEach(o=>o.classList.remove('on'));if(aiOpen)toggleAI();if(menuOpen)toggleMenu();}
 });
 
-/* ══════════════════════════════════════
-   BOOT
-══════════════════════════════════════ */
-setInterval(()=>{if(curProj) saveProj();},20000);
-log('⚡ DevStudio AI جاهز','ls');
-log('🤖 Groq AI متصل — يمكنك البدء','ls');
-termOut('DevStudio AI initialized');
+/* ══ UTIL ══ */
+const sl=ms=>new Promise(r=>setTimeout(r,ms));
+setInterval(()=>{if(curProj&&currentUser)saveProjectToFirestore();},30000);
 </script>
 </body>
 </html>
+
