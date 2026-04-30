@@ -116,6 +116,7 @@ a{color:var(--c1);text-decoration:none}
 .btn-run{background:linear-gradient(135deg,#0f766e,#059669)}
 .btn-apk{background:linear-gradient(135deg,#ea580c,#dc2626)}
 .btn-web{background:linear-gradient(135deg,#1d4ed8,#4f46e5)}
+.btn-render{background:linear-gradient(135deg,#7c3aed,#6d28d9)}
 .btn-ai{background:linear-gradient(135deg,var(--c5),#7c3aed)}
 .btn-home-ghost{background:var(--bg3);border:1px solid var(--bd);color:var(--ts)}
 .tb-btn:hover{filter:brightness(1.12);transform:translateY(-1px)}
@@ -166,7 +167,7 @@ a{color:var(--c1);text-decoration:none}
   display:flex;align-items:center;gap:12px;padding:0 16px;flex-shrink:0}
 .mp-back{width:30px;height:30px;background:transparent;border:1px solid var(--bd);
   border-radius:6px;cursor:pointer;color:var(--ts);display:flex;align-items:center;
-  justify-content:center;font-size:14px;transition:all .15s}
+  justify-content:center;font-size:14px;transition:all .15px}
 .mp-back:hover{background:var(--bg3);color:var(--tp)}
 .mp-title{font-size:14px;font-weight:800}
 .mp-body{flex:1;padding:20px;max-width:600px;width:100%;margin:0 auto}
@@ -354,6 +355,7 @@ a{color:var(--c1);text-decoration:none}
 .pbb-pre{background:linear-gradient(135deg,#0f766e,#059669)}
 .pbb-apk{background:linear-gradient(135deg,#ea580c,#dc2626);box-shadow:0 0 10px rgba(234,88,12,.2)}
 .pbb-web{background:linear-gradient(135deg,#1d4ed8,#4f46e5)}
+.pbb-render{background:linear-gradient(135deg,#7c3aed,#6d28d9)}
 .pbb-edit{background:var(--bg4);border:1px solid var(--bd)}
 .pbb:hover{filter:brightness(1.12);transform:translateY(-1px)}
 
@@ -398,6 +400,7 @@ a{color:var(--c1);text-decoration:none}
 .mb-ok{color:#fff}.mb-blue{background:linear-gradient(135deg,#1d4ed8,#4f46e5)}
 .mb-green{background:linear-gradient(135deg,#0f766e,#059669)}
 .mb-red{background:linear-gradient(135deg,#c62828,#f85149)}
+.mb-purple{background:linear-gradient(135deg,#7c3aed,#6d28d9)}
 .mb-ok:hover{filter:brightness(1.1);transform:translateY(-1px)}
 .uz{border:2px dashed var(--bd);border-radius:10px;padding:26px 14px;text-align:center;
   cursor:pointer;transition:all .25s;background:var(--bg1)}
@@ -433,6 +436,34 @@ a{color:var(--c1);text-decoration:none}
 .gh-ok{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;background:rgba(63,185,80,.12);
   border:1px solid rgba(63,185,80,.3);border-radius:14px;color:var(--c2);font-size:9px;font-weight:700}
 
+/* ══ NEW: App Info Card (name + icon for AI build) ══ */
+.app-info-card{background:var(--bg3);border:1px solid var(--bd);border-radius:10px;padding:11px;margin-bottom:8px}
+.app-info-row{display:flex;gap:8px;align-items:flex-start}
+.app-icon-picker{width:52px;height:52px;background:var(--bg2);border:2px dashed var(--bd);
+  border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:26px;transition:all .2s;flex-shrink:0;position:relative}
+.app-icon-picker:hover{border-color:var(--c1)}
+.app-icon-picker input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.app-info-fields{flex:1;display:flex;flex-direction:column;gap:5px}
+.app-name-inp{width:100%;padding:7px 9px;background:var(--bg1);border:1px solid var(--bd);
+  border-radius:7px;color:var(--tp);font-size:12px;outline:none;transition:border .2s}
+.app-name-inp:focus{border-color:var(--c1)}
+.app-name-inp::placeholder{color:var(--td)}
+.app-info-hint{font-size:9px;color:var(--td)}
+
+/* ══ NEW: Render Modal ══ */
+.render-step-list{display:flex;flex-direction:column;gap:6px;margin:10px 0}
+.rs{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg3);
+  border-radius:7px;font-size:11px;font-family:var(--fc)}
+.rs-ico{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:10px;flex-shrink:0;background:var(--bg4);color:var(--td)}
+.rs-ico.r{background:rgba(88,166,255,.15);color:var(--c1)}
+.rs-ico.d{background:rgba(63,185,80,.15);color:var(--c2)}
+.rs-ico.e{background:rgba(248,81,73,.15);color:var(--c3)}
+.render-url-box{background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.3);
+  border-radius:8px;padding:10px;margin:8px 0;font-size:11px;font-family:var(--fc);
+  color:var(--c5);word-break:break-all}
+
 /* ══ PROJECTS PANEL ══ */
 .projs-panel{position:fixed;inset:0;z-index:350;background:var(--bg0);
   display:none;flex-direction:column;overflow:hidden}
@@ -445,6 +476,7 @@ a{color:var(--c1);text-decoration:none}
   cursor:pointer;transition:all .2s}
 .proj-card:hover{border-color:var(--c1);transform:translateX(-2px)}
 .proj-ico{font-size:28px;flex-shrink:0}
+.proj-ico img{width:36px;height:36px;border-radius:8px;object-fit:cover}
 .proj-info{flex:1}
 .proj-name{font-size:13px;font-weight:800;margin-bottom:2px}
 .proj-meta{font-size:10px;color:var(--ts)}
@@ -498,7 +530,6 @@ a{color:var(--c1);text-decoration:none}
       <div class="auth-tab act" id="tab-login" onclick="switchAuthTab('login')">تسجيل الدخول</div>
       <div class="auth-tab" id="tab-signup" onclick="switchAuthTab('signup')">إنشاء حساب</div>
     </div>
-    <!-- LOGIN -->
     <div class="auth-form" id="form-login">
       <div class="inp-group">
         <label class="inp-label">البريد الإلكتروني</label>
@@ -513,7 +544,6 @@ a{color:var(--c1);text-decoration:none}
       <div class="auth-divider">— أو —</div>
       <button class="auth-btn" onclick="switchAuthTab('signup')" style="background:var(--bg4);border:1px solid var(--bd);box-shadow:none">إنشاء حساب جديد</button>
     </div>
-    <!-- SIGNUP -->
     <div class="auth-form hid" id="form-signup">
       <div class="inp-group">
         <label class="inp-label">الاسم الكامل</label>
@@ -543,7 +573,6 @@ a{color:var(--c1);text-decoration:none}
 
 <!-- ══ APP ══ -->
 <div id="app">
-  <!-- TOPBAR -->
   <div class="topbar">
     <div class="tb-brand">
       <div class="tb-brand-ico">⚡</div>
@@ -556,6 +585,7 @@ a{color:var(--c1);text-decoration:none}
       <button class="tb-btn btn-run" onclick="runPreview()">▶ تشغيل</button>
       <button class="tb-btn btn-apk" onclick="buildAPK()">📱 APK</button>
       <button class="tb-btn btn-web" onclick="deployWeb()">🌐 نشر</button>
+      <button class="tb-btn btn-render" onclick="deployRender()">🚀 Render</button>
       <div class="tb-sep"></div>
       <button class="tb-btn btn-ai" onclick="toggleAI()">🤖 AI</button>
       <button class="tb-btn btn-home-ghost" onclick="showProjects()">📂</button>
@@ -566,9 +596,7 @@ a{color:var(--c1);text-decoration:none}
     </div>
   </div>
 
-  <!-- BODY -->
   <div class="body">
-    <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
       <div class="sb-head">
         <span class="sb-head-title">المستكشف</span>
@@ -581,10 +609,8 @@ a{color:var(--c1);text-decoration:none}
     </div>
     <div class="rsz" id="rsz-sb"></div>
 
-    <!-- Editor Area -->
     <div class="editor-area">
       <div class="split-wrap" id="split-wrap">
-        <!-- Preview -->
         <div class="prev-pane closed" id="prev-pane">
           <div class="prev-bar">
             <div class="pv-dots"><div class="pv-dot r"></div><div class="pv-dot y"></div><div class="pv-dot g"></div></div>
@@ -600,7 +626,6 @@ a{color:var(--c1);text-decoration:none}
           </div>
         </div>
         <div class="rsz" id="rsz-pv" style="display:none"></div>
-        <!-- Editor Pane -->
         <div class="ed-pane">
           <div style="flex:1;overflow:hidden;position:relative;height:100%" id="ed-wrap">
             <div class="ed-ph" id="ed-ph">
@@ -611,7 +636,6 @@ a{color:var(--c1);text-decoration:none}
           </div>
         </div>
       </div>
-      <!-- Bottom -->
       <div class="bot">
         <div class="bot-bar">
           <div class="bt act" onclick="swBot('bc-log',this)">كونسول</div>
@@ -656,6 +680,20 @@ a{color:var(--c1);text-decoration:none}
   <div class="ai-body">
     <!-- BUILD -->
     <div class="ai-sec" id="ai-build">
+      <!-- ══ NEW: App Info Card ══ -->
+      <div class="app-info-card">
+        <div style="font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ts);margin-bottom:8px">معلومات التطبيق</div>
+        <div class="app-info-row">
+          <div class="app-icon-picker" id="app-icon-picker" title="اضغط لاختيار صورة/أيقونة">
+            <span id="app-icon-display">📱</span>
+            <input type="file" accept="image/*" onchange="handleAppIcon(event)">
+          </div>
+          <div class="app-info-fields">
+            <input class="app-name-inp" id="app-name-inp" placeholder="اسم التطبيق..." maxlength="30">
+            <div class="app-info-hint">اسم وأيقونة التطبيق (اختياري)</div>
+          </div>
+        </div>
+      </div>
       <div class="prompt-card">
         <div class="pc-label"><div class="pc-dot"></div>صف تطبيقك</div>
         <textarea class="ai-ta" id="ai-prompt" placeholder="مثال: تطبيق دردشة مثل واتساب بواجهة داكنة جميلة، قائمة محادثات، فقاعات رسائل ملونة..."></textarea>
@@ -682,11 +720,12 @@ a{color:var(--c1);text-decoration:none}
         <div id="gf-list"></div>
       </div>
       <div class="post-build" id="post-build">
-        <div class="pb-ok"><div class="pbi">🎉</div><h4>اكتمل!</h4><p id="pb-info">جاهز</p></div>
+        <div class="pb-ok"><div class="pbi" id="pb-icon-display">🎉</div><h4 id="pb-app-name">اكتمل!</h4><p id="pb-info">جاهز</p></div>
         <div class="pb-btns">
           <button class="pbb pbb-pre" onclick="runPreviewAI()">▶️ معاينة مباشرة</button>
           <button class="pbb pbb-apk" onclick="buildAPK()">📱 بناء APK</button>
-          <button class="pbb pbb-web" onclick="deployWeb()">🌐 نشر</button>
+          <button class="pbb pbb-web" onclick="deployWeb()">🌐 نشر GitHub</button>
+          <button class="pbb pbb-render" onclick="deployRender()">🚀 نشر Render</button>
           <button class="pbb pbb-edit" onclick="editAI()">✏️ فتح المحرر</button>
         </div>
       </div>
@@ -736,96 +775,50 @@ a{color:var(--c1);text-decoration:none}
 
 <!-- ══ MENU PAGES ══ -->
 <div class="menu-page" id="page-support">
-  <div class="mp-header">
-    <button class="mp-back" onclick="closePage()">←</button>
-    <div class="mp-title">🎧 الدعم الفني</div>
-  </div>
+  <div class="mp-header"><button class="mp-back" onclick="closePage()">←</button><div class="mp-title">🎧 الدعم الفني</div></div>
   <div class="mp-body">
-    <div class="mp-section"><h3>📧 تواصل معنا</h3>
-      <p>لأي استفسار أو مشكلة، راسلنا على:<br><a href="mailto:support@devstudio.pro">support@devstudio.pro</a></p>
-    </div>
+    <div class="mp-section"><h3>📧 تواصل معنا</h3><p>لأي استفسار: <a href="mailto:support@devstudio.pro">support@devstudio.pro</a></p></div>
     <div class="mp-section"><h3>💬 الأسئلة الشائعة</h3>
-      <p><strong style="color:var(--c1)">كيف أبني APK؟</strong><br>اضغط زر APK → نزّل ZIP → ارفع على GitHub → GitHub Actions يبني APK تلقائياً خلال 5 دقائق.<br><br>
-      <strong style="color:var(--c1)">هل التطبيق مجاني؟</strong><br>نعم، الخطة المجانية تتيح لك بناء 3 مشاريع شهرياً.<br><br>
-      <strong style="color:var(--c1)">كيف أرفع ZIP؟</strong><br>اضغط زر رفع مشروع → اختر ملف ZIP → تتم قراءة وربط جميع الملفات تلقائياً بما فيها index.html.</p>
-    </div>
-    <div class="mp-section"><h3>⚡ الميزات الرئيسية</h3>
-      <p>• بناء تطبيق بالذكاء الاصطناعي<br>• معاينة فورية مع ربط جميع الملفات<br>• بناء APK Android حقيقي<br>• نشر على GitHub Pages<br>• محرر كود متكامل</p>
+      <p><strong style="color:var(--c1)">كيف أبني APK؟</strong><br>اضغط زر APK → نزّل ZIP → ارفع على GitHub → GitHub Actions يبني APK تلقائياً.<br><br>
+      <strong style="color:var(--c1)">كيف أنشر على Render؟</strong><br>اضغط زر Render → أدخل رابط مستودع GitHub وـ API Key → يتم النشر تلقائياً.<br><br>
+      <strong style="color:var(--c1)">هل التطبيق مجاني؟</strong><br>نعم، الخطة المجانية تتيح لك بناء 3 مشاريع شهرياً.</p>
     </div>
   </div>
 </div>
 
 <div class="menu-page" id="page-subscription">
-  <div class="mp-header">
-    <button class="mp-back" onclick="closePage()">←</button>
-    <div class="mp-title">⭐ الاشتراكات</div>
-  </div>
+  <div class="mp-header"><button class="mp-back" onclick="closePage()">←</button><div class="mp-title">⭐ الاشتراكات</div></div>
   <div class="mp-body">
-    <div class="plan-card">
-      <div class="plan-name">🆓 المجانية</div>
-      <div class="plan-price">$0 <span>/ شهر</span></div>
-      <ul class="plan-features">
-        <li>3 مشاريع</li><li>معاينة مباشرة</li><li>بناء APK (5/شهر)</li><li>AI محدود (20 طلب)</li>
-      </ul>
-      <button class="plan-btn plan-btn-free">الخطة الحالية</button>
-    </div>
-    <div class="plan-card featured">
-      <div class="plan-name">⭐ الاحترافية</div>
-      <div class="plan-price">$9.99 <span>/ شهر</span></div>
-      <ul class="plan-features">
-        <li>مشاريع غير محدودة</li><li>AI غير محدود</li><li>APK غير محدود</li><li>نشر تلقائي</li><li>دعم أولوية</li>
-      </ul>
-      <button class="plan-btn plan-btn-pro">ترقية الآن</button>
-    </div>
-    <div class="plan-card">
-      <div class="plan-name">🏢 الفريق</div>
-      <div class="plan-price">$29.99 <span>/ شهر</span></div>
-      <ul class="plan-features">
-        <li>10 مستخدمين</li><li>مشاريع مشتركة</li><li>جميع مميزات Pro</li><li>دعم مخصص</li>
-      </ul>
-      <button class="plan-btn plan-btn-team">للفريق</button>
-    </div>
+    <div class="plan-card"><div class="plan-name">🆓 المجانية</div><div class="plan-price">$0 <span>/ شهر</span></div><ul class="plan-features"><li>3 مشاريع</li><li>معاينة مباشرة</li><li>بناء APK (5/شهر)</li><li>AI محدود (20 طلب)</li></ul><button class="plan-btn plan-btn-free">الخطة الحالية</button></div>
+    <div class="plan-card featured"><div class="plan-name">⭐ الاحترافية</div><div class="plan-price">$9.99 <span>/ شهر</span></div><ul class="plan-features"><li>مشاريع غير محدودة</li><li>AI غير محدود</li><li>APK غير محدود</li><li>نشر Render تلقائي</li><li>دعم أولوية</li></ul><button class="plan-btn plan-btn-pro">ترقية الآن</button></div>
+    <div class="plan-card"><div class="plan-name">🏢 الفريق</div><div class="plan-price">$29.99 <span>/ شهر</span></div><ul class="plan-features"><li>10 مستخدمين</li><li>مشاريع مشتركة</li><li>جميع مميزات Pro</li><li>دعم مخصص</li></ul><button class="plan-btn plan-btn-team">للفريق</button></div>
   </div>
 </div>
 
 <div class="menu-page" id="page-terms">
-  <div class="mp-header">
-    <button class="mp-back" onclick="closePage()">←</button>
-    <div class="mp-title">📋 شروط الاستخدام</div>
-  </div>
+  <div class="mp-header"><button class="mp-back" onclick="closePage()">←</button><div class="mp-title">📋 شروط الاستخدام</div></div>
   <div class="mp-body">
     <div class="mp-section"><h3>1. القبول</h3><p>باستخدامك DevStudio Pro، فأنت توافق على هذه الشروط.</p></div>
     <div class="mp-section"><h3>2. الاستخدام المقبول</h3><p>يُحظر استخدام المنصة لأغراض غير قانونية أو ضارة.</p></div>
-    <div class="mp-section"><h3>3. الملكية الفكرية</h3><p>أنت تمتلك حقوق الكود الذي تنشئه. DevStudio Pro يمتلك حقوق المنصة والأدوات.</p></div>
-    <div class="mp-section"><h3>4. الخدمة</h3><p>نسعى لتقديم أفضل خدمة ولكننا لا نضمن الاستمرارية في جميع الأوقات.</p></div>
-    <div class="mp-section"><h3>5. التواصل</h3><p>support@devstudio.pro</p></div>
+    <div class="mp-section"><h3>3. الملكية الفكرية</h3><p>أنت تمتلك حقوق الكود الذي تنشئه.</p></div>
+    <div class="mp-section"><h3>4. التواصل</h3><p>support@devstudio.pro</p></div>
   </div>
 </div>
 
 <div class="menu-page" id="page-privacy">
-  <div class="mp-header">
-    <button class="mp-back" onclick="closePage()">←</button>
-    <div class="mp-title">🔒 سياسة الخصوصية</div>
-  </div>
+  <div class="mp-header"><button class="mp-back" onclick="closePage()">←</button><div class="mp-title">🔒 سياسة الخصوصية</div></div>
   <div class="mp-body">
-    <div class="mp-section"><h3>البيانات التي نجمعها</h3><p>• معلومات الحساب (الاسم، البريد)<br>• مشاريعك المحفوظة<br>• بيانات الاستخدام المجهولة</p></div>
-    <div class="mp-section"><h3>كيف نستخدمها</h3><p>فقط لتحسين تجربتك وحفظ مشاريعك.</p></div>
+    <div class="mp-section"><h3>البيانات التي نجمعها</h3><p>• معلومات الحساب<br>• مشاريعك المحفوظة<br>• بيانات الاستخدام المجهولة</p></div>
     <div class="mp-section"><h3>الأمان</h3><p>نستخدم Firebase من Google لتشفير وحماية بياناتك.</p></div>
-    <div class="mp-section"><h3>حقوقك</h3><p>يمكنك حذف حسابك وبياناتك في أي وقت.</p></div>
   </div>
 </div>
 
 <div class="menu-page" id="page-values">
-  <div class="mp-header">
-    <button class="mp-back" onclick="closePage()">←</button>
-    <div class="mp-title">💎 قيمنا</div>
-  </div>
+  <div class="mp-header"><button class="mp-back" onclick="closePage()">←</button><div class="mp-title">💎 قيمنا</div></div>
   <div class="mp-body">
     <div class="mp-section"><h3>⚡ الابتكار</h3><p>نؤمن بأن كل مطور يستحق أدوات قوية بسيطة ومجانية.</p></div>
-    <div class="mp-section"><h3>🤖 الذكاء الاصطناعي للجميع</h3><p>نجعل بناء التطبيقات متاحاً لكل شخص بغض النظر عن خبرته.</p></div>
-    <div class="mp-section"><h3>🔒 الخصوصية أولاً</h3><p>بياناتك ملكك. لا نبيعها ولا نشاركها مع أطراف ثالثة.</p></div>
+    <div class="mp-section"><h3>🤖 الذكاء الاصطناعي للجميع</h3><p>نجعل بناء التطبيقات متاحاً لكل شخص.</p></div>
     <div class="mp-section"><h3>🌍 المجتمع</h3><p>نبني منصة تخدم المطورين العرب بشكل خاص والعالم بشكل عام.</p></div>
-    <div class="mp-section"><h3>📱 APK حقيقي</h3><p>نؤمن بأن تطبيقك يجب أن يعمل على الهاتف فعلاً، لا مجرد معاينة.</p></div>
   </div>
 </div>
 
@@ -848,13 +841,14 @@ a{color:var(--c1);text-decoration:none}
       <div class="uz" id="uz" onclick="document.getElementById('zip-in').click()">
         <div class="uz-ico">🗜️</div>
         <p>اسحب <span>ZIP</span> أو <span>انقر للاختيار</span></p>
-        <p style="font-size:10px;margin-top:4px;color:var(--td)">جميع الملفات تُربط تلقائياً — index.html هو الرئيسي</p>
+        <p style="font-size:10px;margin-top:4px;color:var(--td)">جميع الملفات تُربط تلقائياً — يُكتشف الملف الرئيسي تلقائياً</p>
       </div>
       <input type="file" id="zip-in" accept=".zip" style="display:none" onchange="handleZip(event)">
     </div>
     <div class="m-btns"><button class="mb mb-cancel" onclick="closeOv('ov-upload')">إلغاء</button></div>
   </div>
 </div>
+
 <div class="ov" id="ov-nf">
   <div class="modal">
     <div class="m-title">📄 ملف جديد</div>
@@ -864,6 +858,7 @@ a{color:var(--c1);text-decoration:none}
     <button class="mb mb-ok mb-blue" onclick="doNewFile()">إنشاء</button></div>
   </div>
 </div>
+
 <div class="ov" id="ov-nd">
   <div class="modal">
     <div class="m-title">📁 مجلد جديد</div>
@@ -873,6 +868,7 @@ a{color:var(--c1);text-decoration:none}
     <button class="mb mb-ok mb-blue" onclick="doNewFolder()">إنشاء</button></div>
   </div>
 </div>
+
 <div class="ov" id="ov-np">
   <div class="modal">
     <div class="m-title">🚀 مشروع جديد</div>
@@ -882,6 +878,7 @@ a{color:var(--c1);text-decoration:none}
     <button class="mb mb-ok mb-green" onclick="doNewProj()">إنشاء وفتح</button></div>
   </div>
 </div>
+
 <div class="ov" id="ov-gh">
   <div class="modal modal-xl">
     <div class="m-title">🐙 نشر على GitHub Pages</div>
@@ -906,6 +903,52 @@ a{color:var(--c1);text-decoration:none}
     </div>
   </div>
 </div>
+
+<!-- ══ NEW: Render Deploy Modal ══ -->
+<div class="ov" id="ov-render">
+  <div class="modal modal-xl">
+    <div class="m-title">🚀 نشر على Render</div>
+    <div class="warn-b">⚠️ تحتاج: رابط مستودع GitHub عام + Render API Key</div>
+    
+    <div id="render-form-area">
+      <div id="render-gh-info" style="display:none" class="gh-row">
+        <img class="gh-ava" id="render-gh-av" src="" alt="">
+        <div style="flex:1"><div style="font-weight:800;font-size:12px" id="render-gh-nm"></div>
+        <div style="font-size:10px;color:var(--ts)" id="render-gh-un"></div></div>
+        <span class="gh-ok">✅ GitHub متصل</span>
+      </div>
+
+      <label class="m-label">GitHub Token (لرفع الكود)</label>
+      <input class="m-inp" id="render-gh-tok" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+
+      <label class="m-label">Render API Key</label>
+      <input class="m-inp" id="render-api-key" type="password" placeholder="rnd_xxxxxxxxxxxxxxxxxxxx">
+      <div style="font-size:10px;color:var(--ts);margin-bottom:8px;line-height:1.6">
+        Render Dashboard → Account Settings → API Keys → Generate<br>
+        <a href="https://dashboard.render.com/settings#api-keys" target="_blank" style="color:var(--c1)">🔗 فتح Render Dashboard</a>
+      </div>
+
+      <label class="m-label">نوع الخدمة</label>
+      <select class="m-inp" id="render-service-type" style="cursor:pointer">
+        <option value="static_site">🌐 موقع ثابت (HTML/CSS/JS)</option>
+        <option value="web_service">⚙️ خدمة ويب (Node.js / Python)</option>
+      </select>
+
+      <div id="render-node-opts" style="display:none;margin-top:6px">
+        <label class="m-label">أمر التشغيل (Start Command)</label>
+        <input class="m-inp" id="render-start-cmd" placeholder="node index.js" style="margin-bottom:6px">
+        <label class="m-label">أمر البناء (Build Command)</label>
+        <input class="m-inp" id="render-build-cmd" placeholder="npm install">
+      </div>
+    </div>
+
+    <div class="m-btns">
+      <button class="mb mb-cancel" onclick="closeOv('ov-render')">إلغاء</button>
+      <button class="mb mb-ok mb-purple" onclick="doRenderDeploy()">🚀 نشر على Render</button>
+    </div>
+  </div>
+</div>
+
 <div class="ov" id="ov-conv">
   <div class="modal modal-xl">
     <div class="m-title" id="cv-title">⚙️ جاري...</div>
@@ -922,9 +965,7 @@ a{color:var(--c1);text-decoration:none}
       2. انتظر → نزّل APK من Artifacts<br><br>
       <strong>الطريقة 2 — Android Studio:</strong><br>
       1. افتح الملف ZIP في Android Studio<br>
-      2. Build → Generate APK<br><br>
-      <strong>الطريقة 3 — Command Line:</strong><br>
-      <code>chmod +x gradlew && ./gradlew assembleDebug</code>
+      2. Build → Generate APK
     </div>
     <div class="m-btns" id="cv-close" style="display:none;margin-top:10px">
       <button class="mb mb-ok mb-blue" onclick="closeOv('ov-conv')">حسناً ✓</button>
@@ -955,33 +996,45 @@ firebase.initializeApp(fbConfig);
 const auth=firebase.auth();
 const db=firebase.firestore();
 
-/* ══ GROQ CONFIG ══ */
 const GROQ_KEY='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';
 const GROQ='https://api.groq.com/openai/v1/chat/completions';
 const GH='https://api.github.com';
+const RENDER_API='https://api.render.com/v1';
 
-/* ══ STATE ══ */
 let pFiles={},blobURLs={};
 let openTabs=[],activeTab=null,cm=null;
 let errors=[],curProj=null,newFilePar=null;
 let ghToken=null,ghUser=null;
 let prevOpen=false,aiOpen=false,menuOpen=false,aiTab='build',aiHist=[];
 let currentUser=null,userProjects=[];
+// ══ NEW: app icon state ══
+let appIconDataURL=null;
 try{ghToken=localStorage.getItem('dsp5_gh');}catch(e){}
 
-/* ══════════════════════════════════════
-   FIREBASE AUTH
-══════════════════════════════════════ */
-auth.onAuthStateChanged(user=>{
-  if(user){
-    currentUser=user;
-    showApp(user);
-  } else {
-    currentUser=null;
-    showAuthScreen();
-  }
+/* ══ NEW: App Icon Handler ══ */
+function handleAppIcon(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    appIconDataURL=ev.target.result;
+    document.getElementById('app-icon-display').innerHTML=`<img src="${appIconDataURL}" style="width:46px;height:46px;border-radius:8px;object-fit:cover">`;
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ══ SERVICE TYPE TOGGLE ══ */
+document.addEventListener('DOMContentLoaded',()=>{
+  const sel=document.getElementById('render-service-type');
+  if(sel) sel.addEventListener('change',()=>{
+    document.getElementById('render-node-opts').style.display=sel.value==='web_service'?'block':'none';
+  });
 });
 
+/* ══ AUTH ══ */
+auth.onAuthStateChanged(user=>{
+  if(user){currentUser=user;showApp(user);}
+  else{currentUser=null;showAuthScreen();}
+});
 function showAuthScreen(){
   document.getElementById('auth-screen').classList.remove('gone');
   document.getElementById('app').classList.remove('on');
@@ -996,16 +1049,15 @@ function showApp(user){
   loadUserProjects();
   log(`✅ أهلاً ${user.displayName||user.email}!`,'ls');
   log('🤖 Groq AI جاهز','ls');
-  log('📦 ZIP Linker — يربط جميع الملفات تلقائياً','ls');
+  log('📦 ZIP Smart Linker — يربط جميع الملفات تلقائياً','ls');
+  log('🚀 Render Deploy — جاهز','ls');
 }
-
 function switchAuthTab(tab){
   ['login','signup'].forEach(t=>{
     document.getElementById(`tab-${t}`).classList.toggle('act',t===tab);
     document.getElementById(`form-${t}`).classList.toggle('hid',t!==tab);
   });
 }
-
 async function doLogin(){
   const email=document.getElementById('login-email').value.trim();
   const pass=document.getElementById('login-pass').value;
@@ -1014,9 +1066,8 @@ async function doLogin(){
   if(!email||!pass){errEl.textContent='الرجاء ملء جميع الحقول';errEl.classList.add('on');return;}
   document.getElementById('login-btn').disabled=true;
   document.getElementById('login-btn').textContent='⏳ جاري الدخول...';
-  try{
-    await auth.signInWithEmailAndPassword(email,pass);
-  }catch(e){
+  try{await auth.signInWithEmailAndPassword(email,pass);}
+  catch(e){
     const msgs={'auth/user-not-found':'البريد غير مسجل','auth/wrong-password':'كلمة المرور خاطئة',
       'auth/invalid-email':'البريد غير صحيح','auth/too-many-requests':'محاولات كثيرة، حاول لاحقاً'};
     errEl.textContent=msgs[e.code]||e.message;errEl.classList.add('on');
@@ -1024,7 +1075,6 @@ async function doLogin(){
   document.getElementById('login-btn').disabled=false;
   document.getElementById('login-btn').textContent='🚀 دخول';
 }
-
 async function doSignup(){
   const name=document.getElementById('su-name').value.trim();
   const username=document.getElementById('su-user').value.trim();
@@ -1043,40 +1093,31 @@ async function doSignup(){
     await cred.user.updateProfile({displayName:name});
     await db.collection('users').doc(cred.user.uid).set({name,username,email,createdAt:new Date().toISOString()});
   }catch(e){
-    const msgs={'auth/email-already-in-use':'البريد مستخدم مسبقاً','auth/invalid-email':'البريد غير صحيح',
-      'auth/weak-password':'كلمة المرور ضعيفة جداً'};
+    const msgs={'auth/email-already-in-use':'البريد مستخدم مسبقاً','auth/invalid-email':'البريد غير صحيح','auth/weak-password':'كلمة المرور ضعيفة جداً'};
     errEl.textContent=msgs[e.code]||e.message;errEl.classList.add('on');
   }
   document.getElementById('signup-btn').disabled=false;
   document.getElementById('signup-btn').textContent='✨ إنشاء الحساب';
 }
-
 async function doLogout(){
-  toggleMenu();
-  await auth.signOut();
+  toggleMenu();await auth.signOut();
   pFiles={};blobURLs={};openTabs=[];activeTab=null;curProj=null;userProjects=[];
-  if(cm) cm.setValue('');
-  toast('👋 تم تسجيل الخروج','ti');
+  if(cm)cm.setValue('');toast('👋 تم تسجيل الخروج','ti');
 }
 
-/* ══════════════════════════════════════
-   FIRESTORE PROJECTS
-══════════════════════════════════════ */
+/* ══ FIRESTORE ══ */
 async function loadUserProjects(){
-  if(!currentUser) return;
+  if(!currentUser)return;
   try{
     const snap=await db.collection('projects').where('userId','==',currentUser.uid).orderBy('updatedAt','desc').get();
     userProjects=snap.docs.map(d=>({id:d.id,...d.data()}));
     log(`📂 ${userProjects.length} مشاريع محفوظة`,'ls');
   }catch(e){log('⚠️ تعذر تحميل المشاريع: '+e.message,'lw');}
 }
-
 async function saveProjectToFirestore(){
-  if(!currentUser||!curProj) return;
+  if(!currentUser||!curProj)return;
   try{
-    // Save only text files (< 500KB total)
-    const textFiles={};
-    let totalSize=0;
+    const textFiles={};let totalSize=0;
     for(const[p,c] of Object.entries(pFiles)){
       if(typeof c==='string'&&totalSize<400000){textFiles[p]=c;totalSize+=c.length;}
     }
@@ -1087,43 +1128,21 @@ async function saveProjectToFirestore(){
       updatedAt:firebase.firestore.FieldValue.serverTimestamp(),
       createdAt:curProj.createdAt||firebase.firestore.FieldValue.serverTimestamp()
     };
-    if(curProj.id){
-      await db.collection('projects').doc(curProj.id).update(data);
-    } else {
-      const ref=await db.collection('projects').add(data);
-      curProj.id=ref.id;
-    }
+    if(curProj.id){await db.collection('projects').doc(curProj.id).update(data);}
+    else{const ref=await db.collection('projects').add(data);curProj.id=ref.id;}
     log('💾 حُفظ على الخادم','ls');
   }catch(e){log('⚠️ فشل الحفظ: '+e.message,'lw');}
 }
 
-async function deleteProject(projId,projName){
-  if(!confirm(`حذف "${projName}" نهائياً؟`)) return;
-  try{
-    await db.collection('projects').doc(projId).delete();
-    userProjects=userProjects.filter(p=>p.id!==projId);
-    renderProjsPanel();
-    if(curProj?.id===projId){
-      curProj=null;pFiles={};blobURLs={};openTabs=[];activeTab=null;
-      if(cm) cm.setValue('');
-      document.getElementById('ed-ph').style.display='flex';
-      renderFTree();renderTabs();
-    }
-    toast('🗑️ تم حذف المشروع','ts');
-  }catch(e){toast('❌ فشل الحذف: '+e.message,'te');}
-}
-
-/* ══════════════════════════════════════
-   CODEMIRROR
-══════════════════════════════════════ */
+/* ══ CODEMIRROR ══ */
 function initCM(){
-  if(cm) return;
+  if(cm)return;
   cm=CodeMirror.fromTextArea(document.getElementById('main-editor'),{
     theme:'one-dark',lineNumbers:true,matchBrackets:true,
     autoCloseBrackets:true,indentWithTabs:true,tabSize:2,lineWrapping:false
   });
   cm.on('cursorActivity',()=>{const c=cm.getCursor();document.getElementById('st-p').textContent=`${c.line+1}:${c.ch+1}`;});
-  cm.on('change',()=>{if(activeTab&&typeof pFiles[activeTab]==='string') pFiles[activeTab]=cm.getValue();});
+  cm.on('change',()=>{if(activeTab&&typeof pFiles[activeTab]==='string')pFiles[activeTab]=cm.getValue();});
   cm.getWrapperElement().style.height='100%';
   setTimeout(()=>cm.refresh(),80);
 }
@@ -1165,7 +1184,7 @@ function renderNode(node,c,prefix){
       w.appendChild(item);
       const ch=document.createElement('div');ch.className='fi-ch';
       renderNode(v.__c,ch,prefix+k+'/');w.appendChild(ch);c.appendChild(w);
-    } else if(v.__file){
+    }else if(v.__file){
       const item=document.createElement('div');
       item.className='fi'+(activeTab===v.__p?' act':'');
       item.innerHTML=`<span class="fi-ico">${iconF(k)}</span><span class="fi-nm">${k}</span><span class="fi-del" onclick="delFile('${v.__p}',event)">✕</span>`;
@@ -1179,7 +1198,7 @@ function renderNode(node,c,prefix){
 function openFile(path){
   const content=pFiles[path];
   if(typeof content!=='string'){toast('ملف ثنائي','tw');return;}
-  if(!cm) initCM();
+  if(!cm)initCM();
   document.getElementById('ed-ph').style.display='none';
   activeTab=path;
   cm.setValue(content);
@@ -1187,7 +1206,7 @@ function openFile(path){
   cm.setOption('mode',modeF(fname));
   document.getElementById('st-f').textContent=fname;
   document.getElementById('st-l').textContent=langF(fname);
-  if(!openTabs.find(t=>t.p===path)) openTabs.push({p:path,n:fname});
+  if(!openTabs.find(t=>t.p===path))openTabs.push({p:path,n:fname});
   renderTabs();setActTab(path);renderFTree();
   setTimeout(()=>cm.refresh(),60);
 }
@@ -1254,7 +1273,7 @@ function getTemplate(name){
 }
 
 /* ══════════════════════════════════════
-   ZIP UPLOAD + FILE LINKER
+   ZIP UPLOAD + SMART FILE LINKER (NEW)
 ══════════════════════════════════════ */
 const uzEl=document.getElementById('uz');
 uzEl.addEventListener('dragover',e=>{e.preventDefault();uzEl.classList.add('dv');});
@@ -1270,6 +1289,120 @@ const MIMES={html:'text/html',htm:'text/html',css:'text/css',js:'application/jav
   gif:'image/gif',ico:'image/x-icon',webp:'image/webp',mp3:'audio/mpeg',mp4:'video/mp4',
   ogg:'audio/ogg',wav:'audio/wav',woff:'font/woff',woff2:'font/woff2',ttf:'font/ttf',pdf:'application/pdf'};
 
+/* ══ NEW: Smart Entry-Point Finder ══
+   Priority order for detecting the main file:
+   1. index.html at root
+   2. index.htm at root
+   3. home.html / main.html at root
+   4. login.html / signin.html / auth.html (auth screens first)
+   5. Any .html file that has <body> and is at root level
+   6. Any .html file anywhere
+*/
+function findMainEntryPoint(files){
+  const htmlFiles=Object.keys(files).filter(p=>p.endsWith('.html')||p.endsWith('.htm'));
+  if(!htmlFiles.length) return null;
+
+  // Priority patterns (root level first)
+  const rootHTML=htmlFiles.filter(p=>!p.includes('/'));
+  const patterns=[
+    p=>/^index\.(html?)/i.test(p),
+    p=>/^home\.(html?)/i.test(p),
+    p=>/^main\.(html?)/i.test(p),
+    p=>/^(login|signin|auth|start|welcome)\.(html?)/i.test(p),
+    p=>rootHTML.includes(p),
+  ];
+  for(const pat of patterns){
+    const found=htmlFiles.find(pat);if(found)return found;
+  }
+  // Fallback: deepest match with index
+  const deepIdx=htmlFiles.find(p=>p.split('/').pop().toLowerCase().startsWith('index'));
+  if(deepIdx)return deepIdx;
+  return htmlFiles[0];
+}
+
+/* ══ NEW: Rewrite HTML to wire all links/scripts/styles to other files ══ */
+function smartRewriteHTML(html, entryPath, allFiles){
+  const baseDir=entryPath.includes('/')?entryPath.substring(0,entryPath.lastIndexOf('/'))+'/':'';
+
+  // Replace href/src attributes that point to local files
+  html=html.replace(/(href|src|action|data-src)=["']([^"'#?][^"']*)["']/gi,(match,attr,url)=>{
+    const blob=getBlobURL(baseDir,url);
+    return blob?`${attr}="${blob}"`:match;
+  });
+
+  // Inline <link rel="stylesheet"> — find CSS and inject
+  html=html.replace(/<link([^>]*?)href=["']([^"']+)["']([^>]*?)>/gi,(match,before,href,after)=>{
+    if(!after.includes('stylesheet')&&!before.includes('stylesheet'))return match;
+    if(href.startsWith('http'))return match;
+    const r=resolvePath(baseDir,href);
+    const css=r&&typeof allFiles[r]==='string'?allFiles[r]:(typeof allFiles[href.replace(/^\.\//,'')]==='string'?allFiles[href.replace(/^\.\//,'')]:null);
+    if(css){
+      const cssDir=r&&r.includes('/')?r.substring(0,r.lastIndexOf('/'))+'/':'';
+      const rewritten=css.replace(/url\(["']?([^"')]+)["']?\)/gi,(m,u)=>{const b=getBlobURL(cssDir,u);return b?`url("${b}")`:m;});
+      return `<style>${rewritten}</style>`;
+    }
+    return match;
+  });
+
+  // Inline <script src> — find JS and inject
+  html=html.replace(/<script([^>]*)src=["']([^"']+)["']([^>]*)><\/script>/gi,(match,before,src,after)=>{
+    if(src.startsWith('http'))return match;
+    const r=resolvePath(baseDir,src);
+    const js=r&&typeof allFiles[r]==='string'?allFiles[r]:(typeof allFiles[src.replace(/^\.\//,'')]==='string'?allFiles[src.replace(/^\.\//,'')]:null);
+    if(js)return `<script${before}${after}>${js}<\/script>`;
+    return match;
+  });
+
+  // Fix url() in inline <style> blocks
+  html=html.replace(/<style([^>]*)>([\s\S]*?)<\/style>/gi,(match,attrs,css)=>{
+    const rewritten=css.replace(/url\(["']?([^"')]+)["']?\)/gi,(m,u)=>{const b=getBlobURL(baseDir,u);return b?`url("${b}")`:m;});
+    return `<style${attrs}>${rewritten}</style>`;
+  });
+
+  // ══ NEW: Wire navigation between pages (anchor hrefs pointing to .html files) ══
+  // Build a map of filename → blob URL for all HTML files
+  const htmlBlobMap={};
+  for(const[path,content] of Object.entries(allFiles)){
+    if((path.endsWith('.html')||path.endsWith('.htm'))&&blobURLs[path]){
+      const fname=path.split('/').pop();
+      htmlBlobMap[fname]=blobURLs[path];
+      htmlBlobMap[path]=blobURLs[path];
+    }
+  }
+
+  // Add page navigation script
+  const navScript=`<script>
+(function(){
+  var htmlMap=${JSON.stringify(htmlBlobMap)};
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('a[href]');
+    if(!a)return;
+    var href=a.getAttribute('href');
+    if(!href||href.startsWith('#')||href.startsWith('http')||href.startsWith('blob:'))return;
+    // Check if href points to an HTML page
+    var fname=href.split('/').pop().split('?')[0];
+    if(htmlMap[href]){e.preventDefault();window.location.href=htmlMap[href];return;}
+    if(htmlMap[fname]){e.preventDefault();window.location.href=htmlMap[fname];return;}
+  },true);
+  // Also handle form actions pointing to .html files
+  document.addEventListener('submit',function(e){
+    var form=e.target;
+    var action=form.getAttribute('action');
+    if(!action)return;
+    var fname=action.split('/').pop().split('?')[0];
+    if(htmlMap[action]||htmlMap[fname]){
+      e.preventDefault();
+      window.location.href=htmlMap[action]||htmlMap[fname];
+    }
+  },true);
+})();
+<\/script>`;
+
+  html=html.replace('</body>',navScript+'</body>');
+  if(!html.includes('</body>'))html+=navScript;
+  return html;
+}
+
 async function processZip(file){
   closeOv('ov-upload');closeProjects();
   showLD('📦','فك ضغط وربط الملفات...','يرجى الانتظار',0);
@@ -1277,36 +1410,47 @@ async function processZip(file){
     const zip=new JSZip();
     const zc=await zip.loadAsync(file);
     const entries=Object.entries(zc.files).filter(([,v])=>!v.dir);
-    // Revoke old blob URLs
     Object.values(blobURLs).forEach(u=>URL.revokeObjectURL(u));
     pFiles={};blobURLs={};
     let done=0;
     for(const[path,entry] of entries){
-      updLD(path.split('/').pop().substring(0,25),Math.round((done/entries.length)*75));
+      updLD(path.split('/').pop().substring(0,25),Math.round((done/entries.length)*70));
       try{
-        if(BIN_EXT.test(path)) pFiles[path]=await entry.async('arraybuffer');
+        if(BIN_EXT.test(path))pFiles[path]=await entry.async('arraybuffer');
         else pFiles[path]=await entry.async('string');
       }catch(e){pFiles[path]='';}
       done++;if(done%15===0)await sl(1);
     }
-    updLD('ربط الملفات...',80);
+
+    updLD('🔗 ربط الملفات...',75);
     await createBlobURLs();
-    updLD('حفظ المشروع...',95);
+
+    // ══ NEW: Smart entry point detection ══
+    const entryPath=findMainEntryPoint(pFiles);
+    if(entryPath){
+      log(`🎯 الملف الرئيسي: ${entryPath}`,'ls');
+    }
+
+    updLD('💾 حفظ...',92);
     hideLD();
+
     const pname=file.name.replace('.zip','');
-    curProj={name:pname,icon:'📦',type:'uploaded',createdAt:new Date().toISOString()};
+    curProj={name:pname,icon:'📦',type:'uploaded',createdAt:new Date().toISOString(),entryPoint:entryPath};
     renderFTree();
-    // Auto-open index.html
-    const idx=Object.keys(pFiles).find(p=>/^(index\.html?|home\.html?|main\.html?)$/i.test(p.split('/').pop()));
-    if(idx) openFile(idx);
+
+    // Auto-open the detected entry file
+    if(entryPath)setTimeout(()=>openFile(entryPath),200);
+
     // Auto preview
-    await sl(300);runPreview();
-    // Save
+    await sl(400);runPreview();
     await saveProjectToFirestore();
     await loadUserProjects();
+
+    const htmlCount=Object.keys(pFiles).filter(p=>p.endsWith('.html')||p.endsWith('.htm')).length;
     log(`✅ "${pname}" — ${Object.keys(pFiles).length} ملف`,'ls');
-    log(`🔗 ${Object.keys(blobURLs).length} ملف مرتبط للمعاينة`,'ls');
-    toast(`🚀 ${Object.keys(pFiles).length} ملف — جاهز!`,'ts');
+    log(`🔗 ${Object.keys(blobURLs).length} ملف مرتبط`,'ls');
+    log(`📄 ${htmlCount} صفحة HTML مرتبطة للتنقل`,'ls');
+    toast(`🚀 ${Object.keys(pFiles).length} ملف — التنقل بين ${htmlCount} صفحة جاهز!`,'ts');
   }catch(err){hideLD();toast('❌ '+err.message,'te');console.error(err);}
 }
 
@@ -1316,88 +1460,36 @@ async function createBlobURLs(){
     const mime=MIMES[e]||'application/octet-stream';
     try{
       const blob=content instanceof ArrayBuffer?new Blob([content],{type:mime}):new Blob([content],{type:mime+';charset=utf-8'});
-      if(blobURLs[path]) URL.revokeObjectURL(blobURLs[path]);
+      if(blobURLs[path])URL.revokeObjectURL(blobURLs[path]);
       blobURLs[path]=URL.createObjectURL(blob);
     }catch(e){}
   }
 }
 
-/* ══ PREVIEW — Full Linker ══ */
+/* ══ PREVIEW ══ */
 function buildLinkedHTML(){
-  const htmlKey=findIndexHtml();
-  if(!htmlKey) return null;
+  const htmlKey=curProj?.entryPoint||findMainEntryPoint(pFiles);
+  if(!htmlKey)return null;
   const html=typeof pFiles[htmlKey]==='string'?pFiles[htmlKey]:'';
   const baseDir=htmlKey.includes('/')?htmlKey.substring(0,htmlKey.lastIndexOf('/'))+'/':'';
-  return rewriteHTML(html,baseDir);
+  return smartRewriteHTML(html,htmlKey,pFiles);
 }
-function findIndexHtml(){
-  return Object.keys(pFiles).find(p=>/^index\.html?$/i.test(p.split('/').pop()))
-      || Object.keys(pFiles).find(p=>p.endsWith('.html'));
-}
+
 function resolvePath(base,rel){
-  if(!rel||rel.startsWith('http')||rel.startsWith('data:')||rel.startsWith('blob:')||rel.startsWith('#')||rel.startsWith('mailto:')||rel.startsWith('tel:')) return null;
-  if(rel.startsWith('/')) rel=rel.substring(1);
-  const parts=(base+rel).split('/');
-  const resolved=[];
+  if(!rel||rel.startsWith('http')||rel.startsWith('data:')||rel.startsWith('blob:')||rel.startsWith('#')||rel.startsWith('mailto:')||rel.startsWith('tel:'))return null;
+  if(rel.startsWith('/'))rel=rel.substring(1);
+  const parts=(base+rel).split('/');const resolved=[];
   for(const p of parts){if(p==='..')resolved.pop();else if(p&&p!='.')resolved.push(p);}
   return resolved.join('/');
 }
 function getBlobURL(base,rel){
-  if(!rel) return null;
+  if(!rel)return null;
   const r=resolvePath(base,rel);
-  if(r&&blobURLs[r]) return blobURLs[r];
+  if(r&&blobURLs[r])return blobURLs[r];
   const r2=rel.replace(/^\.\//,'');
-  if(blobURLs[r2]) return blobURLs[r2];
-  // Try direct
-  if(blobURLs[rel]) return blobURLs[rel];
+  if(blobURLs[r2])return blobURLs[r2];
+  if(blobURLs[rel])return blobURLs[rel];
   return null;
-}
-function rewriteHTML(html,baseDir){
-  // Rewrite href/src attributes
-  html=html.replace(/(href|src|action|data-src)=["']([^"'#?][^"']*)["']/gi,(match,attr,url)=>{
-    const blob=getBlobURL(baseDir,url);
-    return blob?`${attr}="${blob}"`:match;
-  });
-  // Inline <link rel="stylesheet">
-  html=html.replace(/<link([^>]*?)href=["']([^"']+)["']([^>]*?)>/gi,(match,before,href,after)=>{
-    if(!after.includes('stylesheet')&&!before.includes('stylesheet')) return match;
-    if(href.startsWith('http')) return match;
-    const r=resolvePath(baseDir,href);
-    const css=r&&typeof pFiles[r]==='string'?pFiles[r]:(typeof pFiles[href.replace(/^\.\//,'')])==='string'?pFiles[href.replace(/^\.\//,'')]:null;
-    if(css){
-      const cssDir=r&&r.includes('/')?r.substring(0,r.lastIndexOf('/'))+'/':'';
-      const rewritten=css.replace(/url\(["']?([^"')]+)["']?\)/gi,(m,u)=>{const b=getBlobURL(cssDir,u);return b?`url("${b}")`:m;});
-      return `<style>${rewritten}</style>`;
-    }
-    return match;
-  });
-  // Inline <script src>
-  html=html.replace(/<script([^>]*)src=["']([^"']+)["']([^>]*)><\/script>/gi,(match,before,src,after)=>{
-    if(src.startsWith('http')) return match;
-    const r=resolvePath(baseDir,src);
-    const js=r&&typeof pFiles[r]==='string'?pFiles[r]:(typeof pFiles[src.replace(/^\.\//,'')]==='string'?pFiles[src.replace(/^\.\//,'')]:null);
-    if(js) return `<script${before}${after}>${js}<\/script>`;
-    return match;
-  });
-  // Fix url() in inline styles
-  html=html.replace(/<style([^>]*)>([\s\S]*?)<\/style>/gi,(match,attrs,css)=>{
-    const rewritten=css.replace(/url\(["']?([^"')]+)["']?\)/gi,(m,u)=>{const b=getBlobURL(baseDir,u);return b?`url("${b}")`:m;});
-    return `<style${attrs}>${rewritten}</style>`;
-  });
-  // Add base navigation interceptor
-  html=html.replace('</head>',`<script>
-(function(){
-  // Intercept navigation links to use blob URLs
-  document.addEventListener('click',function(e){
-    const a=e.target.closest('a');
-    if(!a||!a.getAttribute('href')) return;
-    const href=a.getAttribute('href');
-    if(href.startsWith('http')||href.startsWith('#')||href.startsWith('blob:')) return;
-    // handled by blob URL rewriting above
-  },true);
-})();
-<\/script></head>`);
-  return html;
 }
 
 function runPreview(){
@@ -1409,14 +1501,14 @@ function runPreview(){
   const blob=new Blob([html],{type:'text/html;charset=utf-8'});
   document.getElementById('preview-frame').src=URL.createObjectURL(blob);
   document.getElementById('pv-label').textContent='📱 '+(curProj?.name||'معاينة');
-  log('▶️ معاينة','ls');
+  log('▶️ معاينة مع ربط جميع الصفحات','ls');
 }
 function closePreview(){prevOpen=false;document.getElementById('prev-pane').classList.add('closed');document.getElementById('rsz-pv').style.display='none';}
 function previewLoaded(){setTimeout(()=>document.getElementById('pv-overlay').classList.add('hide'),400);}
 function runPreviewAI(){closeProjects();setTimeout(()=>runPreview(),200);}
 function editAI(){closeProjects();const f=Object.keys(pFiles).find(p=>p.endsWith('.html'))||Object.keys(pFiles)[0];if(f)setTimeout(()=>openFile(f),200);}
 
-/* ══ AI BUILD ══ */
+/* ══ AI DRAWER ══ */
 function toggleAI(){
   aiOpen=!aiOpen;
   document.getElementById('ai-drawer').classList.toggle('open',aiOpen);
@@ -1428,14 +1520,13 @@ function setAITab(t){
     document.getElementById(`at-${x}`).classList.toggle('act',x===t);
     const sec=document.getElementById(`ai-${x}`);
     sec.classList.toggle('hid',x!==t);
-    if(x==='chat') sec.style.display=t==='chat'?'flex':'none';
+    if(x==='chat')sec.style.display=t==='chat'?'flex':'none';
   });
 }
-
 function setChip(el){
   const MAP={
     '📱 دردشة':'تطبيق دردشة مثل واتساب: قائمة محادثات، نافذة دردشة بفقاعات رسائل، حقل إدخال مع إيموجي، تصميم داكن احترافي.',
-    '🛒 متجر':'متجر إلكتروني: بنر رئيسي، شبكة منتجات مع صور وأسعار، سلة تسوق، تصفية وبحث، تصميم ملون.',
+    '🛒 متجر':'متجر إلكتروني: بنر رئيسي، شبكة منتجات مع صور وأسعار، سلة تسوق، تصفية وبحث.',
     '📊 تحكم':'لوحة تحكم: إحصائيات KPI، رسم بياني، جدول بيانات، قائمة جانبية، ثيم داكن.',
     '🎮 لعبة':'لعبة Snake أو Tetris في Canvas: تحكم كامل، نقاط، مستويات، تصميم ملون.',
     '📰 أخبار':'موقع إخباري: شريط عاجل، بطاقات أخبار بصور، تصنيفات، تصميم احترافي.',
@@ -1448,7 +1539,12 @@ function setChip(el){
 
 async function startBuild(){
   const prompt=document.getElementById('ai-prompt').value.trim();
-  if(!prompt) return toast('اكتب وصف التطبيق','tw');
+  if(!prompt)return toast('اكتب وصف التطبيق','tw');
+  
+  // ══ NEW: Read app name and icon ══
+  const appName=document.getElementById('app-name-inp').value.trim()||prompt.substring(0,20);
+  const appIcon=appIconDataURL;
+
   document.getElementById('ai-build-btn').disabled=true;
   ['post-build','gfiles'].forEach(id=>document.getElementById(id).classList.remove('on'));
   const bprog=document.getElementById('bprog');bprog.classList.add('on');
@@ -1461,6 +1557,7 @@ async function startBuild(){
   renderSteps();setBP('🤖 يحلل...',5);setStep('a','run');await sl(400);
   try{
     const sys=`أنت مطور ويب خبير. اصنع تطبيقاً HTML/CSS/JS جميلاً ووظيفياً حقيقياً.
+اسم التطبيق: ${appName}
 قواعد: الكود يعمل في المتصفح مباشرة. تصميم احترافي جداً. JS وظيفي حقيقي لا placeholder.
 استخدم Google Fonts من CDN. التنقل بين الصفحات عبر JS (لا href لملفات أخرى).
 أجب بـ JSON فقط: {"projectName":"اسم","files":{"index.html":"...","style.css":"...","script.js":"..."}}
@@ -1482,13 +1579,13 @@ async function startBuild(){
     try{
       let js=raw.replace(/```json\n?/g,'').replace(/```\n?/g,'').trim();
       const s=js.indexOf('{'),end=js.lastIndexOf('}')+1;
-      if(s>=0&&end>s) js=js.substring(s,end);
+      if(s>=0&&end>s)js=js.substring(s,end);
       proj=JSON.parse(js);
     }catch(e){
-      proj={projectName:prompt.substring(0,20),files:{}};
+      proj={projectName:appName,files:{}};
       const hm=raw.match(/```html\n([\s\S]*?)```/);const cm2=raw.match(/```css\n([\s\S]*?)```/);const jm=raw.match(/```(?:js|javascript)\n([\s\S]*?)```/);
       if(hm)proj.files['index.html']=hm[1];if(cm2)proj.files['style.css']=cm2[1];if(jm)proj.files['script.js']=jm[1];
-      if(!Object.keys(proj.files).length) throw new Error('لم يُنشأ كود');
+      if(!Object.keys(proj.files).length)throw new Error('لم يُنشأ كود');
     }
     setBP('⚡ JS...',75);setStep('d','done');setStep('e','run');
     await stream((proj.files['index.html']||'').substring(0,200)+'...');
@@ -1498,16 +1595,25 @@ async function startBuild(){
     Object.entries(proj.files||{}).forEach(([fn,c])=>{if(c&&fn)pFiles[fn]=c;});
     setBP('🔗 ربط...',90);setStep('e','done');setStep('f','run');
     await createBlobURLs();await sl(200);
-    curProj={name:proj.projectName||prompt.substring(0,20),icon:'🤖',type:'ai',createdAt:new Date().toISOString()};
+    // ══ NEW: Save app name + icon in project ══
+    const finalName=appName||proj.projectName||prompt.substring(0,20);
+    curProj={name:finalName,icon:appIcon?'🖼️':'🤖',iconImg:appIcon||null,type:'ai',createdAt:new Date().toISOString()};
     setStep('f','done');setBP('✅ اكتمل!',100);
     document.getElementById('bp-spin').style.display='none';
     document.getElementById('gf-list').innerHTML=Object.entries(pFiles).map(([fn,c])=>`<div class="gf-item"><span>${iconF(fn)}</span><span class="gf-nm">${fn}</span><span class="gf-sz">${Math.round((typeof c==='string'?c:'').length/1024*10)/10}KB</span><span class="gf-ok">✓</span></div>`).join('');
     document.getElementById('gfiles').classList.add('on');
     document.getElementById('pb-info').textContent=`${Object.keys(pFiles).length} ملفات — جاهز`;
+    // ══ NEW: Show app name + icon in post-build ══
+    if(appIcon){
+      document.getElementById('pb-icon-display').innerHTML=`<img src="${appIcon}" style="width:48px;height:48px;border-radius:10px;object-fit:cover">`;
+    }else{
+      document.getElementById('pb-icon-display').textContent='🎉';
+    }
+    document.getElementById('pb-app-name').textContent=finalName;
     document.getElementById('post-build').classList.add('on');
     renderFTree();renderTabs();
     await saveProjectToFirestore();await loadUserProjects();
-    log(`🤖 بُني: "${curProj.name}"`,'ls');toast('🎉 اكتمل!','ts');
+    log(`🤖 بُني: "${finalName}"`,'ls');toast('🎉 اكتمل!','ts');
   }catch(err){
     document.getElementById('bp-tt').textContent='❌ '+err.message;
     document.getElementById('bp-spin').style.display='none';
@@ -1539,14 +1645,14 @@ function addMsg(txt,type){
 }
 
 /* ══ FIX ══ */
-async function analyzeAll(){document.getElementById('fix-results').textContent='🔍 يحلل...';analyze();await sl(700);document.getElementById('fix-results').textContent=errors.length?`وُجد ${errors.length} مشاكل — اضغط "إصلاح AI" في لوحة الأخطاء`:'✅ لا توجد أخطاء واضحة';}
+async function analyzeAll(){document.getElementById('fix-results').textContent='🔍 يحلل...';analyze();await sl(700);document.getElementById('fix-results').textContent=errors.length?`وُجد ${errors.length} مشاكل`:'✅ لا توجد أخطاء واضحة';}
 function analyze(){
   errors=[];
   Object.entries(pFiles).forEach(([path,content])=>{
     if(typeof content!=='string')return;
     content.split('\n').forEach((line,i)=>{
-      if((path.endsWith('.js'))&&line.includes('console.log')&&Math.random()<0.3) errors.push({file:path,line:i+1,msg:'console.log يُزال في الإنتاج',fix:line.replace(/.*console\.log.*/,'// removed')});
-      if(/^\s*var\s+/.test(line)&&path.endsWith('.js')&&Math.random()<0.35) errors.push({file:path,line:i+1,msg:'استبدل var بـ const/let',fix:line.replace(/\bvar\b/,'const')});
+      if(path.endsWith('.js')&&line.includes('console.log')&&Math.random()<0.3)errors.push({file:path,line:i+1,msg:'console.log يُزال في الإنتاج',fix:line.replace(/.*console\.log.*/,'// removed')});
+      if(/^\s*var\s+/.test(line)&&path.endsWith('.js')&&Math.random()<0.35)errors.push({file:path,line:i+1,msg:'استبدل var بـ const/let',fix:line.replace(/\bvar\b/,'const')});
     });
   });
   errors=errors.slice(0,8);
@@ -1583,43 +1689,26 @@ async function aiFixOne(i){
 function fixAllBasic(){const c=errors.length;for(let i=c-1;i>=0;i--)fixOne(0);toast(`✨ ${c}`,'ts');}
 async function fixAllAI(){for(let i=errors.length-1;i>=0;i--){await aiFixOne(0);await sl(300);}toast('🤖 اكتمل','ts');}
 
-/* ══ APK BUILD — REAL via GitHub Actions ══ */
-/*
-  FLOW:
-  1. Connect GitHub (token with repo+workflow permissions)
-  2. Create private repo → push Android project (with all HTML/CSS/JS as assets)
-  3. GitHub Actions auto-triggers → builds real APK (5-8 min)
-  4. We poll the Actions API every 15s for status
-  5. When done → download artifact ZIP → extract APK → offer direct download
-  The user gets a real .apk file they can install on their phone!
-*/
-
-let apkBuildRunId=null, apkBuildRepo=null, apkPollTimer=null;
+/* ══ APK BUILD ══ */
+let apkBuildRunId=null,apkBuildRepo=null;
 
 async function buildAPK(){
   if(!Object.keys(pFiles).length)return toast('لا يوجد مشروع','tw');
-  // Ensure GitHub connected (needs repo + workflow scope)
-  if(!ghToken){
-    showGHForAPK();return;
-  }
+  if(!ghToken){showGHForAPK();return;}
   try{await verifyGH(ghToken);}
   catch(e){ghToken=null;localStorage.removeItem('dsp5_gh');showGHForAPK();return;}
   openOv('ov-conv');
   await runGitHubActionsAPKBuild();
 }
-
 function showGHForAPK(){
-  // Override the GH modal to explain APK build needs
   document.getElementById('gh-row').style.display='none';
   document.getElementById('gh-form').style.display='block';
   document.getElementById('gh-conn-btn').style.display='inline-flex';
   document.getElementById('gh-dep-btn').style.display='none';
   document.getElementById('gh-conn-btn').textContent='ربط وبناء APK';
-  // Temporarily override deploy button action
   document.getElementById('gh-dep-btn').onclick=()=>{closeOv('ov-gh');buildAPK();};
   openOv('ov-gh');
 }
-
 async function runGitHubActionsAPKBuild(){
   const ct=document.getElementById('cv-title');
   const cst=document.getElementById('cv-steps');
@@ -1628,494 +1717,130 @@ async function runGitHubActionsAPKBuild(){
   const capk=document.getElementById('cv-apk');
   const ccl=document.getElementById('cv-close');
   cres.style.display='none';capk.style.display='none';ccl.style.display='none';
-
   const pname=(curProj?.name||'MyApp').replace(/[^a-z0-9]/gi,'').substring(0,20)||'MyApp';
   const repoName=`devstudio-${pname.toLowerCase()}-${Date.now().toString(36)}`;
-
-  const STEPS=[
-    {id:'s0', lbl:'إنشاء مستودع GitHub خاص'},
-    {id:'s1', lbl:'رفع ملفات المشروع (HTML/CSS/JS)'},
-    {id:'s2', lbl:'إنشاء مشروع Android + Gradle'},
-    {id:'s3', lbl:'رفع GitHub Actions Workflow'},
-    {id:'s4', lbl:'⏳ GitHub Actions يبني APK...'},
-    {id:'s5', lbl:'تنزيل APK الحقيقي ✓'},
-  ];
+  const STEPS=[{id:'s0',lbl:'إنشاء مستودع GitHub خاص'},{id:'s1',lbl:'رفع ملفات المشروع'},{id:'s2',lbl:'إنشاء مشروع Android'},{id:'s3',lbl:'رفع GitHub Actions Workflow'},{id:'s4',lbl:'⏳ GitHub Actions يبني APK...'},{id:'s5',lbl:'تنزيل APK الحقيقي ✓'}];
   ct.textContent='📱 بناء APK حقيقي عبر GitHub Actions...';
   cst.innerHTML=STEPS.map(s=>`<div class="cs" id="${s.id}"><div class="cs-ico p">○</div><div class="cs-lbl">${s.lbl}</div></div>`).join('');
-
-  const setS=(id,state,extra='')=>{
-    const el=document.getElementById(id);if(!el)return;
-    el.querySelector('.cs-ico').className=`cs-ico ${state}`;
-    el.querySelector('.cs-ico').textContent=state==='r'?'⟳':state==='d'?'✓':'✕';
-    if(extra) el.querySelector('.cs-lbl').textContent=extra;
-  };
+  const setS=(id,state,extra='')=>{const el=document.getElementById(id);if(!el)return;el.querySelector('.cs-ico').className=`cs-ico ${state}`;el.querySelector('.cs-ico').textContent=state==='r'?'⟳':state==='d'?'✓':'✕';if(extra)el.querySelector('.cs-lbl').textContent=extra;};
   const setPF=p=>cpf.style.width=p+'%';
-
   try{
-    // ── STEP 0: Create repo ──
     setS('s0','r');
-    log(`📦 إنشاء مستودع: ${repoName}`,'li');
-    const crResp=await fetch(`${GH}/user/repos`,{
-      method:'POST',
-      headers:{Authorization:`token ${ghToken}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},
-      body:JSON.stringify({name:repoName,private:true,auto_init:false,description:`Built by DevStudio Pro — ${curProj?.name||'App'}`})
-    });
+    const crResp=await fetch(`${GH}/user/repos`,{method:'POST',headers:{Authorization:`token ${ghToken}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify({name:repoName,private:true,auto_init:false,description:`Built by DevStudio Pro — ${curProj?.name||'App'}`})});
     if(!crResp.ok){const e=await crResp.json();throw new Error('فشل إنشاء المستودع: '+e.message);}
     const repo=await crResp.json();
     apkBuildRepo={owner:ghUser.login,name:repoName,url:repo.html_url};
     setS('s0','d');setPF(10);await sl(400);
-
-    // ── STEP 1: Upload HTML/CSS/JS assets ──
     setS('s1','r');
     const textFiles=Object.entries(pFiles).filter(([p,c])=>typeof c==='string'&&c.length<800000&&!p.includes('.gitkeep'));
-    log(`📁 رفع ${textFiles.length} ملف...`,'li');
     let uploaded=0;
     for(const[path,content] of textFiles){
-      let enc;
-      try{enc=btoa(unescape(encodeURIComponent(content)));}catch(e){try{enc=btoa(content);}catch(e2){continue;}}
+      let enc;try{enc=btoa(unescape(encodeURIComponent(content)));}catch(e){try{enc=btoa(content);}catch(e2){continue;}}
       await ghPut(`app/src/main/assets/${path}`,enc,`Add ${path}`,repoName);
-      uploaded++;
-      if(uploaded%3===0) await sl(80);
+      uploaded++;if(uploaded%3===0)await sl(80);
     }
-    // Handle index.html
     const hasIdx=textFiles.some(([p])=>/^index\.html?$/i.test(p.split('/').pop()));
     if(!hasIdx){
       const hFile=textFiles.find(([p])=>p.endsWith('.html'));
-      if(hFile){
-        let enc;try{enc=btoa(unescape(encodeURIComponent(hFile[1])));}catch(e){enc=btoa(hFile[1]);}
-        await ghPut('app/src/main/assets/index.html',enc,'Add index.html',repoName);
-      } else {
-        const fallback=`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${pname}</title><style>body{font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;background:#0d1117;color:#cdd9e5;flex-direction:column;gap:16px}h1{color:#58a6ff;font-size:2em}</style></head><body><h1>⚡ ${pname}</h1><p>DevStudio Pro</p></body></html>`;
-        await ghPut('app/src/main/assets/index.html',btoa(unescape(encodeURIComponent(fallback))),'Add index.html',repoName);
-      }
+      if(hFile){let enc;try{enc=btoa(unescape(encodeURIComponent(hFile[1])));}catch(e){enc=btoa(hFile[1]);}await ghPut('app/src/main/assets/index.html',enc,'Add index.html',repoName);}
     }
     setS('s1','d');setPF(30);await sl(300);
-
-    // ── STEP 2: Upload Android project files ──
     setS('s2','r');
     const pkg=`com.devstudio.${pname.toLowerCase().replace(/[^a-z0-9]/g,'').substring(0,18)||'app'}`;
     const pkgPath=pkg.replace(/\./g,'/');
     const androidFiles=buildAndroidFiles(pname,pkg,pkgPath);
     for(const[path,content] of Object.entries(androidFiles)){
-      let enc;
-      try{enc=btoa(unescape(encodeURIComponent(content)));}catch(e){enc=btoa(content);}
-      await ghPut(path,enc,`Android: ${path.split('/').pop()}`,repoName);
-      await sl(50);
+      let enc;try{enc=btoa(unescape(encodeURIComponent(content)));}catch(e){enc=btoa(content);}
+      await ghPut(path,enc,`Android: ${path.split('/').pop()}`,repoName);await sl(50);
     }
     setS('s2','d');setPF(55);await sl(300);
-
-    // ── STEP 3: Upload Workflow ──
     setS('s3','r');
     const workflow=buildWorkflow(pname);
     let wfEnc;try{wfEnc=btoa(unescape(encodeURIComponent(workflow)));}catch(e){wfEnc=btoa(workflow);}
     await ghPut('.github/workflows/build-apk.yml',wfEnc,'Add GitHub Actions workflow',repoName);
-    setS('s3','d');setPF(65);
-    log('🚀 GitHub Actions بدأ البناء...','ls');
-    await sl(3000); // Wait for Actions to pick up
-
-    // ── STEP 4: Poll GitHub Actions ──
+    setS('s3','d');setPF(65);await sl(3000);
     setS('s4','r');
-    log('⏳ انتظار اكتمال البناء (5-8 دقائق)...','lw');
-    ct.textContent='⏳ GitHub Actions يبني APK الحقيقي...';
     const runId=await pollActions(repoName,setS,setPF);
     apkBuildRunId=runId;
-
-    // ── STEP 5: Download APK artifact ──
     setS('s5','r');
-    log('📥 تنزيل APK...','li');
     const apkBlob=await downloadAPKArtifact(repoName,runId);
     setS('s5','d');setPF(100);
-
-    // Create download link
     const apkUrl=URL.createObjectURL(new Blob([apkBlob],{type:'application/vnd.android.package-archive'}));
-    ct.textContent='🎉 APK حقيقي جاهز للتثبيت!';
-    document.getElementById('cv-link').innerHTML=
-      `<strong style="color:var(--c2);font-size:14px">📱 ${pname}-debug.apk</strong><br>
-       <span style="font-size:10px;color:var(--ts)">تطبيق Android حقيقي — ثبّته مباشرة على هاتفك</span><br>
-       <a href="${apkBuildRepo.url}/actions" target="_blank" style="font-size:10px;color:var(--c1)">🔗 عرض سجل البناء على GitHub</a>`;
-    document.getElementById('cv-copy').textContent='📱 تنزيل APK (تثبيت مباشر)';
-    document.getElementById('cv-copy').onclick=()=>{
-      const a=document.createElement('a');a.href=apkUrl;a.download=`${pname}-debug.apk`;a.click();
-      toast('📱 جاري تنزيل APK...','ts');
-      log(`📱 APK حقيقي: ${pname}-debug.apk`,'ls');
-    };
+    ct.textContent='🎉 APK حقيقي جاهز!';
+    document.getElementById('cv-link').innerHTML=`<strong style="color:var(--c2);font-size:14px">📱 ${pname}-debug.apk</strong><br><span style="font-size:10px;color:var(--ts)">تطبيق Android حقيقي</span>`;
+    document.getElementById('cv-copy').textContent='📱 تنزيل APK';
+    document.getElementById('cv-copy').onclick=()=>{const a=document.createElement('a');a.href=apkUrl;a.download=`${pname}-debug.apk`;a.click();toast('📱 جاري تنزيل APK...','ts');};
     cres.style.display='block';ccl.style.display='flex';
     toast('🎉 APK حقيقي جاهز!','ts');
-    log(`✅ APK حقيقي جاهز — ${pname}-debug.apk`,'ls');
-
   }catch(err){
     ct.textContent='❌ فشل البناء';
     const errDiv=document.createElement('div');
     errDiv.style.cssText='background:rgba(248,81,73,.1);border:1px solid rgba(248,81,73,.3);border-radius:8px;padding:10px;margin-top:10px;font-size:11px;color:var(--c3);line-height:1.7';
-    errDiv.innerHTML=`<strong>السبب:</strong> ${err.message}<br><br>
-      ${apkBuildRepo?`<a href="${apkBuildRepo.url}/actions" target="_blank" style="color:var(--c1)">🔗 عرض سجل البناء على GitHub</a>`:''}`;
+    errDiv.innerHTML=`<strong>السبب:</strong> ${err.message}<br><br>${apkBuildRepo?`<a href="${apkBuildRepo.url}/actions" target="_blank" style="color:var(--c1)">🔗 عرض سجل البناء</a>`:''}`;
     document.getElementById('cv-steps').appendChild(errDiv);
-    ccl.style.display='flex';
-    log('❌ فشل البناء: '+err.message,'le');
-    if(apkPollTimer){clearInterval(apkPollTimer);apkPollTimer=null;}
+    ccl.style.display='flex';log('❌ فشل البناء: '+err.message,'le');
   }
 }
-
 async function ghPut(path,contentB64,message,repoName){
-  const resp=await fetch(`${GH}/repos/${ghUser.login}/${repoName}/contents/${path}`,{
-    method:'PUT',
-    headers:{Authorization:`token ${ghToken}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},
-    body:JSON.stringify({message,content:contentB64})
-  });
+  const resp=await fetch(`${GH}/repos/${ghUser.login}/${repoName}/contents/${path}`,{method:'PUT',headers:{Authorization:`token ${ghToken}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify({message,content:contentB64})});
   if(!resp.ok){const e=await resp.json();throw new Error(`فشل رفع ${path}: ${e.message}`);}
   return resp;
 }
-
 async function pollActions(repoName,setS,setPF){
   return new Promise((resolve,reject)=>{
-    let attempts=0;
-    const MAX=40; // 40 * 15s = 10 minutes max
+    let attempts=0;const MAX=40;
     const tick=async()=>{
-      attempts++;
-      if(attempts>MAX){reject(new Error('انتهت مهلة البناء (10 دقائق) — تحقق من Actions على GitHub'));return;}
+      attempts++;if(attempts>MAX){reject(new Error('انتهت مهلة البناء'));return;}
       try{
-        const runsResp=await fetch(`${GH}/repos/${ghUser.login}/${repoName}/actions/runs?per_page=5`,{
-          headers:{Authorization:`token ${ghToken}`,Accept:'application/vnd.github.v3+json'}
-        });
-        if(!runsResp.ok) throw new Error('فشل التحقق من Actions');
+        const runsResp=await fetch(`${GH}/repos/${ghUser.login}/${repoName}/actions/runs?per_page=5`,{headers:{Authorization:`token ${ghToken}`,Accept:'application/vnd.github.v3+json'}});
+        if(!runsResp.ok)throw new Error('فشل التحقق من Actions');
         const runsData=await runsResp.json();
         const run=runsData.workflow_runs?.[0];
-        if(!run){
-          document.getElementById('s4').querySelector('.cs-lbl').textContent=`⏳ في الانتظار... (${attempts*15}ث)`;
-          setTimeout(tick,15000);return;
-        }
-        apkBuildRunId=run.id;
+        if(!run){document.getElementById('s4').querySelector('.cs-lbl').textContent=`⏳ في الانتظار... (${attempts*15}ث)`;setTimeout(tick,15000);return;}
         const elapsed=Math.round((Date.now()-new Date(run.created_at).getTime())/1000);
         const statusText={queued:'في الانتظار',in_progress:'يبني...',completed:'اكتمل'};
-        document.getElementById('s4').querySelector('.cs-lbl').textContent=
-          `⏳ GitHub Actions: ${statusText[run.status]||run.status} (${elapsed}ث)`;
+        document.getElementById('s4').querySelector('.cs-lbl').textContent=`⏳ GitHub Actions: ${statusText[run.status]||run.status} (${elapsed}ث)`;
         if(run.status==='completed'){
-          if(run.conclusion==='success'){
-            setS('s4','d');setPF(88);resolve(run.id);
-          } else {
-            reject(new Error(`فشل البناء على GitHub Actions (${run.conclusion}) — ${run.html_url}`));
-          }
-        } else {
-          const prog=Math.min(85,65+Math.round((elapsed/480)*20));
-          setPF(prog);
-          setTimeout(tick,15000);
-        }
-      }catch(e){
-        if(attempts<3){setTimeout(tick,15000);}
-        else reject(e);
-      }
+          if(run.conclusion==='success'){setS('s4','d');setPF(88);resolve(run.id);}
+          else reject(new Error(`فشل البناء على GitHub Actions (${run.conclusion})`));
+        }else{setPF(Math.min(85,65+Math.round((elapsed/480)*20)));setTimeout(tick,15000);}
+      }catch(e){if(attempts<3)setTimeout(tick,15000);else reject(e);}
     };
     setTimeout(tick,10000);
   });
 }
-
 async function downloadAPKArtifact(repoName,runId){
-  // Get artifacts list
-  const artResp=await fetch(`${GH}/repos/${ghUser.login}/${repoName}/actions/runs/${runId}/artifacts`,{
-    headers:{Authorization:`token ${ghToken}`,Accept:'application/vnd.github.v3+json'}
-  });
-  if(!artResp.ok) throw new Error('فشل تحميل قائمة الـ Artifacts');
+  const artResp=await fetch(`${GH}/repos/${ghUser.login}/${repoName}/actions/runs/${runId}/artifacts`,{headers:{Authorization:`token ${ghToken}`,Accept:'application/vnd.github.v3+json'}});
+  if(!artResp.ok)throw new Error('فشل تحميل الـ Artifacts');
   const artData=await artResp.json();
   const artifact=artData.artifacts?.[0];
-  if(!artifact) throw new Error('لا يوجد APK في الـ Artifacts');
-
-  // Download artifact zip (contains the APK)
-  const dlResp=await fetch(artifact.archive_download_url,{
-    headers:{Authorization:`token ${ghToken}`,Accept:'application/vnd.github.v3+json'}
-  });
-  if(!dlResp.ok) throw new Error('فشل تنزيل الـ Artifact');
+  if(!artifact)throw new Error('لا يوجد APK في الـ Artifacts');
+  const dlResp=await fetch(artifact.archive_download_url,{headers:{Authorization:`token ${ghToken}`,Accept:'application/vnd.github.v3+json'}});
+  if(!dlResp.ok)throw new Error('فشل تنزيل الـ Artifact');
   const artifactZipBlob=await dlResp.blob();
-
-  // Extract APK from the artifact zip using JSZip
   const artifactZip=await JSZip.loadAsync(artifactZipBlob);
   const apkFile=artifactZip.file(/\.apk$/i)[0];
-  if(!apkFile) throw new Error('لا يوجد ملف APK في الـ Artifact');
-  const apkArrayBuffer=await apkFile.async('arraybuffer');
-  return apkArrayBuffer;
+  if(!apkFile)throw new Error('لا يوجد ملف APK');
+  return await apkFile.async('arraybuffer');
 }
-
 function buildAndroidFiles(pname,pkg,pkgPath){
   const files={};
-  files['settings.gradle']=`pluginManagement {
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
-}
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-rootProject.name = "${pname}"
-include ':app'`;
-
-  files['build.gradle']=`// Top-level build file
-plugins {
-    id 'com.android.application' version '8.2.2' apply false
-}`;
-
-  files['gradle.properties']=`android.useAndroidX=true
-android.enableJetifier=true
-org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
-org.gradle.configuration-cache=true`;
-
-  files['gradle/wrapper/gradle-wrapper.properties']=`distributionBase=GRADLE_USER_HOME
-distributionPath=wrapper/dists
-distributionUrl=https\\://services.gradle.org/distributions/gradle-8.4-bin.zip
-networkTimeout=10000
-validateDistributionUrl=true
-zipStoreBase=GRADLE_USER_HOME
-zipStorePath=wrapper/dists`;
-
-  // Proper gradlew script (shell)
-  files['gradlew']=`#!/usr/bin/env sh
-#
-# Gradle startup script for POSIX
-#
-APP_NAME="Gradle"
-APP_BASE_NAME=\`basename "$0"\`
-APP_HOME=\`pwd -P\`
-CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
-JAVACMD=java
-exec "$JAVACMD" -classpath "$CLASSPATH" org.gradle.wrapper.GradleWrapperMain "$@"`;
-
-  files['app/build.gradle']=`plugins {
-    id 'com.android.application'
-}
-
-android {
-    namespace '${pkg}'
-    compileSdk 34
-
-    defaultConfig {
-        applicationId "${pkg}"
-        minSdk 21
-        targetSdk 34
-        versionCode 1
-        versionName "1.0"
-    }
-
-    buildTypes {
-        debug {
-            debuggable true
-        }
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    sourceSets {
-        main {
-            assets.srcDirs = ['src/main/assets']
-        }
-    }
-}
-
-dependencies {
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.9.0'
-}`;
-
-  files[`app/src/main/AndroidManifest.xml`]=`<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <application
-        android:allowBackup="true"
-        android:label="${pname}"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-        android:usesCleartextTraffic="true"
-        android:hardwareAccelerated="true">
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:configChanges="orientation|keyboardHidden|screenSize|uiMode">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-    </application>
-</manifest>`;
-
-  files[`app/src/main/java/${pkgPath}/MainActivity.java`]=`package ${pkg};
-
-import android.annotation.SuppressLint;
-import android.os.Bundle;
-import android.view.KeyEvent;
-import android.webkit.*;
-import androidx.appcompat.app.AppCompatActivity;
-
-public class MainActivity extends AppCompatActivity {
-    private WebView webView;
-
-    @SuppressLint("SetJavaScriptEnabled")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        webView = findViewById(R.id.webview);
-
-        WebSettings ws = webView.getSettings();
-        ws.setJavaScriptEnabled(true);
-        ws.setDomStorageEnabled(true);
-        ws.setDatabaseEnabled(true);
-        ws.setAllowFileAccessFromFileURLs(true);
-        ws.setAllowUniversalAccessFromFileURLs(true);
-        ws.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        ws.setLoadWithOverviewMode(true);
-        ws.setUseWideViewPort(true);
-        ws.setBuiltInZoomControls(false);
-        ws.setDisplayZoomControls(false);
-        ws.setMediaPlaybackRequiresUserGesture(false);
-        ws.setCacheMode(WebSettings.LOAD_DEFAULT);
-
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url.startsWith("file://") || url.startsWith("about:")) return false;
-                view.loadUrl(url);
-                return true;
-            }
-        });
-        webView.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public void onPermissionRequest(PermissionRequest request) {
-                request.grant(request.getResources());
-            }
-        });
-        webView.loadUrl("file:///android_asset/index.html");
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
-            webView.goBack();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-}`;
-
-  files['app/src/main/res/layout/activity_main.xml']=`<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#000000">
-    <WebView
-        android:id="@+id/webview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</RelativeLayout>`;
-
+  files['settings.gradle']=`pluginManagement{\n  repositories{google();mavenCentral();gradlePluginPortal()}\n}\ndependencyResolutionManagement{\n  repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)\n  repositories{google();mavenCentral()}\n}\nrootProject.name="${pname}"\ninclude ':app'`;
+  files['build.gradle']=`plugins{id 'com.android.application' version '8.2.2' apply false}`;
+  files['gradle.properties']=`android.useAndroidX=true\nandroid.enableJetifier=true\norg.gradle.jvmargs=-Xmx2048m`;
+  files['gradle/wrapper/gradle-wrapper.properties']=`distributionBase=GRADLE_USER_HOME\ndistributionPath=wrapper/dists\ndistributionUrl=https\\://services.gradle.org/distributions/gradle-8.4-bin.zip\nzipStoreBase=GRADLE_USER_HOME\nzipStorePath=wrapper/dists`;
+  files['gradlew']='#!/usr/bin/env sh\nAPP_HOME=`pwd -P`\nCLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar\nexec java -classpath "$CLASSPATH" org.gradle.wrapper.GradleWrapperMain "$@"';
+  files['app/build.gradle']=`plugins{id 'com.android.application'}\nandroid{\n  namespace '${pkg}'\n  compileSdk 34\n  defaultConfig{applicationId "${pkg}";minSdk 21;targetSdk 34;versionCode 1;versionName "1.0"}\n  buildTypes{debug{debuggable true}}\n  compileOptions{sourceCompatibility JavaVersion.VERSION_1_8;targetCompatibility JavaVersion.VERSION_1_8}\n}\ndependencies{implementation 'androidx.appcompat:appcompat:1.6.1';implementation 'com.google.android.material:material:1.9.0'}`;
+  files[`app/src/main/AndroidManifest.xml`]=`<?xml version="1.0" encoding="utf-8"?><manifest xmlns:android="http://schemas.android.com/apk/res/android"><uses-permission android:name="android.permission.INTERNET"/><application android:allowBackup="true" android:label="${pname}" android:theme="@style/Theme.AppCompat.Light.NoActionBar" android:usesCleartextTraffic="true" android:hardwareAccelerated="true"><activity android:name=".MainActivity" android:exported="true" android:configChanges="orientation|keyboardHidden|screenSize"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity></application></manifest>`;
+  files[`app/src/main/java/${pkgPath}/MainActivity.java`]=`package ${pkg};\nimport android.annotation.SuppressLint;\nimport android.os.Bundle;\nimport android.view.KeyEvent;\nimport android.webkit.*;\nimport androidx.appcompat.app.AppCompatActivity;\npublic class MainActivity extends AppCompatActivity{\n  private WebView webView;\n  @SuppressLint("SetJavaScriptEnabled")\n  @Override protected void onCreate(Bundle b){\n    super.onCreate(b);setContentView(R.layout.activity_main);\n    webView=findViewById(R.id.webview);\n    WebSettings ws=webView.getSettings();\n    ws.setJavaScriptEnabled(true);ws.setDomStorageEnabled(true);ws.setAllowFileAccessFromFileURLs(true);ws.setAllowUniversalAccessFromFileURLs(true);ws.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);ws.setLoadWithOverviewMode(true);ws.setUseWideViewPort(true);\n    webView.setWebViewClient(new WebViewClient(){@Override public boolean shouldOverrideUrlLoading(WebView v,String url){if(url.startsWith("file://")||url.startsWith("about:"))return false;v.loadUrl(url);return true;}});\n    webView.setWebChromeClient(new WebChromeClient(){@Override public void onPermissionRequest(PermissionRequest r){r.grant(r.getResources());}});\n    webView.loadUrl("file:///android_asset/index.html");\n  }\n  @Override public boolean onKeyDown(int k,KeyEvent e){if(k==KeyEvent.KEYCODE_BACK&&webView.canGoBack()){webView.goBack();return true;}return super.onKeyDown(k,e);}\n}`;
+  files['app/src/main/res/layout/activity_main.xml']='<?xml version="1.0" encoding="utf-8"?><RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent"><WebView android:id="@+id/webview" android:layout_width="match_parent" android:layout_height="match_parent"/></RelativeLayout>';
   files['app/src/main/res/values/strings.xml']=`<resources><string name="app_name">${pname}</string></resources>`;
-  files['app/src/main/res/values/colors.xml']=`<?xml version="1.0" encoding="utf-8"?><resources><color name="colorPrimary">#58a6ff</color></resources>`;
-  files['app/proguard-rules.pro']='# ProGuard rules\n-keep class * extends android.webkit.WebViewClient { *; }';
-
+  files['app/src/main/res/values/colors.xml']='<?xml version="1.0" encoding="utf-8"?><resources><color name="colorPrimary">#58a6ff</color></resources>';
+  files['app/proguard-rules.pro']='';
   return files;
 }
-
 function buildWorkflow(pname){
-  return `name: Build APK
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: gradle
-
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
-
-    - name: Accept SDK licenses
-      run: yes | sdkmanager --licenses || true
-
-    - name: Install required SDK components
-      run: |
-        sdkmanager "platforms;android-34" "build-tools;34.0.0" "platform-tools"
-
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v3
-      with:
-        gradle-version: '8.4'
-
-    - name: Build Debug APK
-      run: gradle assembleDebug --no-daemon --stacktrace
-      env:
-        ANDROID_HOME: \${{ env.ANDROID_HOME }}
-
-    - name: Upload APK Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: ${pname}-debug-apk
-        path: app/build/outputs/apk/debug/app-debug.apk
-        if-no-files-found: error
-        retention-days: 7
-`;
-}
-
-async function genAndroid(){
-  const zip=new JSZip();
-  const pname=(curProj?.name||'MyApp').replace(/[^a-zA-Z0-9]/g,'')||'MyApp';
-  const pkg=`com.devstudio.${pname.toLowerCase().replace(/[^a-z0-9]/g,'').substring(0,18)||'app'}`;
-  const pkgPath=pkg.replace(/\./g,'/');
-  zip.file('settings.gradle',`rootProject.name = "${pname}"\ninclude ':app'`);
-  zip.file('build.gradle',`buildscript {\n    repositories { google(); mavenCentral() }\n    dependencies { classpath 'com.android.tools.build:gradle:8.1.4' }\n}\nallprojects { repositories { google(); mavenCentral() } }`);
-  zip.file('gradle.properties','android.useAndroidX=true\nandroid.enableJetifier=true\norg.gradle.jvmargs=-Xmx2048m');
-  zip.file('local.properties','# sdk.dir=/path/to/android/sdk');
-  zip.file('gradlew','#!/bin/sh\nexec gradle "$@"');
-  zip.file('gradle/wrapper/gradle-wrapper.properties',`distributionBase=GRADLE_USER_HOME\ndistributionPath=wrapper/dists\ndistributionUrl=https\\://services.gradle.org/distributions/gradle-8.1.1-bin.zip\nzipStoreBase=GRADLE_USER_HOME\nzipStorePath=wrapper/dists`);
-  zip.file('app/build.gradle',`plugins { id 'com.android.application' }\nandroid {\n    namespace '${pkg}'\n    compileSdk 34\n    defaultConfig {\n        applicationId "${pkg}"\n        minSdk 21\n        targetSdk 34\n        versionCode 1\n        versionName "1.0"\n    }\n    buildTypes {\n        debug { debuggable true }\n        release { minifyEnabled false }\n    }\n    compileOptions {\n        sourceCompatibility JavaVersion.VERSION_1_8\n        targetCompatibility JavaVersion.VERSION_1_8\n    }\n}\ndependencies {\n    implementation 'androidx.appcompat:appcompat:1.6.1'\n    implementation 'com.google.android.material:material:1.9.0'\n}`);
-  zip.file(`app/src/main/AndroidManifest.xml`,`<?xml version="1.0" encoding="utf-8"?>\n<manifest xmlns:android="http://schemas.android.com/apk/res/android">\n    <uses-permission android:name="android.permission.INTERNET"/>\n    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>\n    <application\n        android:allowBackup="true"\n        android:label="${pname}"\n        android:theme="@style/Theme.AppCompat.Light.NoActionBar"\n        android:usesCleartextTraffic="true"\n        android:hardwareAccelerated="true">\n        <activity android:name=".MainActivity" android:exported="true"\n            android:configChanges="orientation|keyboardHidden|screenSize">\n            <intent-filter>\n                <action android:name="android.intent.action.MAIN"/>\n                <category android:name="android.intent.category.LAUNCHER"/>\n            </intent-filter>\n        </activity>\n    </application>\n</manifest>`);
-  zip.file(`app/src/main/java/${pkgPath}/MainActivity.java`,`package ${pkg};\nimport android.annotation.SuppressLint;\nimport android.os.Bundle;\nimport android.view.KeyEvent;\nimport android.webkit.*;\nimport androidx.appcompat.app.AppCompatActivity;\npublic class MainActivity extends AppCompatActivity {\n    private WebView webView;\n    @SuppressLint("SetJavaScriptEnabled")\n    @Override protected void onCreate(Bundle b) {\n        super.onCreate(b);\n        setContentView(R.layout.activity_main);\n        webView=findViewById(R.id.webview);\n        WebSettings ws=webView.getSettings();\n        ws.setJavaScriptEnabled(true);\n        ws.setDomStorageEnabled(true);\n        ws.setDatabaseEnabled(true);\n        ws.setAllowFileAccessFromFileURLs(true);\n        ws.setAllowUniversalAccessFromFileURLs(true);\n        ws.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);\n        ws.setLoadWithOverviewMode(true);\n        ws.setUseWideViewPort(true);\n        ws.setBuiltInZoomControls(false);\n        ws.setMediaPlaybackRequiresUserGesture(false);\n        webView.setWebViewClient(new WebViewClient(){\n            @Override public boolean shouldOverrideUrlLoading(WebView v,String url){\n                if(url.startsWith("file://")||url.startsWith("about:"))return false;\n                v.loadUrl(url);return true;}\n        });\n        webView.setWebChromeClient(new WebChromeClient(){\n            @Override public void onPermissionRequest(PermissionRequest r){r.grant(r.getResources());}\n        });\n        webView.loadUrl("file:///android_asset/index.html");\n    }\n    @Override public boolean onKeyDown(int k,KeyEvent e){\n        if(k==KeyEvent.KEYCODE_BACK&&webView.canGoBack()){webView.goBack();return true;}\n        return super.onKeyDown(k,e);\n    }\n}`);
-  zip.file('app/src/main/res/layout/activity_main.xml',`<?xml version="1.0" encoding="utf-8"?>\n<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    android:layout_width="match_parent" android:layout_height="match_parent" android:background="#000">\n    <WebView android:id="@+id/webview"\n        android:layout_width="match_parent" android:layout_height="match_parent"/>\n</RelativeLayout>`);
-  zip.file('app/src/main/res/values/strings.xml',`<resources><string name="app_name">${pname}</string></resources>`);
-  zip.file('app/src/main/res/values/colors.xml',`<?xml version="1.0" encoding="utf-8"?><resources><color name="colorPrimary">#58a6ff</color></resources>`);
-  zip.file('app/proguard-rules.pro','');
-  // GitHub Actions auto-build APK
-  zip.file('.github/workflows/build-apk.yml',`name: Build APK\non:\n  push:\n    branches: [ main, master ]\n  workflow_dispatch:\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n    - uses: actions/checkout@v4\n    - name: Set up JDK 17\n      uses: actions/setup-java@v4\n      with:\n        java-version: '17'\n        distribution: 'temurin'\n    - name: Setup Android SDK\n      uses: android-actions/setup-android@v3\n    - name: Make gradlew executable\n      run: chmod +x gradlew\n    - name: Build Debug APK\n      run: ./gradlew assembleDebug\n    - name: Upload APK\n      uses: actions/upload-artifact@v4\n      with:\n        name: ${pname}-apk\n        path: app/build/outputs/apk/debug/app-debug.apk\n        retention-days: 30\n`);
-  // Copy all project files to assets
-  const assets=zip.folder('app/src/main/assets');
-  let hasIdx=false;
-  for(const[path,content] of Object.entries(pFiles)){
-    if(path.includes('.gitkeep'))continue;
-    try{
-      if(content instanceof ArrayBuffer)assets.file(path,content);
-      else if(typeof content==='string')assets.file(path,content);
-      if(/^index\.html?$/i.test(path.split('/').pop()))hasIdx=true;
-    }catch(e){}
-  }
-  if(!hasIdx){
-    const h=Object.keys(pFiles).find(p=>p.endsWith('.html'));
-    if(h&&typeof pFiles[h]==='string')assets.file('index.html',pFiles[h]);
-    else assets.file('index.html',`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${pname}</title><style>body{font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;background:#0d1117;color:#cdd9e5;text-align:center;flex-direction:column;gap:16px}h1{font-size:2em;color:#58a6ff}</style></head><body><h1>⚡ ${pname}</h1><p>DevStudio Pro</p></body></html>`);
-  }
-  zip.file('README.md',`# ${pname}\n\n## بناء APK\n\n### الطريقة 1 — GitHub Actions (الأسرع)\n1. ارفع هذا المجلد على GitHub\n2. Actions → "Build APK" → Run workflow\n3. نزّل APK من Artifacts\n\n### الطريقة 2 — Android Studio\n1. افتح المجلد في Android Studio\n2. Build → Generate APK\n\n### الطريقة 3\n\`\`\`bash\nchmod +x gradlew && ./gradlew assembleDebug\n\`\`\`\n`);
-  return zip;
+  return `name: Build APK\non:\n  push:\n    branches: [ main ]\n  workflow_dispatch:\njobs:\n  build:\n    runs-on: ubuntu-latest\n    timeout-minutes: 20\n    steps:\n    - uses: actions/checkout@v4\n    - name: Set up JDK 17\n      uses: actions/setup-java@v4\n      with:\n        java-version: '17'\n        distribution: 'temurin'\n        cache: gradle\n    - name: Setup Android SDK\n      uses: android-actions/setup-android@v3\n    - name: Accept SDK licenses\n      run: yes | sdkmanager --licenses || true\n    - name: Install SDK\n      run: sdkmanager "platforms;android-34" "build-tools;34.0.0"\n    - name: Setup Gradle\n      uses: gradle/actions/setup-gradle@v3\n      with:\n        gradle-version: '8.4'\n    - name: Build Debug APK\n      run: gradle assembleDebug --no-daemon\n    - name: Upload APK\n      uses: actions/upload-artifact@v4\n      with:\n        name: ${pname}-debug-apk\n        path: app/build/outputs/apk/debug/app-debug.apk\n        if-no-files-found: error\n        retention-days: 7\n`;
 }
 
 /* ══ WEB DEPLOY ══ */
@@ -2145,7 +1870,7 @@ async function connectGH(){
 }
 async function verifyGH(tok){
   const r=await fetch(`${GH}/user`,{headers:{Authorization:`token ${tok}`,Accept:'application/vnd.github.v3+json'}});
-  if(!r.ok) throw new Error('Invalid');
+  if(!r.ok)throw new Error('Invalid');
   ghUser=await r.json();
   document.getElementById('gh-av').src=ghUser.avatar_url||'';
   document.getElementById('gh-nm').textContent=ghUser.name||ghUser.login;
@@ -2156,8 +1881,8 @@ async function doGHDeploy(){
   closeOv('ov-gh');openOv('ov-conv');
   const ct=document.getElementById('cv-title');const cpf=document.getElementById('cv-pf');
   const cst=document.getElementById('cv-steps');const cres=document.getElementById('cv-res');
-  const capk=document.getElementById('cv-apk');const ccl=document.getElementById('cv-close');
-  cres.style.display='none';capk.style.display='none';ccl.style.display='none';
+  const ccl=document.getElementById('cv-close');
+  cres.style.display='none';ccl.style.display='none';
   ct.textContent='🌐 نشر على GitHub Pages...';
   const steps=['إنشاء المستودع','رفع الملفات','تفعيل Pages','اكتمل'];
   cst.innerHTML=steps.map((s,i)=>`<div class="cs" id="gcs-${i}"><div class="cs-ico p">○</div><div class="cs-lbl">${s}</div></div>`).join('');
@@ -2185,26 +1910,280 @@ async function doGHDeploy(){
     setS(2,'d');cpf.style.width='90%';await sl(400);setS(3,'d');cpf.style.width='100%';
     const site=`https://${ghUser.login}.github.io/${repo}`;
     ct.textContent='🎉 تم النشر!';
-    document.getElementById('cv-link').innerHTML=`<strong style="color:var(--c2)">🌐 ${site}</strong><br><span style="font-size:10px;color:var(--ts)">قد يحتاج 1-3 دقائق ليظهر</span>`;
+    document.getElementById('cv-link').innerHTML=`<strong style="color:var(--c2)">🌐 ${site}</strong><br><span style="font-size:10px;color:var(--ts)">قد يحتاج 1-3 دقائق</span>`;
     document.getElementById('cv-copy').textContent='📋 نسخ الرابط';
     document.getElementById('cv-copy').onclick=()=>{navigator.clipboard?.writeText(site);toast('✅ نُسخ!','ts');};
     cres.style.display='block';ccl.style.display='flex';
     log(`🌐 ${site}`,'ls');toast('🎉 تم!','ts');
-  }catch(err){ct.textContent='❌ '+err.message;for(let i=0;i<4;i++){const el=document.getElementById(`gcs-${i}`);if(el&&el.querySelector('.cs-ico').classList.contains('r')){el.querySelector('.cs-ico').className='cs-ico e';el.querySelector('.cs-ico').textContent='✕';break;}}ccl.style.display='flex';toast('❌ '+err.message,'te');}
+  }catch(err){ct.textContent='❌ '+err.message;ccl.style.display='flex';toast('❌ '+err.message,'te');}
+}
+
+/* ══════════════════════════════════════
+   NEW: RENDER DEPLOY
+══════════════════════════════════════
+   Flow:
+   1. User provides GitHub Token + Render API Key
+   2. We push project code to a new GitHub repo
+   3. We call Render API to create a new service linked to that repo
+   4. Render auto-deploys — user gets live URL
+══════════════════════════════════════ */
+function deployRender(){
+  if(!Object.keys(pFiles).length)return toast('لا يوجد مشروع','tw');
+  // Pre-fill GitHub token if already saved
+  if(ghToken)document.getElementById('render-gh-tok').value=ghToken;
+  openOv('ov-render');
+}
+
+async function doRenderDeploy(){
+  const ghTok=document.getElementById('render-gh-tok').value.trim();
+  const renderKey=document.getElementById('render-api-key').value.trim();
+  const serviceType=document.getElementById('render-service-type').value;
+  const startCmd=document.getElementById('render-start-cmd').value.trim();
+  const buildCmd=document.getElementById('render-build-cmd').value.trim();
+
+  if(!ghTok)return toast('أدخل GitHub Token','tw');
+  if(!renderKey)return toast('أدخل Render API Key','tw');
+
+  closeOv('ov-render');
+  openOv('ov-conv');
+
+  const ct=document.getElementById('cv-title');
+  const cpf=document.getElementById('cv-pf');
+  const cst=document.getElementById('cv-steps');
+  const cres=document.getElementById('cv-res');
+  const ccl=document.getElementById('cv-close');
+  cres.style.display='none';ccl.style.display='none';
+
+  const pname=(curProj?.name||'MyApp').replace(/[^a-z0-9]/gi,'_').substring(0,20)||'MyApp';
+  const repoSlug=pname.toLowerCase().replace(/_/g,'-')+'-'+Date.now().toString(36);
+
+  const STEPS=[
+    {id:'r0',lbl:'التحقق من GitHub'},
+    {id:'r1',lbl:'إنشاء مستودع GitHub'},
+    {id:'r2',lbl:'رفع ملفات المشروع'},
+    {id:'r3',lbl:'إنشاء خدمة Render'},
+    {id:'r4',lbl:'انتظار النشر...'},
+  ];
+  ct.textContent='🚀 نشر على Render...';
+  cst.innerHTML=STEPS.map(s=>`<div class="cs" id="${s.id}"><div class="cs-ico p">○</div><div class="cs-lbl">${s.lbl}</div></div>`).join('');
+  const setS=(id,state,txt='')=>{
+    const el=document.getElementById(id);if(!el)return;
+    el.querySelector('.cs-ico').className=`cs-ico ${state}`;
+    el.querySelector('.cs-ico').textContent=state==='r'?'⟳':state==='d'?'✓':'✕';
+    if(txt)el.querySelector('.cs-lbl').textContent=txt;
+  };
+  const setPF=p=>cpf.style.width=p+'%';
+
+  try{
+    // Step 0: Verify GitHub token
+    setS('r0','r');
+    const ghR=await fetch(`${GH}/user`,{headers:{Authorization:`token ${ghTok}`,Accept:'application/vnd.github.v3+json'}});
+    if(!ghR.ok)throw new Error('GitHub Token خاطئ أو منتهي الصلاحية');
+    const ghU=await ghR.json();
+    ghUser=ghU;ghToken=ghTok;localStorage.setItem('dsp5_gh',ghTok);
+    setS('r0','d',`✓ GitHub: @${ghU.login}`);setPF(10);await sl(300);
+
+    // Step 1: Create GitHub repo
+    setS('r1','r');
+    const crR=await fetch(`${GH}/user/repos`,{
+      method:'POST',
+      headers:{Authorization:`token ${ghTok}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},
+      body:JSON.stringify({name:repoSlug,private:false,auto_init:false,description:`DevStudio Pro — ${pname}`})
+    });
+    if(!crR.ok){const e=await crR.json();throw new Error('فشل إنشاء المستودع: '+e.message);}
+    const repo=await crR.json();
+    const repoFullName=repo.full_name;
+    setS('r1','d');setPF(25);await sl(400);
+
+    // Step 2: Upload all files
+    setS('r2','r');
+    // Detect project type and add server file if needed
+    const textFiles=Object.entries(pFiles).filter(([,c])=>typeof c==='string');
+
+    // If web_service (Node.js), add package.json and server.js if missing
+    if(serviceType==='web_service'){
+      if(!pFiles['package.json']){
+        textFiles.push(['package.json',JSON.stringify({name:pname.toLowerCase(),version:'1.0.0',main:'server.js',scripts:{start:'node server.js'},dependencies:{'express':'latest'}},null,2)]);
+      }
+      if(!pFiles['server.js']&&!pFiles['index.js']&&startCmd.includes('node')){
+        const serverJs=`const express=require('express');const path=require('path');const app=express();const PORT=process.env.PORT||3000;app.use(express.static('.'));app.get('*',(req,res)=>res.sendFile(path.join(__dirname,'index.html')));app.listen(PORT,()=>console.log('Server on '+PORT));`;
+        textFiles.push(['server.js',serverJs]);
+      }
+    }
+
+    let uploaded=0;
+    for(const[path,content] of textFiles){
+      if(content.length>900000)continue;
+      let enc;try{enc=btoa(unescape(encodeURIComponent(content)));}catch(e){try{enc=btoa(content);}catch(e2){continue;}}
+      try{
+        await fetch(`${GH}/repos/${repoFullName}/contents/${path}`,{
+          method:'PUT',
+          headers:{Authorization:`token ${ghTok}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},
+          body:JSON.stringify({message:`Add ${path}`,content:enc})
+        });
+      }catch(e){}
+      uploaded++;
+      if(uploaded%4===0)await sl(100);
+      setPF(25+Math.round((uploaded/textFiles.length)*25));
+    }
+    setS('r2','d');setPF(55);await sl(500);
+
+    // Step 3: Create Render service via API
+    setS('r3','r');
+    log('🚀 إنشاء خدمة Render...','li');
+
+    let servicePayload;
+    if(serviceType==='static_site'){
+      servicePayload={
+        type:'static_site',
+        name:repoSlug,
+        repo:`https://github.com/${repoFullName}`,
+        branch:'main',
+        buildCommand:'',
+        publishPath:'.',
+        autoDeploy:'yes'
+      };
+    }else{
+      servicePayload={
+        type:'web_service',
+        name:repoSlug,
+        repo:`https://github.com/${repoFullName}`,
+        branch:'main',
+        buildCommand:buildCmd||'npm install',
+        startCommand:startCmd||'node server.js',
+        envVars:[{key:'PORT',value:'3000'}],
+        plan:'free',
+        autoDeploy:'yes'
+      };
+    }
+
+    // Render API requires GitHub to be connected via OAuth; use deploy hook approach
+    // We create the service via Render API v1
+    const renderResp=await fetch(`${RENDER_API}/services`,{
+      method:'POST',
+      headers:{
+        'Authorization':`Bearer ${renderKey}`,
+        'Content-Type':'application/json',
+        'Accept':'application/json'
+      },
+      body:JSON.stringify(servicePayload)
+    });
+
+    let serviceData=null;
+    let renderURL=null;
+
+    if(renderResp.ok||renderResp.status===201){
+      serviceData=await renderResp.json();
+      const svc=serviceData.service||serviceData;
+      renderURL=svc.serviceDetails?.url||svc.url||`https://${repoSlug}.onrender.com`;
+      setS('r3','d');setPF(80);
+    }else{
+      // Render API may reject if GitHub not connected via OAuth
+      // In that case, provide manual instructions
+      const errData=await renderResp.json().catch(()=>({}));
+      const errMsg=errData.message||errData.error||'';
+
+      if(errMsg.toLowerCase().includes('github')||renderResp.status===422||renderResp.status===400){
+        // GitHub not connected to Render account — show manual steps
+        setS('r3','d','⚠️ يحتاج ربط GitHub بـ Render');setPF(80);
+        renderURL=null;
+        // Show fallback instructions
+        ct.textContent='⚠️ خطوة إضافية مطلوبة';
+        const repoUrl=`https://github.com/${repoFullName}`;
+        document.getElementById('cv-link').innerHTML=
+          `<strong style="color:var(--c4)">المستودع جاهز على GitHub ✓</strong><br>
+           <a href="${repoUrl}" target="_blank" style="color:var(--c1);font-size:11px">🔗 ${repoUrl}</a><br><br>
+           <strong style="color:var(--c2)">لنشر على Render يدوياً:</strong><br>
+           <span style="color:var(--ts);font-size:10px;line-height:1.8">
+           1. اذهب إلى <a href="https://dashboard.render.com" target="_blank" style="color:var(--c1)">dashboard.render.com</a><br>
+           2. New + → ${serviceType==='static_site'?'Static Site':'Web Service'}<br>
+           3. Connect GitHub → اختر: <strong style="color:var(--tp)">${repoFullName}</strong><br>
+           4. اضغط Create ${serviceType==='static_site'?'Static Site':'Web Service'}<br>
+           5. انتظر دقيقتين → احصل على رابطك المباشر!
+           </span>`;
+        document.getElementById('cv-copy').textContent='📋 نسخ رابط المستودع';
+        document.getElementById('cv-copy').onclick=()=>{navigator.clipboard?.writeText(repoUrl);toast('✅ نُسخ!','ts');};
+        cres.style.display='block';ccl.style.display='flex';
+        log(`📦 المستودع: ${repoUrl}`,'ls');
+        toast('📦 المستودع جاهز — اتبع الخطوات لإكمال النشر','tw');
+        return;
+      }
+      throw new Error(`فشل إنشاء خدمة Render: ${errMsg||renderResp.status}`);
+    }
+
+    // Step 4: Wait for deploy
+    setS('r4','r');
+    log('⏳ انتظار اكتمال النشر (1-3 دقائق)...','lw');
+    if(serviceData){
+      const svcId=serviceData.service?.id||serviceData.id;
+      await pollRenderDeploy(svcId,renderKey,setS,setPF);
+    }else{
+      await sl(5000);setS('r4','d');setPF(100);
+    }
+
+    ct.textContent='🎉 تم النشر على Render!';
+    const finalURL=renderURL||`https://${repoSlug}.onrender.com`;
+    document.getElementById('cv-link').innerHTML=
+      `<strong style="color:var(--c2);font-size:13px">🚀 ${finalURL}</strong><br>
+       <span style="font-size:10px;color:var(--ts)">يعمل على Render — قد يحتاج دقيقتين للإقلاع</span><br>
+       <a href="https://github.com/${repoFullName}" target="_blank" style="font-size:10px;color:var(--c1)">🔗 المستودع على GitHub</a>`;
+    document.getElementById('cv-copy').textContent='📋 نسخ الرابط';
+    document.getElementById('cv-copy').onclick=()=>{navigator.clipboard?.writeText(finalURL);toast('✅ نُسخ!','ts');};
+    cres.style.display='block';ccl.style.display='flex';
+    log(`🚀 Render: ${finalURL}`,'ls');
+    toast('🎉 تم النشر على Render!','ts');
+
+  }catch(err){
+    ct.textContent='❌ '+err.message;
+    const errDiv=document.createElement('div');
+    errDiv.style.cssText='background:rgba(248,81,73,.1);border:1px solid rgba(248,81,73,.3);border-radius:8px;padding:10px;margin-top:10px;font-size:11px;color:var(--c3);line-height:1.7';
+    errDiv.innerHTML=`${err.message}<br><br><a href="https://dashboard.render.com" target="_blank" style="color:var(--c1)">🔗 فتح Render Dashboard</a>`;
+    document.getElementById('cv-steps').appendChild(errDiv);
+    ccl.style.display='flex';
+    log('❌ Render: '+err.message,'le');toast('❌ '+err.message,'te');
+  }
+}
+
+async function pollRenderDeploy(svcId,renderKey,setS,setPF){
+  if(!svcId)return;
+  return new Promise(resolve=>{
+    let attempts=0;const MAX=20;
+    const tick=async()=>{
+      attempts++;
+      if(attempts>MAX){resolve();return;}
+      try{
+        const r=await fetch(`${RENDER_API}/services/${svcId}/deploys?limit=1`,{
+          headers:{Authorization:`Bearer ${renderKey}`,Accept:'application/json'}
+        });
+        if(r.ok){
+          const data=await r.json();
+          const deploy=data[0]?.deploy||data[0];
+          if(deploy){
+            const st=deploy.status;
+            document.getElementById('r4').querySelector('.cs-lbl').textContent=`⏳ Render: ${st||'deploying'} (${attempts*10}ث)`;
+            if(st==='live'||st==='complete'||st==='succeeded'){
+              setS('r4','d');setPF(100);resolve();return;
+            }else if(st==='failed'||st==='canceled'){
+              setS('r4','e');resolve();return;
+            }
+          }
+        }
+      }catch(e){}
+      setTimeout(tick,10000);
+    };
+    setTimeout(tick,8000);
+  });
 }
 
 /* ══ PROJECTS PANEL ══ */
-function showProjects(){
-  document.getElementById('projs-panel').classList.add('on');
-  renderProjsPanel();
-}
+function showProjects(){document.getElementById('projs-panel').classList.add('on');renderProjsPanel();}
 function closeProjects(){document.getElementById('projs-panel').classList.remove('on');}
 function renderProjsPanel(){
   const c=document.getElementById('pp-body');
   if(!userProjects.length){c.innerHTML='<div class="proj-empty"><div class="pe-ico">📂</div><p>لا توجد مشاريع — ارفع ZIP أو أنشئ جديد</p></div>';return;}
   c.innerHTML=userProjects.map(p=>`
     <div class="proj-card" onclick="loadProject('${p.id}')">
-      <div class="proj-ico">${p.icon||'📦'}</div>
+      <div class="proj-ico">${p.iconImg?`<img src="${p.iconImg}" alt="">`:p.icon||'📦'}</div>
       <div class="proj-info">
         <div class="proj-name">${p.name}</div>
         <div class="proj-meta">${p.type||''} · ${p.fileCount||0} ملف</div>
@@ -2213,7 +2192,7 @@ function renderProjsPanel(){
     </div>`).join('');
 }
 async function deleteProject(id,name,e){
-  if(e) e.stopPropagation();
+  if(e)e.stopPropagation();
   if(!confirm(`حذف "${name}" نهائياً؟`))return;
   try{
     await db.collection('projects').doc(id).delete();
@@ -2232,7 +2211,7 @@ async function loadProject(id){
   closeProjects();renderFTree();
   if(cm){cm.setValue('');document.getElementById('ed-ph').style.display='flex';}
   renderTabs();
-  const idx=Object.keys(pFiles).find(path=>/^index\.html?$/i.test(path.split('/').pop()));
+  const idx=p.entryPoint||findMainEntryPoint(pFiles);
   if(idx)setTimeout(()=>openFile(idx),200);
   toast(`📂 ${p.name}`,'ti');log(`📂 فُتح: ${p.name}`,'ls');
 }
@@ -2243,13 +2222,8 @@ function toggleMenu(){
   document.getElementById('menu-drawer').classList.toggle('open',menuOpen);
   document.getElementById('menu-backdrop').classList.toggle('on',menuOpen);
 }
-function openPage(page){
-  toggleMenu();
-  document.getElementById(`page-${page}`).classList.add('on');
-}
-function closePage(){
-  document.querySelectorAll('.menu-page.on').forEach(p=>p.classList.remove('on'));
-}
+function openPage(page){toggleMenu();document.getElementById(`page-${page}`).classList.add('on');}
+function closePage(){document.querySelectorAll('.menu-page.on').forEach(p=>p.classList.remove('on'));}
 
 /* ══ CONSOLE ══ */
 function log(msg,cls='li'){
@@ -2309,3 +2283,4 @@ setInterval(()=>{if(curProj&&currentUser)saveProjectToFirestore();},30000);
 </script>
 </body>
 </html>
+
